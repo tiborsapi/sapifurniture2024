@@ -22,7 +22,7 @@ public class FurnitureOtherService {
 	}
 
 	public FurnitureOther findFurnitureOtherById(final Long id) {
-		return this.furnitureOtherRepository.findFurnitureOther(id);
+		return this.furnitureOtherRepository.findFurnitureOtherById(id);
 	}
 
 	public FurnitureOther create(FurnitureOther furnitureOther) {

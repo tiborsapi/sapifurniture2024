@@ -26,13 +26,13 @@ public class FurnitureOtherController {
 
 	@GetMapping("/all")
 	public ResponseEntity<List<FurnitureOther>> getAllFurnitureBodies() {
-		final List<FurnitureOther> furnitureBodies = furnitureOtherService.findAllFurnitureBodies();
+		final List<FurnitureOther> furnitureBodies = furnitureOtherService.findAllFurnitureOthers();
 		return new ResponseEntity<>(furnitureBodies, HttpStatus.OK);
 	}
 
 	@GetMapping("/find/{id}")
 	public ResponseEntity<FurnitureOther> getFurnitureBodyById(@PathVariable("id") Long id) {
-		final FurnitureOther furnitureOther = furnitureOtherService.findFurnitureBodyById(id);
+		final FurnitureOther furnitureOther = furnitureOtherService.findFurnitureOtherById(id);
 		return new ResponseEntity<>(furnitureOther, HttpStatus.OK);
 	}
 

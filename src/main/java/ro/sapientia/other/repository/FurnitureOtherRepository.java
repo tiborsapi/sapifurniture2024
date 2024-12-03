@@ -5,5 +5,5 @@ import ro.sapientia.other.model.FurnitureOther;
 
 public interface FurnitureOtherRepository extends JpaRepository<FurnitureOther, Long> {
 
-	FurnitureOther findFurnitureOther(Long id);
+	FurnitureOther findFurnitureOtherById(Long id);
 }
