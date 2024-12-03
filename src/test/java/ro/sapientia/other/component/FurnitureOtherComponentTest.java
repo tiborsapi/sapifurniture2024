@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.furniture.FurnitureApplication;
 import ro.sapientia.other.model.FurnitureOther;
 import ro.sapientia.other.repository.FurnitureOtherRepository;
 
