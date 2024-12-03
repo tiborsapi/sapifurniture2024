@@ -21,7 +21,7 @@ import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class FurnitureBodyComponentTest {
 
 	@Autowired

@@ -17,11 +17,11 @@ public class FurnitureOtherService {
 		this.furnitureOtherRepository = furnitureOtherRepository;
 	}
 
-	public List<FurnitureOther> findAllFurnitureBodies() {
+	public List<FurnitureOther> findAllFurnitureOthers() {
 		return this.furnitureOtherRepository.findAll();
 	}
 
-	public FurnitureOther findFurnitureBodyById(final Long id) {
+	public FurnitureOther findFurnitureOtherById(final Long id) {
 		return this.furnitureOtherRepository.findFurnitureOther(id);
 	}
 

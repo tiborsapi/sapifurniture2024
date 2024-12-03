@@ -1,4 +1,4 @@
-package ro.sapientia.furniture.controller;
+package ro.sapientia.other.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
@@ -14,30 +14,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.furniture.model.FurnitureBody;
-import ro.sapientia.furniture.service.FurnitureBodyService;
+import ro.sapientia.other.model.FurnitureOther;
+import ro.sapientia.other.service.FurnitureOtherService;
 
-@WebMvcTest(controllers = FurnitureController.class, excludeAutoConfiguration = { SecurityAutoConfiguration.class })
-public class FurnitureControllerTest {
+@WebMvcTest(controllers = FurnitureOtherController.class, excludeAutoConfiguration = {
+		SecurityAutoConfiguration.class })
+public class FurnitureOtherControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
-	@MockBean(FurnitureBodyService.class)
-	private FurnitureBodyService furnitureBodyService;
+	@MockBean(FurnitureOtherService.class)
+	private FurnitureOtherService furnitureOtherService;
 
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
-		final FurnitureBody body = new FurnitureBody();
-		body.setHeigth(10);
-		when(furnitureBodyService.findAllFurnitureBodies()).thenReturn(List.of(body));
+		final FurnitureOther furnitureOther = new FurnitureOther();
 
-		this.mockMvc.perform(get("/furniture/all")).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].heigth", is(10)));
+		furnitureOther.setName("impaled");
+
+		when(furnitureOtherService.findAllFurnitureOthers()).thenReturn(List.of(furnitureOther));
+
+		this.mockMvc.perform(get("/furniter_other/all")).andExpect(status().isOk());
 
 	}
+
 }
