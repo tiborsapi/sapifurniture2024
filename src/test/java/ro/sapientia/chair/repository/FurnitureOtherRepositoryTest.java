@@ -1,4 +1,4 @@
-package ro.sapientia.other.repository;
+package ro.sapientia.chair.repository;
 
 //import static org.junit.Assert.assertEquals;
 
@@ -11,7 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 
-import ro.sapientia.other.model.FurnitureOther;
+import ro.sapientia.chair.model.FurnitureOther;
+import ro.sapientia.chair.repository.FurnitureOtherRepository;
 
 
 @DataJpaTest

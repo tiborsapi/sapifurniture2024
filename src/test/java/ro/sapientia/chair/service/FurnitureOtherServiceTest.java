@@ -1,4 +1,4 @@
-package ro.sapientia.other.service;
+package ro.sapientia.chair.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -11,10 +11,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ro.sapientia.chair.model.FurnitureOther;
+import ro.sapientia.chair.repository.FurnitureOtherRepository;
+import ro.sapientia.chair.service.FurnitureOtherService;
 import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 import ro.sapientia.furniture.service.FurnitureBodyService;
-import ro.sapientia.other.model.FurnitureOther;
-import ro.sapientia.other.repository.FurnitureOtherRepository;
 
 public class FurnitureOtherServiceTest {
 

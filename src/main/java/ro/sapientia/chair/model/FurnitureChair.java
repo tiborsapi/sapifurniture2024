@@ -1,4 +1,4 @@
-package ro.sapientia.other.model;
+package ro.sapientia.chair.model;
 
 import java.time.LocalDate;
 
@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-@Entity(name = "furniture_other")
-public class FurnitureOther {
+@Entity(name = "furniture_chair")
+public class FurnitureChair {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_furniture_other")
-	@SequenceGenerator(name = "pk_furniture_other", sequenceName = "pk_furniture_other")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_furniture_chair")
+	@SequenceGenerator(name = "pk_furniture_chair", sequenceName = "pk_furniture_chair")
 	@Column(name = "id", nullable = false, updatable = false)
 	private Long id;
 
@@ -24,6 +24,12 @@ public class FurnitureOther {
 
 	@Column(name = "createdAt")
 	private LocalDate createdAt;
+
+	@Column(name = "numOfLegs")
+	private int numOfLegs;
+
+	@Column(name = "material")
+	private String material;
 
 	public Long getId() {
 		return id;
@@ -47,6 +53,22 @@ public class FurnitureOther {
 
 	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public int getNumOfLegs() {
+		return numOfLegs;
+	}
+
+	public void setNumOfLegs(int numOfLegs) {
+		this.numOfLegs = numOfLegs;
+	}
+
+	public String getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(String material) {
+		this.material = material;
 	}
 
 	public static long getSerialversionuid() {

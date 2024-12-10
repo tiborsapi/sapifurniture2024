@@ -1,4 +1,4 @@
-package ro.sapientia.other.controller;
+package ro.sapientia.chair.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
@@ -17,8 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.other.model.FurnitureOther;
-import ro.sapientia.other.service.FurnitureOtherService;
+import ro.sapientia.chair.controller.FurnitureOtherController;
+import ro.sapientia.chair.model.FurnitureOther;
+import ro.sapientia.chair.service.FurnitureOtherService;
 
 @WebMvcTest(controllers = FurnitureOtherController.class, excludeAutoConfiguration = {
 		SecurityAutoConfiguration.class })

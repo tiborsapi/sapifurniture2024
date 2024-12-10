@@ -1,4 +1,4 @@
-package ro.sapientia.other.component;
+package ro.sapientia.chair.component;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,24 +17,24 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.other.model.FurnitureOther;
-import ro.sapientia.other.repository.FurnitureOtherRepository;
+import ro.sapientia.chair.repository.FurnitureChairRepository;
+import ro.sapientia.chair.model.FurnitureChair;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class FurnitureOtherComponentTest {
+public class FurnitureChairComponentTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Autowired
-	FurnitureOtherRepository repository;
+	FurnitureChairRepository repository;
 
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
-		FurnitureOther fo = new FurnitureOther();
+		FurnitureChair fo = new FurnitureChair();
 
 		fo.setName("first");
 		fo.setCreatedAt(LocalDate.now());
