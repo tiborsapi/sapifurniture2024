@@ -48,7 +48,7 @@ public class FurnitureChairController {
 		return new ResponseEntity<>(persistenFurnitureChair, HttpStatus.OK);
 	}
 
-	@GetMapping("delete/{id}")
+	@GetMapping("/delete/{id}")
 	public ResponseEntity<?> deleteFurnitureBodyById(@PathVariable("id") Long id) {
 		FurnitureChairService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);

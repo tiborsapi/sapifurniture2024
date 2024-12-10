@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,6 +22,7 @@ import ro.sapientia.chair.controller.FurnitureChairController;
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.service.FurnitureChairService;
 
+@SpringBootTest(classes = FurnitureChairControllerTest.class)
 @WebMvcTest(controllers = FurnitureChairController.class, excludeAutoConfiguration = {
 		SecurityAutoConfiguration.class })
 public class FurnitureChairControllerTest {

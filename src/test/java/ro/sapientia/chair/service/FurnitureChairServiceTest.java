@@ -10,10 +10,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
 
+@SpringBootTest(classes = FurnitureChairServiceTest.class)
 public class FurnitureChairServiceTest {
 
 	private FurnitureChairRepository furnitureChairRepositoryMock;
@@ -30,9 +32,9 @@ public class FurnitureChairServiceTest {
 	public void testFindAllFurnitureBodies_emptyList() {
 		when(furnitureChairRepositoryMock.findAll()).thenReturn(Collections.emptyList());
 
-		final List<FurnitureChair> furnitureOthers = furnitureChairService.findAllFurnitureChairs();
+		final List<FurnitureChair> furnitureChairs = furnitureChairService.findAllFurnitureChairs();
 
-		assertEquals(0, furnitureOthers.size());
+		assertEquals(0, furnitureChairs.size());
 
 	}
 
@@ -40,9 +42,9 @@ public class FurnitureChairServiceTest {
 	public void testFindAllFurnitureBodies_null() {
 		when(furnitureChairRepositoryMock.findAll()).thenReturn(null);
 
-		final List<FurnitureChair> furnitureOthers = furnitureChairService.findAllFurnitureChairs();
+		final List<FurnitureChair> furnitureChairs = furnitureChairService.findAllFurnitureChairs();
 
-		assertNull(furnitureOthers);
+		assertNull(furnitureChairs);
 
 	}
 

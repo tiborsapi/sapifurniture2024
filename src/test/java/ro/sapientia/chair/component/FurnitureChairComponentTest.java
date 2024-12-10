@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
 import ro.sapientia.chair.model.FurnitureChair;
 
-@SpringBootTest
+@SpringBootTest(classes = FurnitureChairComponentTest.class)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -38,12 +38,14 @@ public class FurnitureChairComponentTest {
 
 		fo.setName("first");
 		fo.setCreatedAt(LocalDate.now());
+		fo.setMaterial("wood");
+		fo.setNumOfLegs(3);
 
 		var savedFO = repository.save(fo);
 
-		this.mockMvc.perform(get("/furniture_other/all")).andExpect(status().isOk())
+		this.mockMvc.perform(get("/furniture_chair/all")).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].name", is("first")));
+				.andExpect(jsonPath("$[0].numOfLegs", is(3)));
 	}
 
 }
