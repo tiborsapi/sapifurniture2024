@@ -37,7 +37,6 @@ public class FurnitureChairComponentTest {
 		FurnitureChair fo = new FurnitureChair();
 
 		fo.setName("first");
-		fo.setCreatedAt(LocalDate.now());
 		fo.setMaterial("wood");
 		fo.setNumOfLegs(3);
 

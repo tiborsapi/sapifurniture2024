@@ -17,7 +17,7 @@ public class FurnitureBodyRepositoryTest {
 
 	@Autowired
 	FurnitureBodyRepository repository;
-	
+
 	@Test
 	public void myTest() {
 		var result = repository.findAll();
@@ -33,10 +33,10 @@ public class FurnitureBodyRepositoryTest {
 		var savedFB = repository.save(fb);
 		var result = repository.findAll();
 		assertEquals(1, result.size());
-		
+
 		var foundObj = repository.findFurnitureBodyById(savedFB.getId());
-		
+
 		assertEquals(savedFB, foundObj);
 	}
-	
+
 }

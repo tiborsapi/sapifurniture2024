@@ -22,9 +22,6 @@ public class FurnitureChair {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "createdAt")
-	private LocalDate createdAt;
-
 	@Column(name = "numOfLegs")
 	private int numOfLegs;
 
@@ -45,14 +42,6 @@ public class FurnitureChair {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public LocalDate getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDate createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	public int getNumOfLegs() {
@@ -77,7 +66,8 @@ public class FurnitureChair {
 
 	@Override
 	public String toString() {
-		return "FurnitureOther [id=" + id + ", name=" + name + ", createdAt=" + createdAt + "]";
+		return "FurnitureChair [id=" + id + ", name=" + name + ", numOfLegs=" + numOfLegs + ", material=" + material
+				+ "]";
 	}
 
 }
