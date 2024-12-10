@@ -8,8 +8,8 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		  features = { "src/eetest/resources/ro/sapientia/furniture/bdt/chair" },
-		  glue = {"ro.sapientia.furniture.bdt.ee_chair" },
+		  features = { "src/eetest/resources/ro/sapientia/furniture/bdt/ee_chair" },
+		  glue = {"ro.sapientia.furniture.bdt.ee.test" },
 		  publish = false,
 		  dryRun = true)
 public class FurnitureBDDEEChairTest {

@@ -8,7 +8,7 @@ Feature: Check if the find all endpoints works
    When I invoke the furniture all endpoint
    Then I should get the numOfLegs "3" for the position "0"
 
-   Scenario: Two element in the table
+	 Scenario: Two element in the table
    Given that we have the following furniture bodies:
    | name  	 |numOfLegs|material |
    | "first" |3 		   |"wood" 	 |
