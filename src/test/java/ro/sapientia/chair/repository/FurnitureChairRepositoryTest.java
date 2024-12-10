@@ -21,11 +21,11 @@ import ro.sapientia.chair.model.FurnitureChair;
 public class FurnitureChairRepositoryTest {
 
 	@Autowired
-	FurnitureChairRepository furnitureOtherRepository;
+	FurnitureChairRepository furnitureChairRepository;
 
 	@Test
 	public void myTest() {
-		var result = furnitureOtherRepository.findAll();
+		var result = furnitureChairRepository.findAll();
 		assertEquals(0, result.size());
 	}
 
@@ -34,11 +34,11 @@ public class FurnitureChairRepositoryTest {
 		FurnitureChair fo = new FurnitureChair();
 		fo.setName("cruel");
 
-		var savedFO = furnitureOtherRepository.save(fo);
-		var result = furnitureOtherRepository.findAll();
+		var savedFO = furnitureChairRepository.save(fo);
+		var result = furnitureChairRepository.findAll();
 		assertEquals(1, result.size());
 
-		var foundObj = furnitureOtherRepository.findFurnitureChairById(savedFO.getId());
+		var foundObj = furnitureChairRepository.findFurnitureChairById(savedFO.getId());
 
 		assertEquals(savedFO, foundObj);
 
