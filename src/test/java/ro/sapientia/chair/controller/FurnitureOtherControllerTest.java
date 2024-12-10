@@ -17,27 +17,27 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.chair.controller.FurnitureOtherController;
-import ro.sapientia.chair.model.FurnitureOther;
-import ro.sapientia.chair.service.FurnitureOtherService;
+import ro.sapientia.chair.controller.FurnitureChairController;
+import ro.sapientia.chair.model.FurnitureChair;
+import ro.sapientia.chair.service.FurnitureChairService;
 
-@WebMvcTest(controllers = FurnitureOtherController.class, excludeAutoConfiguration = {
+@WebMvcTest(controllers = FurnitureChairController.class, excludeAutoConfiguration = {
 		SecurityAutoConfiguration.class })
 public class FurnitureOtherControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
-	@MockBean(FurnitureOtherService.class)
-	private FurnitureOtherService furnitureOtherService;
+	@MockBean(FurnitureChairService.class)
+	private FurnitureChairService FurnitureChairService;
 
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
-		final FurnitureOther furnitureOther = new FurnitureOther();
+		final FurnitureChair furnitureChair = new FurnitureChair();
 
-		furnitureOther.setName("impaled");
+		furnitureChair.setName("impaled");
 
-		when(furnitureOtherService.findAllFurnitureOthers()).thenReturn(List.of(furnitureOther));
+		when(FurnitureChairService.findAllFurnitureChairs()).thenReturn(List.of(furnitureChair));
 
 		this.mockMvc.perform(get("/furniter_other/all")).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

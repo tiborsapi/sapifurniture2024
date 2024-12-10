@@ -5,23 +5,20 @@ package ro.sapientia.chair.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 
-import ro.sapientia.chair.model.FurnitureOther;
-import ro.sapientia.chair.repository.FurnitureOtherRepository;
-
+import ro.sapientia.chair.model.FurnitureChair;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = "classpath:test.properties")
-public class FurnitureOtherRepositoryTest {
+public class FurnitureChairRepositoryTest {
 
 	@Autowired
-	FurnitureOtherRepository furnitureOtherRepository;
+	FurnitureChairRepository furnitureOtherRepository;
 
 	@Test
 	public void myTest() {
@@ -31,14 +28,14 @@ public class FurnitureOtherRepositoryTest {
 
 	@Test
 	public void myTestForFindFirst() {
-		FurnitureOther fo = new FurnitureOther();
+		FurnitureChair fo = new FurnitureChair();
 		fo.setName("cruel");
 
 		var savedFO = furnitureOtherRepository.save(fo);
 		var result = furnitureOtherRepository.findAll();
 		assertEquals(1, result.size());
 
-		var foundObj = furnitureOtherRepository.findFurnitureOtherById(savedFO.getId());
+		var foundObj = furnitureOtherRepository.findFurnitureChairById(savedFO.getId());
 
 		assertEquals(savedFO, foundObj);
 

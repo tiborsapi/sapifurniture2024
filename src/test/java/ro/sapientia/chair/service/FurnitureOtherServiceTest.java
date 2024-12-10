@@ -11,29 +11,26 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ro.sapientia.chair.model.FurnitureOther;
-import ro.sapientia.chair.repository.FurnitureOtherRepository;
-import ro.sapientia.chair.service.FurnitureOtherService;
-import ro.sapientia.furniture.repository.FurnitureBodyRepository;
-import ro.sapientia.furniture.service.FurnitureBodyService;
+import ro.sapientia.chair.model.FurnitureChair;
+import ro.sapientia.chair.repository.FurnitureChairRepository;
 
 public class FurnitureOtherServiceTest {
 
-	private FurnitureOtherRepository furnitureOtherRepositoryMock;
+	private FurnitureChairRepository furnitureChairRepositoryMock;
 
-	private FurnitureOtherService furnitureOtherService;
+	private FurnitureChairService furnitureChairService;
 
 	@BeforeEach
 	public void setUp() {
-		furnitureOtherRepositoryMock = mock(FurnitureOtherRepository.class);
-		furnitureOtherService = new FurnitureOtherService(furnitureOtherRepositoryMock);
+		furnitureChairRepositoryMock = mock(FurnitureChairRepository.class);
+		furnitureChairService = new FurnitureChairService(furnitureChairRepositoryMock);
 	}
 
 	@Test
 	public void testFindAllFurnitureBodies_emptyList() {
-		when(furnitureOtherRepositoryMock.findAll()).thenReturn(Collections.emptyList());
+		when(furnitureChairRepositoryMock.findAll()).thenReturn(Collections.emptyList());
 
-		final List<FurnitureOther> furnitureOthers = furnitureOtherService.findAllFurnitureOthers();
+		final List<FurnitureChair> furnitureOthers = furnitureChairService.findAllFurnitureChairs();
 
 		assertEquals(0, furnitureOthers.size());
 
@@ -41,9 +38,9 @@ public class FurnitureOtherServiceTest {
 
 	@Test
 	public void testFindAllFurnitureBodies_null() {
-		when(furnitureOtherRepositoryMock.findAll()).thenReturn(null);
+		when(furnitureChairRepositoryMock.findAll()).thenReturn(null);
 
-		final List<FurnitureOther> furnitureOthers = furnitureOtherService.findAllFurnitureOthers();
+		final List<FurnitureChair> furnitureOthers = furnitureChairService.findAllFurnitureChairs();
 
 		assertNull(furnitureOthers);
 
