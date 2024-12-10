@@ -23,7 +23,7 @@ import ro.sapientia.chair.service.FurnitureChairService;
 
 @WebMvcTest(controllers = FurnitureChairController.class, excludeAutoConfiguration = {
 		SecurityAutoConfiguration.class })
-public class FurnitureOtherControllerTest {
+public class FurnitureChairControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

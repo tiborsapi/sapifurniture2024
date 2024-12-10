@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
 
-public class FurnitureOtherServiceTest {
+public class FurnitureChairServiceTest {
 
 	private FurnitureChairRepository furnitureChairRepositoryMock;
 
