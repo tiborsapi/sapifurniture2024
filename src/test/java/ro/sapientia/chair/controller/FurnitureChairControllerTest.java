@@ -1,6 +1,7 @@
 package ro.sapientia.chair.controller;
 
 import static org.hamcrest.CoreMatchers.is;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,7 +23,6 @@ import ro.sapientia.chair.controller.FurnitureChairController;
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.service.FurnitureChairService;
 
-@SpringBootTest(classes = FurnitureChairControllerTest.class)
 @WebMvcTest(controllers = FurnitureChairController.class, excludeAutoConfiguration = {
 		SecurityAutoConfiguration.class })
 public class FurnitureChairControllerTest {
