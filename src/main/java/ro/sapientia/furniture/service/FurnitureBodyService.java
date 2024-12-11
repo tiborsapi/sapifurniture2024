@@ -9,13 +9,13 @@ import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 
 @Service
 public class FurnitureBodyService {
-	
+
 	private final FurnitureBodyRepository furnitureBodyRepository;
-	
+
 	public FurnitureBodyService(final FurnitureBodyRepository furnitureBodyRepository) {
 		this.furnitureBodyRepository = furnitureBodyRepository;
 	}
-	
+
 	public List<FurnitureBody> findAllFurnitureBodies() {
 		return this.furnitureBodyRepository.findAll();
 	}
