@@ -67,12 +67,9 @@ public class FurnitureStepDefinition {
 
 	@Then("^I should get the heigth \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
 	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
-		mvc.perform(get("/furniture/all")
-			      .contentType(MediaType.APPLICATION_JSON))
-			      .andExpect(status().isOk())
-			      .andExpect(content()
-			      .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			      .andExpect(jsonPath("$["+position+"].heigth", is(Integer.parseInt(heigth))));
+		mvc.perform(get("/furniture/all").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[" + position + "].heigth", is(Integer.parseInt(heigth))));
 	}
 
 	@After
