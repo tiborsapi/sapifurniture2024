@@ -1,10 +1,8 @@
-package tvstand.service;
+package ro.sapientia.furniture.service;
 
 import org.springframework.stereotype.Service;
-import ro.sapientia.furniture.model.FurnitureBody;
-import ro.sapientia.furniture.repository.FurnitureBodyRepository;
-import tvstand.model.Tvstand;
-import tvstand.repository.TvStandRepository;
+import ro.sapientia.furniture.model.Tvstand;
+import ro.sapientia.furniture.repository.TvStandRepository;
 
 import java.util.List;
 

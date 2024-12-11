@@ -1,8 +1,7 @@
-package tvstand.repository;
+package ro.sapientia.furniture.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ro.sapientia.furniture.model.FurnitureBody;
-import tvstand.model.Tvstand;
+import ro.sapientia.furniture.model.Tvstand;
 
 public interface TvStandRepository extends JpaRepository<Tvstand, Long> {
 

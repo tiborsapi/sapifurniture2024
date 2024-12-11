@@ -1,12 +1,10 @@
-package tvstand.controller;
+package ro.sapientia.furniture.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.sapientia.furniture.model.FurnitureBody;
-import ro.sapientia.furniture.service.FurnitureBodyService;
-import tvstand.model.Tvstand;
-import tvstand.service.TvStandService;
+import ro.sapientia.furniture.model.Tvstand;
+import ro.sapientia.furniture.service.TvStandService;
 
 import java.util.List;
 

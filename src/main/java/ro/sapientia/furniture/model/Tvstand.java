@@ -1,4 +1,4 @@
-package tvstand.model;
+package ro.sapientia.furniture.model;
 
 
 
