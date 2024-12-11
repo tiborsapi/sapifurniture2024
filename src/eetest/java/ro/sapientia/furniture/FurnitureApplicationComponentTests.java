@@ -50,7 +50,7 @@ class FurnitureApplicationComponentTests {
     }
     
 	@Test
-	void furnitureAll_oneElement() throws Exception{
+	void  furnitureAll_oneElement() throws Exception{
 		addOneElement();
 		mvc.perform(get("/furniture/all")
 			      .contentType(MediaType.APPLICATION_JSON))
