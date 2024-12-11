@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-@Entity(name = "cupboard_body")
+@Entity(name = "cupboard")
 public class Cupboard implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="pk_cupboard_body")
-    @SequenceGenerator(name="pk_cupboard_body",sequenceName="pk_cupboard_body")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="pk_cupboard")
+    @SequenceGenerator(name="pk_cupboard",sequenceName="pk_cupboard")
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
