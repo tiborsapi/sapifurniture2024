@@ -1,10 +1,10 @@
-package ro.sapientia.cupboard.controller;
+package ro.sapientia.furniture.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.sapientia.cupboard.model.Cupboard;
-import ro.sapientia.cupboard.service.CupboardService;
+import ro.sapientia.furniture.model.Cupboard;
+import ro.sapientia.furniture.service.CupboardService;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package ro.sapientia.cupboard.repository;
+package ro.sapientia.furniture.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ro.sapientia.cupboard.model.Cupboard;
+import ro.sapientia.furniture.model.Cupboard;
 
 public interface CupboardRepository extends JpaRepository<Cupboard, Long> {
 

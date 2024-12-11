@@ -1,8 +1,8 @@
-package ro.sapientia.cupboard.service;
+package ro.sapientia.furniture.service;
 
 import org.springframework.stereotype.Service;
-import ro.sapientia.cupboard.model.Cupboard;
-import ro.sapientia.cupboard.repository.CupboardRepository;
+import ro.sapientia.furniture.model.Cupboard;
+import ro.sapientia.furniture.repository.CupboardRepository;
 
 import java.util.List;
 
