@@ -125,7 +125,7 @@ public class Drawer implements Serializable {
     }
 
     @PrePersist
-    private void prePersist() {
+    public void prePersist() {
         validateState();
         if (status == null) {
             status = DrawerStatus.FUNCTIONAL;
