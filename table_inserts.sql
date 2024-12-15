@@ -47,7 +47,6 @@ CREATE TABLE public.drawer (
     max_open_distance DECIMAL(10,2) NOT NULL CHECK (max_open_distance > 0),
     current_open_distance DECIMAL(10,2) NOT NULL CHECK (current_open_distance >= 0),
     weight_capacity DECIMAL(10,2) NOT NULL CHECK (weight_capacity > 0),
-    furniture_body_id BIGINT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     version BIGINT DEFAULT 0,
@@ -55,18 +54,14 @@ CREATE TABLE public.drawer (
     status drawer_status NOT NULL DEFAULT 'FUNCTIONAL',
 
     -- Constraints
-    CONSTRAINT fk_drawer_furniture_body
-        FOREIGN KEY (furniture_body_id)
-        REFERENCES public.furniture_body(id),
     CONSTRAINT check_current_open_distance
         CHECK (current_open_distance <= max_open_distance),
     CONSTRAINT check_weight
         CHECK (weight <= weight_capacity)
 );
 
--- Create indexes
+-- Create index
 CREATE INDEX idx_drawer_material ON public.drawer(material);
-CREATE INDEX idx_drawer_furniture_body ON public.drawer(furniture_body_id);
 
 -- Create trigger for updated_at timestamp
 CREATE OR REPLACE FUNCTION update_drawer_timestamp()
@@ -97,6 +92,4 @@ COMMENT ON COLUMN public.drawer.is_open IS 'Current state of the drawer (open/cl
 COMMENT ON COLUMN public.drawer.max_open_distance IS 'Maximum distance the drawer can open in centimeters';
 COMMENT ON COLUMN public.drawer.current_open_distance IS 'Current open distance in centimeters';
 COMMENT ON COLUMN public.drawer.weight_capacity IS 'Maximum weight capacity in kilograms';
-COMMENT ON COLUMN public.drawer.furniture_body_id IS 'Reference to the furniture body this drawer belongs to';
 COMMENT ON COLUMN public.drawer.status IS 'Current operational status of the drawer';
-
