@@ -3,8 +3,31 @@ pipeline {
     agent any
     environment {
         EMAIL_RECIPIENTS = 'tibor.kiss@ms.sapientia.ro'
+        POSTGRES_CONTAINER = 'postgres-container'
+        POSTGRES_USER = 'postgres'
+        POSTGRES_PASSWORD = 'postgres'
+        POSTGRES_DB = 'furniture'
+        POSTGRES_PORT = '5432'
+        SPRING_DATASOURCE_URL = "jdbc:postgresql://localhost:${POSTGRES_PORT}/furniture"
     }
     stages {
+        stage('Start PostgreSQL Container') {
+            steps {
+                script {
+                    // Run PostgreSQL Docker container
+                    sh """
+                        docker run -d --name ${POSTGRES_CONTAINER} \
+                            -e POSTGRES_USER=${POSTGRES_USER} \
+                            -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+                            -e POSTGRES_DB=${POSTGRES_DB} \
+                            -p ${POSTGRES_PORT}:${POSTGRES_PORT} \
+                            postgres:latest
+                    """
+                    // Wait for PostgreSQL to be ready
+                    sh "sleep 15"
+                }
+            }
+        }
 
         stage('Build with unit testing') {
             steps {
