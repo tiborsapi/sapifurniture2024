@@ -15,7 +15,7 @@ public class FurnitureBody implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="pk_furniture_body")
-	@SequenceGenerator(name="pk_furniture_body",sequenceName="pk_furniture_body") 
+	@SequenceGenerator(name="pk_furniture_body",sequenceName="pk_furniture_body", allocationSize = 1)
 	@Column(name = "id", nullable = false, updatable = false)
 	private Long id;
 	
