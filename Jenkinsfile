@@ -31,6 +31,7 @@ pipeline {
                     else
                         echo "Container ${CONTAINER_NAME} does not exist. Creating a new one."
                         docker run -d --name ${CONTAINER_NAME} \
+                        	--network="host" \
                             -e POSTGRES_USER=postgres \
                             -e POSTGRES_PASSWORD=postgres \
                             -e POSTGRES_DB=furniture \
