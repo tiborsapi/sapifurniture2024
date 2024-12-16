@@ -12,7 +12,7 @@ public class HammockBody implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_hammock_body")
-    @SequenceGenerator(name = "pk_hammock_body", sequenceName = "pk_hammock_body")
+    @SequenceGenerator(name = "pk_hammock_body", sequenceName = "pk_hammock_body", allocationSize = 1)
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
