@@ -14,17 +14,30 @@ pipeline {
         stage('Start PostgreSQL Container') {
             steps {
                 script {
-                    // Run PostgreSQL Docker container
-                    sh """
-                        docker run -d --name ${POSTGRES_CONTAINER} \
-                            -e POSTGRES_USER=${POSTGRES_USER} \
-                            -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
-                            -e POSTGRES_DB=${POSTGRES_DB} \
-                            -p ${POSTGRES_PORT}:${POSTGRES_PORT} \
-                            postgres:latest
-                    """
-                    // Wait for PostgreSQL to be ready
-                    sh "sleep 15"
+                    sh '''
+                    CONTAINER_NAME="postgres-container"
+
+                    # Check if the container exists
+                    if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+                        echo "Container ${CONTAINER_NAME} already exists."
+
+                        # Check if the container is running
+                        if docker ps --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+                            echo "Container ${CONTAINER_NAME} is already running. Reusing it."
+                        else
+                            echo "Container ${CONTAINER_NAME} exists but is not running. Starting it."
+                            docker start ${CONTAINER_NAME}
+                        fi
+                    else
+                        echo "Container ${CONTAINER_NAME} does not exist. Creating a new one."
+                        docker run -d --name ${CONTAINER_NAME} \
+                        	--network="host" \
+                            -e POSTGRES_USER=postgres \
+                            -e POSTGRES_PASSWORD=postgres \
+                            -e POSTGRES_DB=furniture \
+                            -p 5432:5432 postgres:latest
+                    fi
+                    '''
                 }
             }
         }
