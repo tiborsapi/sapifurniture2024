@@ -14,11 +14,11 @@ public class FurnitureBody implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="pk_furniture_body")
-	@SequenceGenerator(name="pk_furniture_body",sequenceName="pk_furniture_body") 
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_furniture_body")
+	@SequenceGenerator(name = "pk_furniture_body", sequenceName = "pk_furniture_body")
 	@Column(name = "id", nullable = false, updatable = false)
 	private Long id;
-	
+
 	@Column(name = "width")
 	private int width;
 

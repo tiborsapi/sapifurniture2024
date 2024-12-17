@@ -30,34 +30,30 @@ import ro.sapientia.furniture.model.FurnitureBody;
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:eetest.properties")
 class FurnitureApplicationComponentTests {
 
+	@Autowired
+	private MockMvc mvc;
 
-    @Autowired
-    private MockMvc mvc;
-  
-    @Autowired
-    private TestEntityManager entityManager;
-    
-    private void addOneElement() {
-    	FurnitureBody body = new FurnitureBody();
-    	body.setHeigth(10);
-    	entityManager.persist(body);
-    	entityManager.flush();
-    }
-    
+	@Autowired
+	private TestEntityManager entityManager;
+
+	private void addOneElement() {
+		FurnitureBody body = new FurnitureBody();
+		body.setHeigth(10);
+		entityManager.persist(body);
+		entityManager.flush();
+	}
+
 	@Test
-	void furnitureAll_oneElement() throws Exception{
+	void furnitureAll_oneElement() throws Exception {
 		addOneElement();
-		mvc.perform(get("/furniture/all")
-			      .contentType(MediaType.APPLICATION_JSON))
-			      .andExpect(status().isOk())
-			      .andExpect(content()
-			      .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			      .andExpect(jsonPath("$[0].heigth", is(10)));
+		mvc.perform(get("/furniture/all").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[0].heigth", is(10)));
 	}
 
 }

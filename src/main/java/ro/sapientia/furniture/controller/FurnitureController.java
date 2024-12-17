@@ -19,17 +19,17 @@ import ro.sapientia.furniture.service.FurnitureBodyService;
 public class FurnitureController {
 
 	private final FurnitureBodyService furnitureBodyService;
-	
+
 	public FurnitureController(final FurnitureBodyService furnitureBodyService) {
 		this.furnitureBodyService = furnitureBodyService;
 	}
-	
+
 	@GetMapping("/all")
 	public ResponseEntity<List<FurnitureBody>> getAllFurnitureBodies(){
 		final List<FurnitureBody> furnitureBodies = furnitureBodyService.findAllFurnitureBodies();
 		return new ResponseEntity<>(furnitureBodies,HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/find/{id}")
 	public ResponseEntity<FurnitureBody> getFurnitureBodyById(@PathVariable("id") Long id){
 		final FurnitureBody furnitureBody = furnitureBodyService.findFurnitureBodyById(id);
@@ -48,10 +48,10 @@ public class FurnitureController {
 		return new ResponseEntity<>(persistenFurnitureBody,HttpStatus.OK);
 	}
 
-	@GetMapping("delete/{id}")
+	@GetMapping("/delete/{id}")
 	public ResponseEntity<?> deleteFurnitureBodyById(@PathVariable("id") Long id){
 		furnitureBodyService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 }
