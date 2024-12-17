@@ -48,10 +48,6 @@ jobs:
           echo "$(git rev-parse HEAD)" > artifacts/commit_sha.txt
 
           if [[ -d target/cucumber-reports ]]; then
-            if [[ -f target/cucumber-reports/html-report ]]; then
-              mv target/cucumber-reports/html-report target/cucumber-reports/report.html
-            fi
-
             cp -r target/cucumber-reports artifacts/
           fi
 
