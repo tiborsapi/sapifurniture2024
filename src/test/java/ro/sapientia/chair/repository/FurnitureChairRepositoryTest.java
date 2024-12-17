@@ -24,7 +24,6 @@ import ro.sapientia.furniture.FurnitureApplication;
 public class FurnitureChairRepositoryTest {
 
 	@Autowired
-	@MockBean(FurnitureChairRepository.class)
 	FurnitureChairRepository furnitureChairRepository;
 
 	@Test

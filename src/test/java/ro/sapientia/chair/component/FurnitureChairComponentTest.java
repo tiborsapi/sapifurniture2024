@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -20,30 +19,28 @@ import org.springframework.test.web.servlet.MockMvc;
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
 import ro.sapientia.furniture.FurnitureApplication;
+import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 
-@SpringBootTest(classes = FurnitureChairComponentTest.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ContextConfiguration(classes = FurnitureChairRepository.class)
+@ContextConfiguration(classes = FurnitureApplication.class)
 public class FurnitureChairComponentTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Autowired
-	@MockBean(FurnitureChairRepository.class)
 	FurnitureChairRepository repository;
 
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
-		FurnitureChair fo = new FurnitureChair();
+		FurnitureChair fc = new FurnitureChair();
+		fc.setName("first");
+		fc.setNumOfLegs(3);
 
-		fo.setName("first");
-		fo.setMaterial("wood");
-		fo.setNumOfLegs(3);
-
-		var savedFO = repository.save(fo);
+		var savedFC = repository.save(fc);
 
 		this.mockMvc.perform(get("/furniture_chair/all")).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
