@@ -12,30 +12,30 @@ import ro.sapientia.furniture.model.FurnitureBody;
 @Service
 public class FurnitureChairService {
 
-	private final FurnitureChairRepository FurnitureChairRepository;
+	private final FurnitureChairRepository furnitureChairRepository;
 
 	public FurnitureChairService(FurnitureChairRepository FurnitureChairRepository) {
-		this.FurnitureChairRepository = FurnitureChairRepository;
+		this.furnitureChairRepository = FurnitureChairRepository;
 	}
 
 	public List<FurnitureChair> findAllFurnitureChairs() {
-		return this.FurnitureChairRepository.findAll();
+		return this.furnitureChairRepository.findAll();
 	}
 
 	public FurnitureChair findFurnitureChairById(final Long id) {
-		return this.FurnitureChairRepository.findFurnitureChairById(id);
+		return this.furnitureChairRepository.findFurnitureChairById(id);
 	}
 
 	public FurnitureChair create(FurnitureChair FurnitureChair) {
-		return this.FurnitureChairRepository.saveAndFlush(FurnitureChair);
+		return this.furnitureChairRepository.saveAndFlush(FurnitureChair);
 	}
 
 	public FurnitureChair update(FurnitureChair FurnitureChair) {
-		return this.FurnitureChairRepository.saveAndFlush(FurnitureChair);
+		return this.furnitureChairRepository.saveAndFlush(FurnitureChair);
 	}
 
 	public void delete(Long id) {
-		this.FurnitureChairRepository.deleteById(id);
+		this.furnitureChairRepository.deleteById(id);
 	}
 
 }

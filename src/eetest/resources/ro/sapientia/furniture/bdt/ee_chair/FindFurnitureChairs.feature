@@ -14,4 +14,4 @@ Feature: Check if the find all endpoints works
    | "first" |3 		   |"wood" 	 |
 	 | "second"|4 		   |"metal"  |
    When I invoke the furniture all endpoint
-   Then I should get the numOfLegs "4" for the position "1"
+   Then I should get the num_of_legs "4" for the position "1"

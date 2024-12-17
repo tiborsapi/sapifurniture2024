@@ -34,7 +34,7 @@ import ro.sapientia.furniture.FurnitureApplication;
 import ro.sapientia.furniture.model.FurnitureBody;
 
 @CucumberContextConfiguration
-@SpringBootTest
+@SpringBootTest(classes = FurnitureChairStepDefinition.class)
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
@@ -51,7 +51,7 @@ public class FurnitureChairStepDefinition {
 		for (final Map<String, String> data : furnitureChairs.asMaps(String.class, String.class)) {
 			FurnitureChair chair = new FurnitureChair();
 			chair.setName(data.get("name").toString());
-			chair.setNumOfLegs(Integer.parseInt(data.get("numOfLegs")));
+			chair.setNumOfLegs(Integer.parseInt(data.get("num_of_legs")));
 			chair.setMaterial(data.get("material").toString());
 			entityManager.persist(chair);
 		}

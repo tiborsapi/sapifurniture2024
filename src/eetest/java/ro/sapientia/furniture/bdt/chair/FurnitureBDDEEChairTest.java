@@ -11,7 +11,7 @@ import io.cucumber.junit.CucumberOptions;
 		  features = { "src/eetest/resources/ro/sapientia/furniture/bdt/ee_chair" },
 		  glue = {"ro.sapientia.furniture.bdt.chair.ee.test" },
 		  publish = false,
-		  dryRun = true)
+		  dryRun = false)
 public class FurnitureBDDEEChairTest {
 
 }

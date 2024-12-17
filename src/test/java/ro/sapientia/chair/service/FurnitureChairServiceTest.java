@@ -18,7 +18,7 @@ import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
 import ro.sapientia.furniture.FurnitureApplication;
 
-@ContextConfiguration(classes = FurnitureApplication.class)
+
 @SpringBootTest(classes = FurnitureChairServiceTest.class)
 public class FurnitureChairServiceTest {
 
