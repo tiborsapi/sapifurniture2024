@@ -44,11 +44,15 @@ jobs:
       run: |
         mkdir -p artifacts
 
-        if [[ -d target/cucumber-reports ]]; do
+        if [[ -d target/cucumber-reports ]]; then
+          if [[ -f target/cucumber-reports/html-report ]]; then
+            mv target/cucumber-reports/html-report target/cucumber-reports/report.html
+          fi
+
           cp -r target/cucumber-reports artifacts/
         fi
 
-        if [[ -d target/surefire-reports ]]; do
+        if [[ -d target/surefire-reports ]]; then
           cp -r target/surefire-reports artifacts/
         fi
 
