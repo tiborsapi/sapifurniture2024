@@ -9,7 +9,7 @@ Feature: Check if the find all endpoints works
    Then I should get the numOfLegs "3" for the position "0"
 
 	 Scenario: Two element in the table
-   Given that we have the following furniture bodies:
+   Given that we have the following furniture chairs:
    | name  	 |numOfLegs|material |
    | "first" |3 		   |"wood" 	 |
 	 | "second"|4 		   |"metal"  |

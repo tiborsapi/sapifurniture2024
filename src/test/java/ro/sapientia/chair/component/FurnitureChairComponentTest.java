@@ -12,16 +12,19 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
+import ro.sapientia.furniture.FurnitureApplication;
 
 @SpringBootTest(classes = FurnitureChairComponentTest.class)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ContextConfiguration(classes = FurnitureChairRepository.class)
 public class FurnitureChairComponentTest {
 
 	@Autowired

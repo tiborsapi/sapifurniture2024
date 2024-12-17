@@ -30,6 +30,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 import ro.sapientia.chair.model.FurnitureChair;
+import ro.sapientia.furniture.FurnitureApplication;
+import ro.sapientia.furniture.model.FurnitureBody;
 
 @CucumberContextConfiguration
 @SpringBootTest
@@ -39,7 +41,7 @@ import ro.sapientia.chair.model.FurnitureChair;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:eetest.properties")
-@ContextConfiguration
+@ContextConfiguration(classes = FurnitureApplication.class)
 public class FurnitureChairStepDefinition {
 	@Autowired
 	private TestEntityManager entityManager;
@@ -55,5 +57,28 @@ public class FurnitureChairStepDefinition {
 		}
 		entityManager.flush();
 
+	}
+
+	@When("^I invoke the furniture all endpoint$")
+	public void I_invoke_the_furniture_all_endpoint() throws Throwable {
+	}
+
+	@Then("^I should get the num_of_legs \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
+	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
+		WebClient webClient = WebClient.create();
+		webClient.get().uri("/furniture_chair/all") // The endpoint being tested
+				.accept(MediaType.APPLICATION_JSON)
+				.exchangeToMono(response -> response.toEntityList(FurnitureChair.class)) // Converts the response to a
+																							// list
+				.flatMapIterable(entity -> entity.getBody()) // Works with each body item
+				.elementAt(0) // Access the element at 'position'
+				.doOnNext(fb -> {
+					assert fb != null;
+					assert fb.getNumOfLegs() == 3;
+				});
+	}
+
+	@After
+	public void close() {
 	}
 }

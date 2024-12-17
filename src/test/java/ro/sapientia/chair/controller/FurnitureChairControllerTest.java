@@ -2,6 +2,7 @@ package ro.sapientia.chair.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -23,8 +24,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import ro.sapientia.chair.controller.FurnitureChairController;
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.service.FurnitureChairService;
+import ro.sapientia.furniture.FurnitureApplication;
 
-@ContextConfiguration(classes = FurnitureChairControllerTest.class)
+@ContextConfiguration(classes = FurnitureApplication.class)
 @WebMvcTest(controllers = FurnitureChairController.class, excludeAutoConfiguration = {
 		SecurityAutoConfiguration.class })
 public class FurnitureChairControllerTest {
@@ -33,7 +35,7 @@ public class FurnitureChairControllerTest {
 	private MockMvc mockMvc;
 
 	@MockBean(FurnitureChairService.class)
-	private FurnitureChairService FurnitureChairService;
+	private FurnitureChairService furnitureChairService;
 
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
@@ -41,9 +43,9 @@ public class FurnitureChairControllerTest {
 
 		furnitureChair.setName("impaled");
 
-		when(FurnitureChairService.findAllFurnitureChairs()).thenReturn(List.of(furnitureChair));
+		when(furnitureChairService.findAllFurnitureChairs()).thenReturn(List.of(furnitureChair));
 
-		this.mockMvc.perform(get("/furniter_other/all")).andExpect(status().isOk())
+		this.mockMvc.perform(get("/furniture_chair/all")).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$[0].name", is("impaled")));
 

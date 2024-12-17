@@ -6,17 +6,19 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
 import ro.sapientia.chair.model.FurnitureChair;
+import ro.sapientia.furniture.FurnitureApplication;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = "classpath:test.properties")
-@ContextConfiguration(classes = FurnitureChairRepositoryTest.class)
+@ContextConfiguration(classes = FurnitureApplication.class)
 public class FurnitureChairRepositoryTest {
 
 	@Autowired

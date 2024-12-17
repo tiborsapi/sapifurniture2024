@@ -1,6 +1,7 @@
 package ro.sapientia.chair.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -11,10 +12,13 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
+import ro.sapientia.furniture.FurnitureApplication;
 
+@ContextConfiguration(classes = FurnitureApplication.class)
 @SpringBootTest(classes = FurnitureChairServiceTest.class)
 public class FurnitureChairServiceTest {
 
