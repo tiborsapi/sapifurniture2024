@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import ro.sapientia.furniture.model.FurnitureBody;
 import ro.sapientia.furniture.model.FurnitureStopper;
 import ro.sapientia.furniture.repository.FurnitureStopperRepository;
 
@@ -37,4 +38,21 @@ public class FurnitureStopperService {
 		this.furnitureStopperRepository.deleteById(id);
 	}
 
+	public Optional<FurnitureStopper> stopFurniture(Long id, FurnitureBody furnitureBody) {
+		Optional<FurnitureStopper> optionalStopper = this.furnitureStopperRepository.findFurnitureStopperById(id);
+
+		if (!optionalStopper.isPresent()) {
+			return Optional.empty();
+		}
+
+		FurnitureStopper stopper = optionalStopper.get();
+
+		if (!stopper.canChangeState()) {
+			throw new IllegalStateException("Furniture stopper cannot change state at the moment");
+		}
+
+		stopper.setStartTimeMs(System.currentTimeMillis());
+		stopper.setFurnitureBody(furnitureBody);
+		return Optional.of(this.furnitureStopperRepository.saveAndFlush(stopper));
+	}
 }
