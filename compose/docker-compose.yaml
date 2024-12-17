@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: on-failure
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=furniture
+    volumes:
+    - ./postgres/data:/var/lib/postgresql/data:rw
+    ports:
+    - "5432:5432"
+    networks:
+    - postgres
+
+networks:
+  postgres:
+    external: false
