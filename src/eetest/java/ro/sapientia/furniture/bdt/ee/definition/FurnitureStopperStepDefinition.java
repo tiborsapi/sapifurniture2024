@@ -62,7 +62,7 @@ public class FurnitureStopperStepDefinition {
 	public void I_stop_the_furniture_body_with_id_with_furniture_stopper_id(final String bodyId, final String stopperId)
 			throws Throwable {
 		WebClient webClient = WebClient.create();
-		webClient.post().uri("/furniture-stopper")
+		webClient.post().uri("/furniture-stopper/update")
 				.contentType(MediaType.APPLICATION_JSON)
 				.bodyValue(new StopFurnitureRequestDTO(Long.parseLong(bodyId), Long.parseLong(stopperId)))
 				.retrieve()
