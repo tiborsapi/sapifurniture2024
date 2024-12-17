@@ -47,13 +47,11 @@ jobs:
           # Save the commit SHA as an artifact
           echo "$(git rev-parse HEAD)" > artifacts/commit_sha.txt
 
-          if [[ -d target/cucumber-reports ]]; then
-            cp -r target/cucumber-reports artifacts/
-          fi
-
-          if [[ -d target/surefire-reports ]]; then
-            cp -r target/surefire-reports artifacts/
-          fi
+          for folder in cucumber-reports surefire-reports reports; do
+            if [[ -d target/$folder ]]; then
+              cp -r target/$folder artifacts/
+            fi
+          done
 
           cp -r artifacts reports
           cp target/*.jar artifacts/ || true
