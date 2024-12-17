@@ -41,7 +41,11 @@ public class FurnitureStepDefinition {
 	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
 		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
 			FurnitureBody body = new FurnitureBody();
-			body.setId(Long.parseLong(data.get("id")));
+
+			if (data.get("id") != null) {
+				body.setId(Long.parseLong(data.get("id")));
+			}
+
 			body.setHeigth(Integer.parseInt(data.get("heigth")));
 			body.setWidth(Integer.parseInt(data.get("width")));
 			body.setDepth(Integer.parseInt(data.get("depth")));
