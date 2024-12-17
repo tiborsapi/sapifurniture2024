@@ -1,0 +1,57 @@
+name: Java CI with Maven
+
+on:
+  push:
+  repository_dispatch:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Start PostgreSQL
+      run: docker compose -f compose/docker-compose.yml up -d
+
+    - name: Set up JDK 23
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '23'
+
+    - name: Update package version
+      run: |
+        git_commit_sha=$(git rev-parse --short HEAD)
+        sed -i "s/-SNAPSHOT/-${git_commit_sha}/g" pom.xml
+
+    - name: Cache Maven packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+
+    - name: Install dependencies
+      run: mvn dependency:go-offline
+
+    - name: Build with Maven
+      run: mvn -Dintegration-tests.skip=true clean package
+    
+    - name: Create artifact
+      run: |
+        mkdir -p artifacts
+        cp -r target/cucumber-reports artifacts/
+        cp -r target/surefire-reports artifacts/
+        cp target/*.jar artifacts/
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-artifacts
+        path: artifacts
+
+    - name: Stop PostgreSQL
+      if: always()
+      run: docker compose -f compose/docker-compose.yml down
