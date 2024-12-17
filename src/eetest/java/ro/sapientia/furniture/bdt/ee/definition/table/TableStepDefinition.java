@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,6 +25,8 @@ import ro.sapientia.furniture.dto.TableCreationDTO;
 import ro.sapientia.furniture.model.FurnitureTable;
 import ro.sapientia.furniture.util.EnumConverter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @CucumberContextConfiguration
@@ -66,19 +69,21 @@ public class TableStepDefinition {
     public void I_invoke_the_table_all_endpoint() throws Throwable {
     }
 
-    @Then("^I should get the color \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
-    public void I_should_get_result_in_stories_list(final String color, final String position) throws Throwable {
-        webClient.get().uri("/tables")
+    @Then("^I should get the color \"([^\"]*)\" for the last furniture table in the result.$")
+    public void I_should_get_result_in_stories_list(final String color) throws Throwable {
+
+        List<FurnitureTable> result = webClient.get()
+                .uri("/tables")
                 .accept(MediaType.APPLICATION_JSON)
-                .exchangeToMono(response -> response.toEntityList(FurnitureTable.class))
-                .flatMapIterable(entity -> entity.getBody())
-                .sort((a, b) -> Long.compare(b.getId(), a.getId()))
-                .elementAt(Integer.parseInt(position))
-                .doOnNext(fb -> {
-                    System.out.println(fb);
-                    assert fb != null;
-                    assert fb.getColor().toString().equals(color);
-                });
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<FurnitureTable>>() {})
+                .block();
+
+        assert result != null;
+
+        assert !result.isEmpty();
+
+        assert result.get(result.size() - 1).getColor().toString().equals(color);
     }
 
     @Given("^that I have the following table creation data:$")
