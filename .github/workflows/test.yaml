@@ -40,13 +40,22 @@ jobs:
       run: mvn -Dintegration-tests.skip=true clean package
     
     - name: Create artifact
+      if: always()
       run: |
         mkdir -p artifacts
-        cp -r target/cucumber-reports artifacts/
-        cp -r target/surefire-reports artifacts/
-        cp target/*.jar artifacts/
+
+        if [[ -d target/cucumber-reports ]]; do
+          cp -r target/cucumber-reports artifacts/
+        fi
+
+        if [[ -d target/surefire-reports ]]; do
+          cp -r target/surefire-reports artifacts/
+        fi
+
+        cp target/*.jar artifacts/ || true
 
     - name: Upload artifact
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: test-artifacts
