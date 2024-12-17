@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ro.sapientia.furniture.dto.StopFurnitureRequestDTO;
+import ro.sapientia.furniture.model.FurnitureBody;
 import ro.sapientia.furniture.model.FurnitureStopper;
+import ro.sapientia.furniture.service.FurnitureBodyService;
 import ro.sapientia.furniture.service.FurnitureStopperService;
 
 @RestController
@@ -60,4 +63,19 @@ public class FurnitureStopperController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@PostMapping("/stop")
+	public ResponseEntity<FurnitureStopper> stopFurniture(
+			@RequestBody StopFurnitureRequestDTO stopFurnitureRequestDTO) {
+		FurnitureBody furnitureBody = new FurnitureBody();
+		furnitureBody.setId(stopFurnitureRequestDTO.getFurnitureBodyId());
+
+		final Optional<FurnitureStopper> furnitureStopper = furnitureStopperService.stopFurniture(
+				stopFurnitureRequestDTO.getFurnitureStopperId(), furnitureBody);
+
+		if (furnitureStopper.isPresent()) {
+			return new ResponseEntity<>(furnitureStopper.get(), HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 }

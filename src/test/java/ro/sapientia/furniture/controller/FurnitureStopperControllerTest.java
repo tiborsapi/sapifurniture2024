@@ -1,5 +1,7 @@
 package ro.sapientia.furniture.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -17,6 +19,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ro.sapientia.furniture.dto.StopFurnitureRequestDTO;
+import ro.sapientia.furniture.model.FurnitureBody;
 import ro.sapientia.furniture.model.FurnitureStopper;
 import ro.sapientia.furniture.service.FurnitureStopperService;
 
@@ -111,5 +116,24 @@ public class FurnitureStopperControllerTest {
         mockMvc.perform(get("/furniture-stopper/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Test
+    public void testStopFurniture() throws Exception {
+        StopFurnitureRequestDTO requestDTO = new StopFurnitureRequestDTO();
+        requestDTO.setFurnitureBodyId(1L);
+        requestDTO.setFurnitureStopperId(1L);
+
+        FurnitureStopper stopper = new FurnitureStopper();
+        stopper.setId(1L);
+
+        when(furnitureStopperService.stopFurniture(anyLong(), any(FurnitureBody.class)))
+                .thenReturn(Optional.of(stopper));
+
+        mockMvc.perform(post("/furniture-stopper/stop")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(stopper.getId()));
     }
 }

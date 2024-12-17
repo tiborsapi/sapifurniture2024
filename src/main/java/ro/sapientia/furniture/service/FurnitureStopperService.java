@@ -51,6 +51,7 @@ public class FurnitureStopperService {
 			throw new IllegalStateException("Furniture stopper cannot change state at the moment");
 		}
 
+		stopper.setActive(true);
 		stopper.setStartTimeMs(System.currentTimeMillis());
 		stopper.setFurnitureBody(furnitureBody);
 		return Optional.of(this.furnitureStopperRepository.saveAndFlush(stopper));
