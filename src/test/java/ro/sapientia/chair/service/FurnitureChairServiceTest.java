@@ -11,19 +11,23 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
 import ro.sapientia.furniture.FurnitureApplication;
 
-
 @SpringBootTest(classes = FurnitureChairServiceTest.class)
 public class FurnitureChairServiceTest {
 
+	@Mock
 	private FurnitureChairRepository furnitureChairRepositoryMock;
 
+	@MockBean(FurnitureChairService.class)
 	private FurnitureChairService furnitureChairService;
 
 	@BeforeEach
