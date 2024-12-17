@@ -11,7 +11,7 @@ import io.cucumber.junit.CucumberOptions;
 				"pretty",
 				"json:target/cucumber-reports/cucumber.json",
 				"html:target/cucumber-reports/report.html"
-		}, publish = false, dryRun = true)
+		}, publish = false, dryRun = false)
 public class FurnitureBDDEETest {
 
 }
