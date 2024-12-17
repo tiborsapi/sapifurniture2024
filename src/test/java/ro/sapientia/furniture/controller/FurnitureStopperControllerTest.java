@@ -120,9 +120,7 @@ public class FurnitureStopperControllerTest {
 
     @Test
     public void testStopFurniture() throws Exception {
-        StopFurnitureRequestDTO requestDTO = new StopFurnitureRequestDTO();
-        requestDTO.setFurnitureBodyId(1L);
-        requestDTO.setFurnitureStopperId(1L);
+        StopFurnitureRequestDTO requestDTO = new StopFurnitureRequestDTO(1L, 1L);
 
         FurnitureStopper stopper = new FurnitureStopper();
         stopper.setId(1L);

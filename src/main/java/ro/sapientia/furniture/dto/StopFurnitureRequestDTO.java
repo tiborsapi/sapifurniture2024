@@ -5,6 +5,11 @@ public class StopFurnitureRequestDTO {
     private long furnitureBodyId;
     private long furnitureStopperId;
 
+    public StopFurnitureRequestDTO(long furnitureBodyId, long furnitureStopperId) {
+        this.furnitureBodyId = furnitureBodyId;
+        this.furnitureStopperId = furnitureStopperId;
+    }
+
     public long getFurnitureBodyId() {
         return furnitureBodyId;
     }
