@@ -9,8 +9,13 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
 		  features = { "src/eetest/resources/ro/sapientia/furniture/bdt/component" },
 		  glue = {"ro.sapientia.furniture.bdt.component.definition" },
-		  publish = false,
-		  dryRun = true)
+				    plugin = {
+					        "pretty",
+					        "json:target/cucumber-reports/cucumber.json",
+					        "html:target/cucumber-reports/html-report"
+					    },
+					    publish = false,
+					    dryRun = false) 
 public class FurnitureBDDComponentTest {
 
 }

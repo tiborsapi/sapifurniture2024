@@ -15,4 +15,4 @@ Feature: Check if the find all endpoints works
    | 10 		| 12 		 | 10 	 |
    
    When I invoke the furniture all endpoint
-   Then I should get the heigth "12" for the position "1"
+   Then I should get the heigth "12" for the position "2"
