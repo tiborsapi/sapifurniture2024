@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ro.sapientia.furniture.dto.StopFurnitureRequestDTO;
 import ro.sapientia.furniture.model.FurnitureBody;
 import ro.sapientia.furniture.model.FurnitureStopper;
-import ro.sapientia.furniture.service.FurnitureBodyService;
 import ro.sapientia.furniture.service.FurnitureStopperService;
 
 @RestController
