@@ -10,61 +10,64 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Start PostgreSQL
-      run: docker compose -f compose/docker-compose.yaml up -d
+      - name: Start PostgreSQL
+        run: docker compose -f compose/docker-compose.yaml up -d
 
-    - name: Set up JDK 23
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '23'
+      - name: Set up JDK 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '23'
 
-    - name: Cache Maven packages
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}
 
-    - name: Update package version
-      run: |
-        git_commit_sha=$(git rev-parse --short HEAD)
-        sed -i "s/-SNAPSHOT/-${git_commit_sha}/g" pom.xml
+      - name: Update package version
+        run: |
+          git_commit_sha=$(git rev-parse --short HEAD)
+          sed -i "s/-SNAPSHOT/-${git_commit_sha}/g" pom.xml
 
-    - name: Install dependencies
-      run: mvn dependency:go-offline
+      - name: Install dependencies
+        run: mvn dependency:go-offline
 
-    - name: Build with Maven
-      run: mvn -Dintegration-tests.skip=true clean package
-    
-    - name: Create artifact
-      if: always()
-      run: |
-        mkdir -p artifacts
+      - name: Build with Maven
+        run: mvn -Dintegration-tests.skip=true clean package
 
-        if [[ -d target/cucumber-reports ]]; then
-          if [[ -f target/cucumber-reports/html-report ]]; then
-            mv target/cucumber-reports/html-report target/cucumber-reports/report.html
+      - name: Create artifact
+        if: always()
+        run: |
+          mkdir -p artifacts
+
+          # Save the commit SHA as an artifact
+          echo "$(git rev-parse HEAD)" > artifacts/commit_sha.txt
+
+          if [[ -d target/cucumber-reports ]]; then
+            if [[ -f target/cucumber-reports/html-report ]]; then
+              mv target/cucumber-reports/html-report target/cucumber-reports/report.html
+            fi
+
+            cp -r target/cucumber-reports artifacts/
           fi
 
-          cp -r target/cucumber-reports artifacts/
-        fi
+          if [[ -d target/surefire-reports ]]; then
+            cp -r target/surefire-reports artifacts/
+          fi
 
-        if [[ -d target/surefire-reports ]]; then
-          cp -r target/surefire-reports artifacts/
-        fi
+          cp target/*.jar artifacts/ || true
 
-        cp target/*.jar artifacts/ || true
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: artifacts
 
-    - name: Upload artifact
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-artifacts
-        path: artifacts
-
-    - name: Stop PostgreSQL
-      if: always()
-      run: docker compose -f compose/docker-compose.yaml down
+      - name: Stop PostgreSQL
+        if: always()
+        run: docker compose -f compose/docker-compose.yaml down
