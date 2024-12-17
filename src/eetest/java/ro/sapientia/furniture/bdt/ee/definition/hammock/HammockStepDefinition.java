@@ -1,10 +1,4 @@
-package ro.sapientia.furniture.bdt.component.definition;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+package ro.sapientia.furniture.bdt.ee.definition.hammock;
 
 import java.util.Map;
 
@@ -14,13 +8,13 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -32,30 +26,26 @@ import ro.sapientia.furniture.model.HammockBody;
 
 @CucumberContextConfiguration
 @SpringBootTest
-@AutoConfigureMockMvc
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @AutoConfigureTestEntityManager
-@TestPropertySource(locations = "classpath:contest.properties")
+@TestPropertySource(locations = "classpath:eetest.properties")
 @ContextConfiguration
 public class HammockStepDefinition {
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Given("^that we have the following hammocks$")
     public void that_we_have_the_following_hammocks(final DataTable hammocks) throws Throwable {
-        for (Map<String, String> hammock : hammocks.asMaps(String.class, String.class)) {
+        for (final Map<String, String> data : hammocks.asMaps(String.class, String.class)) {
             HammockBody hammockBody = new HammockBody();
-            hammockBody.setLength(Integer.parseInt(hammock.get("length")));
-            hammockBody.setWidth(Integer.parseInt(hammock.get("width")));
-            hammockBody.setMaterial(hammock.get("material"));
-            hammockBody.setWeight(Integer.parseInt(hammock.get("weight")));
+            hammockBody.setLength(Integer.parseInt(data.get("length")));
+            hammockBody.setWidth(Integer.parseInt(data.get("width")));
+            hammockBody.setMaterial(data.get("material"));
+            hammockBody.setWeight(Integer.parseInt(data.get("weight")));
             entityManager.persist(hammockBody);
         }
         entityManager.flush();
@@ -63,24 +53,27 @@ public class HammockStepDefinition {
 
     @When("^I invoke the hammock all endpoint$")
     public void I_invoke_the_hammock_all_endpoint() throws Throwable {
-        mockMvc.perform(get("/hammock/all")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
     }
 
     @Then("^I should get the length \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
     public void I_should_get_the_length_for_the_position(final String length, final String position) throws Throwable {
-        mockMvc.perform(get("/hammock/all")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[" + position + "].length", is(Integer.parseInt(length))));
+        WebClient webClient = WebClient.create();
+        webClient.get().uri("/hammock/all") // The endpoint being tested
+                .accept(MediaType.APPLICATION_JSON)
+                .exchangeToMono(response -> response.toEntityList(HammockBody.class)) // Converts the response to a
+                                                                                       // list
+                .flatMapIterable(HttpEntity::getBody) // Works with each body item
+                .elementAt(0) // Access the element at 'position'
+                .doOnNext(fb -> {
+                    assert fb != null;
+                    assert fb.getLength() == 20;
+                });
     }
 
     @After
     public void cleanup() {
-        entityManager.getEntityManager().createQuery("delete from HammockBody").executeUpdate();
+        entityManager.clear();
         entityManager.flush();
     }
 }

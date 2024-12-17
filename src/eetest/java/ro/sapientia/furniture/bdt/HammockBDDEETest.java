@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = { "src/eetest/resources/ro/sapientia/furniture/bdt/ee" },
-        glue = {"ro.sapientia.furniture.bdt.ee.definition" },
+        glue = {"ro.sapientia.furniture.bdt.ee.definition.hammock" },
         publish = false,
         dryRun = true
 )
