@@ -22,16 +22,16 @@ jobs:
         distribution: 'temurin'
         java-version: '23'
 
-    - name: Update package version
-      run: |
-        git_commit_sha=$(git rev-parse --short HEAD)
-        sed -i "s/-SNAPSHOT/-${git_commit_sha}/g" pom.xml
-
     - name: Cache Maven packages
       uses: actions/cache@v4
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}
+
+    - name: Update package version
+      run: |
+        git_commit_sha=$(git rev-parse --short HEAD)
+        sed -i "s/-SNAPSHOT/-${git_commit_sha}/g" pom.xml
 
     - name: Install dependencies
       run: mvn dependency:go-offline
