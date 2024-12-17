@@ -59,6 +59,7 @@ jobs:
             cp -r target/surefire-reports artifacts/
           fi
 
+          cp -r artifacts reports
           cp target/*.jar artifacts/ || true
 
       - name: Upload artifact
@@ -67,6 +68,13 @@ jobs:
         with:
           name: test-artifacts
           path: artifacts
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: reports
 
       - name: Stop PostgreSQL
         if: always()
