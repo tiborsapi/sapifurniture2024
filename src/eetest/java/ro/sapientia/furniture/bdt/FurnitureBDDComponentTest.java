@@ -15,7 +15,7 @@ import io.cucumber.junit.CucumberOptions;
 					        "html:target/cucumber-reports/html-report"
 					    },
 					    publish = false,
-					    dryRun = false) 
+					    dryRun = false)
 public class FurnitureBDDComponentTest {
 
 }

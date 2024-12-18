@@ -52,6 +52,8 @@ public class FurnitureStepDefinition {
 			body.setHeigth(Integer.parseInt(data.get("heigth")));
 			body.setWidth(Integer.parseInt(data.get("width")));
 			body.setDepth(Integer.parseInt(data.get("depth")));
+
+
 			entityManager.persist(body);
 		}
 		entityManager.flush();
