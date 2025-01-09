@@ -3,8 +3,44 @@ pipeline {
     agent any
     environment {
         EMAIL_RECIPIENTS = 'tibor.kiss@ms.sapientia.ro'
+        POSTGRES_CONTAINER = 'postgres-container'
+        POSTGRES_USER = 'postgres'
+        POSTGRES_PASSWORD = 'postgres'
+        POSTGRES_DB = 'furniture'
+        POSTGRES_PORT = '5432'
+        SPRING_DATASOURCE_URL = "jdbc:postgresql://localhost:${POSTGRES_PORT}/furniture"
     }
     stages {
+        stage('Start PostgreSQL Container') {
+            steps {
+                script {
+                    sh '''
+                    CONTAINER_NAME="postgres-container"
+
+                    # Check if the container exists
+                    if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+                        echo "Container ${CONTAINER_NAME} already exists."
+
+                        # Check if the container is running
+                        if docker ps --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+                            echo "Container ${CONTAINER_NAME} is already running. Reusing it."
+                        else
+                            echo "Container ${CONTAINER_NAME} exists but is not running. Starting it."
+                            docker start ${CONTAINER_NAME}
+                        fi
+                    else
+                        echo "Container ${CONTAINER_NAME} does not exist. Creating a new one."
+                        docker run -d --name ${CONTAINER_NAME} \
+                        	--network="host" \
+                            -e POSTGRES_USER=postgres \
+                            -e POSTGRES_PASSWORD=postgres \
+                            -e POSTGRES_DB=furniture \
+                            -p 5432:5432 postgres:latest
+                    fi
+                    '''
+                }
+            }
+        }
 
         stage('Build with unit testing') {
             steps {
