@@ -53,6 +53,6 @@ public class Door extends FurnitureBody {
     @Override
     public String toString() {
         return "Door [id=" + getId() + ", width=" + getWidth() + ", heigth=" + getHeigth() + 
-               ", depth=" + getDepth() + ", material=" + material + "color="+ color +", hasGlass=" + hasGlass + ", numberOfGlassPanels =" + numberOfGlassPanels +  "]";
+               ", depth=" + getDepth() + ", material=" + material + ", color="+ color +", hasGlass=" + hasGlass + ", numberOfGlassPanels =" + numberOfGlassPanels +  "]";
     }
 }
