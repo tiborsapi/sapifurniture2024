@@ -1,4 +1,4 @@
-package ro.sapientia.furniture.bdt.ee.definition;
+package ro.sapientia.furniture.bdt.ee.definition.furniture;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
