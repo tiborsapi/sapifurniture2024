@@ -15,7 +15,7 @@ public class DoorService{
 		this.doorRepository = doorRepository;
 		
 	}
-	public List<Door> findAllDoorBodies() {
+	public List<Door> findAllDoors() {
 		return this.doorRepository.findAll();
 	}
 	public Door findDoorById(final Long id) {

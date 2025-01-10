@@ -24,8 +24,8 @@ public class DoorController{
 		
 	}
 	@GetMapping("/all")
-	public ResponseEntity<List<Door>> getAllDoorBodies(){
-		final List<Door> door = doorService.findAllDoorBodies();
+	public ResponseEntity<List<Door>> getAllDoors(){
+		final List<Door> door = doorService.findAllDoors();
 		return new ResponseEntity<>(door,HttpStatus.OK);
 	}
 	@GetMapping("/find/{id}")
