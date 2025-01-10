@@ -39,6 +39,10 @@ public class Door extends FurnitureBody {
     	this.numberOfGlassPanels = numberOfGlassPanels;
     }
     public int getNumberOfGlassPanels() {
+    	// ha nincs uveg, akkor a panelek szama 0
+        if (!hasGlass) {
+            return 0;
+        }
     	return numberOfGlassPanels;
     }
 
