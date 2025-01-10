@@ -1,4 +1,4 @@
-package ro.sapientia.furniture.bdt.component.definition;
+package ro.sapientia.furniture.bdt.component.definition.woodentrunk.WoodenTrunkStepDefinition;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,7 +28,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.WoodenTrunk;
 
 @CucumberContextConfiguration
 @SpringBootTest
@@ -40,43 +40,42 @@ import ro.sapientia.furniture.model.FurnitureBody;
 @AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:cotest.properties")
 @ContextConfiguration
-public class FurnitureStepDefinition {
+public class WoodenTrunkStepDefinition {
 
-	@Autowired
-	private MockMvc mvc;
+    @Autowired
+    private MockMvc mvc;
 
-	@Autowired
-	private TestEntityManager entityManager;
+    @Autowired
+    private TestEntityManager entityManager;
 
-	@Given("^that we have the following furniture bodies:$")
-	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
-		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
-			FurnitureBody body = new FurnitureBody();
-			body.setHeigth(Integer.parseInt(data.get("heigth")));
-			body.setWidth(Integer.parseInt(data.get("width")));
-			body.setDepth(Integer.parseInt(data.get("depth")));
-			entityManager.persist(body);
-		}
-		entityManager.flush();
+    @Given("^that we have the following wooden trunks:$")
+    public void that_we_have_the_following_wooden_trunks(final DataTable woodenTrunks) throws Throwable {
+        for (final Map<String, String> data : woodenTrunks.asMaps(String.class, String.class)) {
+            WoodenTrunk trunk = new WoodenTrunk();
+            trunk.setHeight(Integer.parseInt(data.get("height")));
+            trunk.setWidth(Integer.parseInt(data.get("width")));
+            trunk.setDepth(Integer.parseInt(data.get("depth")));
+            trunk.setMaterial(data.get("material"));
+            trunk.setHasLid(Boolean.parseBoolean(data.get("hasLid")));
+            trunk.setCapacity(Integer.parseInt(data.get("capacity")));
+            entityManager.persist(trunk);
+        }
+        entityManager.flush();
+    }
 
-	}
+    @When("^I invoke the wooden trunk all endpoint$")
+    public void i_invoke_the_wooden_trunk_all_endpoint() throws Throwable {
+    }
 
-	@When("^I invoke the furniture all endpoint$")
-	public void I_invoke_the_furniture_all_endpoint() throws Throwable {
-	}
+    @Then("^I should get the height \"([^\"]*)\" for the position \"([^\"]*)\"$")
+    public void i_should_get_the_height_for_the_position(final String height, final String position) throws Throwable {
+        mvc.perform(get("/wooden-trunk/all").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[" + position + "].height", is(Integer.parseInt(height))));
+    }
 
-	@Then("^I should get the heigth \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
-	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
-		mvc.perform(get("/furniture/all")
-			      .contentType(MediaType.APPLICATION_JSON))
-			      .andExpect(status().isOk())
-			      .andExpect(content()
-			      .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			      .andExpect(jsonPath("$["+position+"].heigth", is(Integer.parseInt(heigth))));
-	}
-
-	@After
-	public void close() {
-	}
-
+    @After
+    public void close() {
+    }
 }

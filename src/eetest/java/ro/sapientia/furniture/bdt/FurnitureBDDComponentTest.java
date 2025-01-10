@@ -7,8 +7,8 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		  features = { "src/eetest/resources/ro/sapientia/furniture/bdt/component" },
-		  glue = {"ro.sapientia.furniture.bdt.component.definition" },
+		  features = { "src/eetest/resources/ro/sapientia/furniture/bdt/component/Furniture" },
+		  glue = {"ro.sapientia.furniture.bdt.component.definition.furniture" },
 				    plugin = {
 					        "pretty",
 					        "json:target/cucumber-reports/cucumber.json",
