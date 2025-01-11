@@ -1,4 +1,6 @@
-package ro.sapientia.furniture.util;
+package ro.sapientia.furniture.model;
+
+import ro.sapientia.furniture.util.Category;
 
 import javax.persistence.*;
 import java.io.Serializable;

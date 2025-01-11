@@ -1,11 +1,9 @@
 package ro.sapientia.furniture.model;
 
-import ro.sapientia.furniture.util.Book;
 import ro.sapientia.furniture.util.Category;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import javax.persistence.*;
 
@@ -26,7 +24,7 @@ public class Bookshelf implements Serializable {
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bookshelf_id")
     private List<Book> books = new ArrayList<>();
 
@@ -56,34 +54,6 @@ public class Bookshelf implements Serializable {
 
     public List<Book> getBooks() {
         return books;
-    }
-
-    public boolean addBook(String title, String author, Category bookCategory) {
-        if (bookCategory == this.category && books.size() < capacity) {
-            Book book = new Book();
-            book.setTitle(title);
-            book.setAuthor(author);
-            book.setCategory(bookCategory);
-            books.add(book);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean removeBook(String title) {
-        return books.removeIf(book -> book.getTitle().equals(title));
-    }
-
-    public boolean containsBook(String title) {
-        return books.stream().anyMatch(book -> book.getTitle().equals(title));
-    }
-
-    public void sortBooks() {
-        books.sort(Comparator.comparing(Book::getTitle));
-    }
-
-    public int countBooks() {
-        return books.size();
     }
 
     @Override
