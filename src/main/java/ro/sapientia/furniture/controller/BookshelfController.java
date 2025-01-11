@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.sapientia.furniture.model.Book;
 import ro.sapientia.furniture.model.Bookshelf;
 import ro.sapientia.furniture.service.BookshelfService;
+import ro.sapientia.furniture.util.BookshelfNotFoundException;
 import ro.sapientia.furniture.util.Category;
 import ro.sapientia.furniture.util.InsufficientCapacityException;
 import ro.sapientia.furniture.util.InvalidCategoryException;
@@ -29,23 +30,34 @@ public class BookshelfController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<Bookshelf> getBookshelfById(@PathVariable("id") Long id) {
-        final Bookshelf bookshelf = bookshelfService.findBookshelfById(id);
-        return new ResponseEntity<>(bookshelf, HttpStatus.OK);
+        try {
+            final Bookshelf bookshelf = bookshelfService.findBookshelfById(id);
+            return new ResponseEntity<>(bookshelf, HttpStatus.OK);
+        } catch (BookshelfNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Bookshelf> addBookshelf(@RequestBody Bookshelf bookshelf) {
-        final Bookshelf persistentBookshelf = bookshelfService.create(bookshelf);
+    public ResponseEntity<Bookshelf> addBookshelf(@RequestParam int capacity,
+                                                  @RequestParam Category category) {
+        final Bookshelf persistentBookshelf = bookshelfService.create(capacity, category);
         return new ResponseEntity<>(persistentBookshelf, HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Bookshelf> updateBookshelf(@RequestBody Bookshelf bookshelf) {
-        final Bookshelf persistentBookshelf = bookshelfService.update(bookshelf);
-        return new ResponseEntity<>(persistentBookshelf, HttpStatus.OK);
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Bookshelf> updateBookshelf(@PathVariable("id") Long bookshelfId,
+                                                     @RequestParam int capacity,
+                                                     @RequestParam Category category) {
+        try {
+            final Bookshelf persistentBookshelf = bookshelfService.update(bookshelfId, capacity, category);
+            return new ResponseEntity<>(persistentBookshelf, HttpStatus.OK);
+        } catch (BookshelfNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteBookshelfById(@PathVariable("id") Long id) {
         bookshelfService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -61,7 +73,7 @@ public class BookshelfController {
         try {
             bookshelfService.addBookToBookshelf(bookshelfId, title, author, category);
             return new ResponseEntity<>("Book added successfully.", HttpStatus.OK);
-        } catch (InvalidCategoryException | InsufficientCapacityException e) {
+        } catch (InvalidCategoryException | InsufficientCapacityException | BookshelfNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -71,27 +83,31 @@ public class BookshelfController {
             @PathVariable("id") Long bookshelfId,
             @RequestParam String title
     ) {
-        boolean removed = bookshelfService.removeBookFromBookshelf(bookshelfId, title);
-        if (removed) {
+        try {
+            boolean removed = bookshelfService.removeBookFromBookshelf(bookshelfId, title);
             return new ResponseEntity<>("Book removed successfully.", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Book not found.", HttpStatus.NOT_FOUND);
+        } catch (BookshelfNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/{id}/books/sort")
     public ResponseEntity<List<Book>> sortBooksInBookshelf(@PathVariable("id") Long bookshelfId) {
-        List<Book> sortedBooks = bookshelfService.sortBooksInBookshelf(bookshelfId);
-        if (sortedBooks != null) {
+        try {
+            List<Book> sortedBooks = bookshelfService.sortBooksInBookshelf(bookshelfId);
             return new ResponseEntity<>(sortedBooks, HttpStatus.OK);
-        } else {
+        } catch (BookshelfNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/{id}/books/count")
     public ResponseEntity<Integer> countBooksInBookshelf(@PathVariable("id") Long bookshelfId) {
-        int count = bookshelfService.countBooksInBookshelf(bookshelfId);
-        return new ResponseEntity<>(count, HttpStatus.OK);
+        try {
+            int count = bookshelfService.countBooksInBookshelf(bookshelfId);
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } catch (BookshelfNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.sapientia.furniture.model.Book;
 import ro.sapientia.furniture.model.Bookshelf;
 import ro.sapientia.furniture.repository.BookshelfRepository;
+import ro.sapientia.furniture.util.BookshelfNotFoundException;
 import ro.sapientia.furniture.util.Category;
 import ro.sapientia.furniture.util.InsufficientCapacityException;
 import ro.sapientia.furniture.util.InvalidCategoryException;
@@ -24,16 +25,24 @@ public class BookshelfService {
         return this.bookshelfRepository.findAll();
     }
 
-    public Bookshelf findBookshelfById(final Long id) {
-        return this.bookshelfRepository.findBookshelfById(id);
+    public Bookshelf findBookshelfById(final Long id) throws BookshelfNotFoundException {
+        Bookshelf bookshelf = bookshelfRepository.findBookshelfById(id);
+        if(bookshelf == null){throw new BookshelfNotFoundException("Bookshelf not found.");}
+        return bookshelf;
     }
 
-    public Bookshelf create(Bookshelf furnitureBody) {
-        return this.bookshelfRepository.saveAndFlush(furnitureBody);
+    public Bookshelf create(int capacity, Category category) {
+        Bookshelf bookshelf = new Bookshelf();
+        bookshelf.setCapacity(capacity);
+        bookshelf.setCategory(category);
+        return this.bookshelfRepository.saveAndFlush(bookshelf);
     }
 
-    public Bookshelf update(Bookshelf furnitureBody) {
-        return this.bookshelfRepository.saveAndFlush(furnitureBody);
+    public Bookshelf update(Long bookshelfId, int capacity, Category category) throws BookshelfNotFoundException {
+        Bookshelf bookshelf = this.findBookshelfById(bookshelfId);
+        bookshelf.setCapacity(capacity);
+        bookshelf.setCategory(category);
+        return this.bookshelfRepository.save(bookshelf);
     }
 
     public void delete(Long id) {
@@ -41,7 +50,7 @@ public class BookshelfService {
     }
 
     @Transactional
-    public boolean addBookToBookshelf(Long bookshelfId, String title, String author, Category bookCategory) throws InsufficientCapacityException, InvalidCategoryException {
+    public boolean addBookToBookshelf(Long bookshelfId, String title, String author, Category bookCategory) throws InsufficientCapacityException, InvalidCategoryException, BookshelfNotFoundException {
         Bookshelf bookshelf = this.findBookshelfById(bookshelfId);
         if (!bookCategory.equals(bookshelf.getCategory())) {
             throw new InvalidCategoryException(
@@ -65,7 +74,7 @@ public class BookshelfService {
     }
 
     @Transactional
-    public boolean removeBookFromBookshelf(Long bookshelfId, String title) {
+    public boolean removeBookFromBookshelf(Long bookshelfId, String title) throws BookshelfNotFoundException {
         Bookshelf bookshelf = this.findBookshelfById(bookshelfId);
         if (bookshelf != null) {
             boolean removed = bookshelf.getBooks().removeIf(book -> book.getTitle().equals(title));
@@ -77,7 +86,7 @@ public class BookshelfService {
         return false;
     }
 
-    public List<Book> sortBooksInBookshelf(Long bookshelfId) {
+    public List<Book> sortBooksInBookshelf(Long bookshelfId) throws BookshelfNotFoundException {
         Bookshelf bookshelf = this.findBookshelfById(bookshelfId);
         if (bookshelf != null) {
             List<Book> books = bookshelf.getBooks();
@@ -87,8 +96,9 @@ public class BookshelfService {
         return null;
     }
 
-    public int countBooksInBookshelf(Long bookshelfId) {
+    public int countBooksInBookshelf(Long bookshelfId) throws BookshelfNotFoundException {
         Bookshelf bookshelf = this.findBookshelfById(bookshelfId);
-        return bookshelf != null ? bookshelf.getBooks().size() : 0;
+        if(bookshelf == null){throw new BookshelfNotFoundException("Bookshelf not found.");}
+        return bookshelf.getBooks().size();
     }
 }
