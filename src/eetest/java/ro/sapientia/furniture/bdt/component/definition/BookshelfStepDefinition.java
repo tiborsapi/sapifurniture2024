@@ -28,7 +28,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.Bookshelf;
+import ro.sapientia.furniture.util.Category;
 
 @CucumberContextConfiguration
 @SpringBootTest
@@ -40,7 +41,7 @@ import ro.sapientia.furniture.model.FurnitureBody;
 @AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:cotest.properties")
 @ContextConfiguration
-public class FurnitureStepDefinition {
+public class BookshelfStepDefinition {
 
 	@Autowired
 	private MockMvc mvc;
@@ -48,35 +49,33 @@ public class FurnitureStepDefinition {
 	@Autowired
 	private TestEntityManager entityManager;
 
-	@Given("^that we have the following furniture bodies:$")
-	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
-		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
-			FurnitureBody body = new FurnitureBody();
-			body.setHeigth(Integer.parseInt(data.get("heigth")));
-			body.setWidth(Integer.parseInt(data.get("width")));
-			body.setDepth(Integer.parseInt(data.get("depth")));
-			entityManager.persist(body);
+	@Given("^that the following bookshelves exist:$")
+	public void that_the_following_bookshelves_exist(final DataTable bookshelves) throws Throwable {
+		for (final Map<String, String> data : bookshelves.asMaps(String.class, String.class)) {
+			Bookshelf bookshelf = new Bookshelf();
+			bookshelf.setCapacity(Integer.parseInt(data.get("capacity")));
+			bookshelf.setCategory(Category.valueOf(data.get("category")));
+			entityManager.persist(bookshelf);
 		}
 		entityManager.flush();
-
 	}
 
-	@When("^I invoke the furniture all endpoint$")
-	public void I_invoke_the_furniture_all_endpoint() throws Throwable {
+	@When("^I invoke the bookshelf all endpoint$")
+	public void I_invoke_the_bookshelf_all_endpoint() throws Throwable {
 	}
 
-	@Then("^I should get the heigth \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
-	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
-		mvc.perform(get("/furniture/all")
-			      .contentType(MediaType.APPLICATION_JSON))
-			      .andExpect(status().isOk())
-			      .andExpect(content()
-			      .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			      .andExpect(jsonPath("$["+position+"].heigth", is(Integer.parseInt(heigth))));
+	@Then("^I should get the capacity \"([^\"]*)\" and category \"([^\"]*)\" for the position \"([^\"]*)\"$")
+	public void I_should_get_the_capacity_and_category_for_the_position(final String capacity, final String category, final String position) throws Throwable {
+		mvc.perform(get("/bookshelf/all")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content()
+						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$["+position+"].capacity", is(Integer.parseInt(capacity))))
+				.andExpect(jsonPath("$["+position+"].category", is(category)));
 	}
 
 	@After
 	public void close() {
 	}
-
 }

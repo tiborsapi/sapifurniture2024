@@ -16,6 +16,6 @@ import io.cucumber.junit.CucumberOptions;
 					    },
 					    publish = false,
 					    dryRun = false) 
-public class FurnitureBDDComponentTest {
+public class BookshelfBDDComponentTest {
 
 }

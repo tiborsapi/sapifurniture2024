@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
 		  features = { "src/eetest/resources/ro/sapientia/furniture/bdt/ee" },
 		  glue = {"ro.sapientia.furniture.bdt.ee.definition" },
 		  publish = false,
-		  dryRun = true)
-public class FurnitureBDDEETest {
+		  dryRun = false)
+public class BookshelfBDDEETest {
 
 }
