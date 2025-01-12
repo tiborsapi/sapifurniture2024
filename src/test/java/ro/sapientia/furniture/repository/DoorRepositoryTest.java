@@ -12,7 +12,6 @@ import org.springframework.test.context.TestPropertySource;
 import ro.sapientia.furniture.model.Door;
 
 @DataJpaTest
-@ActiveProfiles("door")
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = "classpath:test.properties")
 public class DoorRepositoryTest {
