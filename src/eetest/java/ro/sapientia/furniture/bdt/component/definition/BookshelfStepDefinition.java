@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,8 @@ public class BookshelfStepDefinition {
 	@Autowired
 	private TestEntityManager entityManager;
 
+	private List<Bookshelf> insertedBookshelves = new ArrayList<>();
+
 	@Given("^that the following bookshelves exist:$")
 	public void that_the_following_bookshelves_exist(final DataTable bookshelves) throws Throwable {
 		for (final Map<String, String> data : bookshelves.asMaps(String.class, String.class)) {
@@ -56,6 +60,7 @@ public class BookshelfStepDefinition {
 			bookshelf.setCapacity(Integer.parseInt(data.get("capacity")));
 			bookshelf.setCategory(Category.valueOf(data.get("category")));
 			entityManager.persist(bookshelf);
+			insertedBookshelves.add(bookshelf);
 		}
 		entityManager.flush();
 	}
@@ -77,5 +82,9 @@ public class BookshelfStepDefinition {
 
 	@After
 	public void close() {
+		for (Bookshelf bookshelf : insertedBookshelves) {
+			entityManager.remove(entityManager.merge(bookshelf));
+		}
+		entityManager.flush();
 	}
 }

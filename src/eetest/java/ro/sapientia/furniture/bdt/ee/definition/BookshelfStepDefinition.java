@@ -2,6 +2,7 @@ package ro.sapientia.furniture.bdt.ee.definition;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +45,13 @@ public class BookshelfStepDefinition {
     private WebClient webClient;
     private List<Map> jsonResponse;
 
+    public static int cnt = 0;
+
     public BookshelfStepDefinition() {
         this.webClient = WebClient.create("http://localhost:8080");
     }
+
+    private List<Bookshelf> insertedBookshelves = new ArrayList<>();
 
     @Given("^that the following bookshelves exist:$")
     public void that_the_following_bookshelves_exist(final DataTable bookshelves) throws Throwable {
@@ -55,9 +60,11 @@ public class BookshelfStepDefinition {
             bookshelf.setCapacity(Integer.parseInt(data.get("capacity")));
             bookshelf.setCategory(Category.valueOf(data.get("category")));
             entityManager.persist(bookshelf);
+            insertedBookshelves.add(bookshelf);
         }
         entityManager.flush();
     }
+
 
     @When("^I invoke the bookshelf all endpoint$")
     public void I_invoke_the_bookshelf_all_endpoint() throws Throwable {
@@ -82,7 +89,10 @@ public class BookshelfStepDefinition {
 
     @After
     public void close() {
-        // Perform cleanup operations if needed.
+        for (Bookshelf bookshelf : insertedBookshelves) {
+            entityManager.remove(entityManager.merge(bookshelf));
+        }
+        entityManager.flush();
     }
 }
 
