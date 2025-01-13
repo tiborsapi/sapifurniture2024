@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.sapientia.furniture.model.Cupboard;
 import ro.sapientia.furniture.service.CupboardService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,18 +32,18 @@ public class CupboardController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Cupboard> addCupboard(@RequestBody Cupboard cupboard){
+    public ResponseEntity<Cupboard> addCupboard(@Valid @RequestBody Cupboard cupboard){
         final Cupboard persistensCupboard = cupboardService.create(cupboard);
         return new ResponseEntity<>(persistensCupboard,HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<Cupboard> updateCupboard(@RequestBody Cupboard cupboard){
         final Cupboard persistensCupboard = cupboardService.update(cupboard);
         return new ResponseEntity<>(persistensCupboard,HttpStatus.OK);
     }
 
-    @GetMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCupboardById(@PathVariable("id") Long id){
         cupboardService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

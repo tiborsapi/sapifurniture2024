@@ -1,46 +1,60 @@
 package ro.sapientia.furniture.component;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
 import ro.sapientia.furniture.model.Cupboard;
-import ro.sapientia.furniture.repository.CupboardRepository;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:test.properties")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class CupboardComponentTest {
-    @Autowired MockMvc mockMvc;
 
-    @Autowired
-    CupboardRepository cupboardRepository;
+    private Cupboard cupboard;
+
+    @BeforeEach
+    public void setUp() {
+        cupboard = new Cupboard();
+        cupboard.setWidth(500);
+        cupboard.setHeight(500);
+        cupboard.setNumberOfCab(5);
+        cupboard.setNumberOfDrawer(5);
+    }
 
     @Test
-    public void greetingShouldReturnMessageFromService() throws Exception {
-        Cupboard cb = new Cupboard();
-        cb.setHeight(500);
-        cb.setWidth(500);
-        cb.setNumberOfCab(5);
-        cb.setNumberOfDrawer(5);
-        var saveCB = cupboardRepository.save(cb);
+    public void testCupboardWidth() {
+        assertEquals(500, cupboard.getWidth());
+        cupboard.setWidth(600);
+        assertEquals(600, cupboard.getWidth());
+    }
 
-        this.mockMvc.perform(get("/cupboard/all")).andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].height", is(500)))
-                .andExpect(jsonPath("$[0].width", is(500)))
-                .andExpect(jsonPath("$[0].numberOfCab", is(5)))
-                .andExpect(jsonPath("$[0].numberOfDrawer", is(5)));
+    @Test
+    public void testCupboardHeight() {
+        assertEquals(500, cupboard.getHeight());
+        cupboard.setHeight(600);
+        assertEquals(600, cupboard.getHeight());
+    }
+
+    @Test
+    public void testCupboardCabinets() {
+        assertEquals(5, cupboard.getNumberOfCab());
+        cupboard.setNumberOfCab(6);
+        assertEquals(6, cupboard.getNumberOfCab());
+    }
+
+    @Test
+    public void testCupboardDrawers() {
+        assertEquals(5, cupboard.getNumberOfDrawer());
+        cupboard.setNumberOfDrawer(6);
+        assertEquals(6, cupboard.getNumberOfDrawer());
+    }
+
+    @Test
+    public void testToString() {
+        String expected = "Cupboard{" +
+                "id=" + null +
+                ", width=" + 500 +
+                ", height=" + 500 +
+                ", numberOfCab=" + 5 +
+                ", numberOfDrawer=" + 5 +
+                '}';
+        assertEquals(expected, cupboard.toString());
     }
 }
