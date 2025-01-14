@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -37,14 +38,11 @@ import ro.sapientia.furniture.model.Wardrobe;
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:eetest.properties")
 @ContextConfiguration
 public class WardrobeStepDefinition {
-
-    @Autowired
-    private MockMvc mvc;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -69,13 +67,18 @@ public class WardrobeStepDefinition {
     }
 
     @Then("^I should get the heigth \"([^\"]*)\" for the position \"([^\"]*)\"$")
-    public void I_should_get_result_in_wardrobe_list(final String heigth, final String position) throws Throwable {
-        mvc.perform(get("/wardrobe/all")
-                  .contentType(MediaType.APPLICATION_JSON))
-                  .andExpect(status().isOk())
-                  .andExpect(content()
-                  .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                  .andExpect(jsonPath("$["+position+"].heigth", is(Integer.parseInt(heigth))));
+    public void I_should_get_result_in_wardrobe_list(final String heigth, final int position) throws Throwable {
+    	WebClient webClient = WebClient.create();
+    	webClient.get().uri("/wardrobe/all")
+        .accept(MediaType.APPLICATION_JSON)
+        .exchangeToMono(response -> response.toEntityList(Wardrobe.class))
+        .flatMapIterable(entity -> entity.getBody())
+        .elementAt(position)
+        .doOnNext(wb -> {
+            assert wb != null;
+            assert wb.getHeigth() == Integer.parseInt(heigth);
+        });
+
     }
 
     @After

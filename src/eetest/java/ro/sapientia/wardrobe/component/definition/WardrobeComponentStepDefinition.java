@@ -30,7 +30,7 @@ import ro.sapientia.furniture.model.Wardrobe;
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:eetest.properties")
 @CucumberContextConfiguration

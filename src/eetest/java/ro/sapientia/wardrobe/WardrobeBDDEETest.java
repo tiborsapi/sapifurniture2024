@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
           features = { "src/eetest/resources/ro/sapientia/wardrobe/ee" },
           glue = {"ro.sapientia.wardrobe.ee.definition" },
           publish = false,
-          dryRun = true)
+          dryRun = false)
 public class WardrobeBDDEETest {
 
 }
