@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Min;
 
 @Entity(name = "tv_stand")
 public class Tvstand implements Serializable {
@@ -21,15 +22,19 @@ public class Tvstand implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
+    @Min(value = 0, message = "Width must be positive")
     @Column(name = "width")
     private int width;
 
+    @Min(value = 0, message = "Height must be positive")
     @Column(name = "heigth")
     private int heigth;
 
+    @Min(value = 0, message = "Depth must be positive")
     @Column(name = "depth")
     private int depth;
 
+    @Min(value = 0, message = "Doors must be positive")
     @Column(name = "doors")
     private int doors;
 

@@ -5,6 +5,6 @@ import ro.sapientia.furniture.model.Tvstand;
 
 public interface TvStandRepository extends JpaRepository<Tvstand, Long> {
 
-	Tvstand findTvStandById(Long id);
+	Tvstand findTvstandById(Long id);
 
 }

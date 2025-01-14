@@ -14,13 +14,14 @@ public class TvStandService {
 	public TvStandService(final TvStandRepository tvStandRepository) {
 		this.tvStandRepository = tvStandRepository;
 	}
-	
+
 	public List<Tvstand> findAllTvStand() {
 		return this.tvStandRepository.findAll();
 	}
 
-	public Tvstand findTvStandById(final Long id) {
-		return this.tvStandRepository.findTvStandById(id);
+	public Tvstand findTvstandById(final Long id) {
+		return this.tvStandRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Tvstand not found with id: " + id));
 	}
 
 	public Tvstand create(Tvstand tvStand) {
@@ -32,7 +33,7 @@ public class TvStandService {
 	}
 
 	public void delete(Long id) {
+		Tvstand tvstand = findTvstandById(id);  // Először ellenőrizzük, hogy létezik-e
 		this.tvStandRepository.deleteById(id);
 	}
-
 }

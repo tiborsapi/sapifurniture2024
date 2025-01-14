@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.sapientia.furniture.model.Tvstand;
 import ro.sapientia.furniture.service.TvStandService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,12 +27,12 @@ public class TvStandController {
 	
 	@GetMapping("/find/{id}")
 	public ResponseEntity<Tvstand> getTvStandById(@PathVariable("id") Long id){
-		final Tvstand tvStand = tvStandService.findTvStandById(id);
+		final Tvstand tvStand = tvStandService.findTvstandById(id);
 		return new ResponseEntity<>(tvStand,HttpStatus.OK);
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<Tvstand> addTvStand(@RequestBody Tvstand tvStand){
+	public ResponseEntity<Tvstand> addTvStand(@Valid @RequestBody Tvstand tvStand){
 		final Tvstand persistenTvStand = tvStandService.create(tvStand);
 		return new ResponseEntity<>(persistenTvStand,HttpStatus.CREATED);
 	}

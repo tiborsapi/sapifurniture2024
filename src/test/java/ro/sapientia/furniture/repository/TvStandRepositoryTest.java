@@ -34,7 +34,7 @@ public class TvStandRepositoryTest {
 		var result = repository.findAll();
 		assertEquals(1, result.size());
 		
-		var foundObj = repository.findTvStandById(savedTS.getId());
+		var foundObj = repository.findTvstandById(savedTS.getId());
 		
 		assertEquals(savedTS, foundObj);
 	}

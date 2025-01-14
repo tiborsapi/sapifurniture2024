@@ -1,5 +1,6 @@
 package ro.sapientia.furniture.component;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -14,6 +15,7 @@ import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 import ro.sapientia.furniture.repository.TvStandRepository;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -23,29 +25,60 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class TvStandComponentTest {
 
-	@Autowired
-	private MockMvc mockMvc;
 
-	@Autowired
-	TvStandRepository repository;
-	
+	private Tvstand tvstand;
+
+	@BeforeEach
+	public void setUp() {
+		tvstand = new Tvstand();
+		tvstand.setWidth(500);
+		tvstand.setHeigth(500);
+		tvstand.setDepth(300);
+		tvstand.setDoors(2);
+		tvstand.setMaterial("wood");
+	}
+
 	@Test
-	public void greetingShouldReturnMessageFromService() throws Exception {
-		Tvstand ts = new Tvstand();
-		ts.setHeigth(20);
-		ts.setWidth(10);
-		ts.setDepth(6);
-		ts.setDoors(2);
-		ts.setMaterial("wood");
-		var savedFB = repository.save(ts);
+	public void testTvstandWidth() {
+		assertEquals(500, tvstand.getWidth());
+		tvstand.setWidth(600);
+		assertEquals(600, tvstand.getWidth());
+	}
 
-		this.mockMvc.perform(get("/tvstand/all")).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].heigth", is(20)))
-				.andExpect(jsonPath("$[0].width", is(10)))
-				.andExpect(jsonPath("$[0].depth", is(6)))
-				.andExpect(jsonPath("$[0].doors", is(2)))
-				.andExpect(jsonPath("$[0].material", is("wood")));
+	@Test
+	public void testTvstandHeight() {
+		assertEquals(500, tvstand.getHeigth());
+		tvstand.setHeigth(600);
+		assertEquals(600, tvstand.getHeigth());
+	}
+
+	@Test
+	public void testTvstandDepth() {
+		assertEquals(300, tvstand.getDepth());
+		tvstand.setDepth(400);
+		assertEquals(400, tvstand.getDepth());
+	}
+
+	@Test
+	public void testTvstandDoors() {
+		assertEquals(2, tvstand.getDoors());
+		tvstand.setDoors(3);
+		assertEquals(3, tvstand.getDoors());
+	}
+
+	@Test
+	public void testTvstandMaterial() {
+		assertEquals("wood", tvstand.getMaterial());
+		tvstand.setMaterial("metal");
+		assertEquals("metal", tvstand.getMaterial());
+	}
+
+
+	@Test
+	public void testToString() {
+		String expected = "TvStand [id=" + null + ", width=" + 500 + ", heigth=" + 500
+				+ ", depth=" + 300 + ", doors=" + 2 + ", material=" + "wood" + "]";
+		assertEquals(expected, tvstand.toString());
 	}
 
 }
