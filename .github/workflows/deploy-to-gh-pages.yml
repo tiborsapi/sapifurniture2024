@@ -26,7 +26,7 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        folder: gh-pages
-        target_branch: gh-pages
+        publish_dir: gh-pages  # Folder to publish from
+        publish_branch: gh-pages  # Branch to deploy to (GitHub Pages)
         commit_message: 'Deploy JMeter test results'
         github_token: ${{ secrets.GITHUB_TOKEN }}
