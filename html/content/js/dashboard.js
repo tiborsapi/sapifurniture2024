@@ -133,7 +133,7 @@ $(document).ready(function() {
         widgets: ['zebra']
     });
 
-    var data = {"OkPercent": 0.0, "KoPercent": 100.0};
+    var data = {"OkPercent": 80.0, "KoPercent": 20.0};
     var dataset = [
         {
             "label" : "FAIL",
@@ -173,7 +173,7 @@ $(document).ready(function() {
     });
 
     // Creates APDEX table
-    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.0, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Toleration threshold)", "F (Frustration threshold)", "Label"], "items": [{"data": [0.0, 500, 1500, "HTTP Request - GET /hammock/all"], "isController": false}, {"data": [0.0, 500, 1500, "HTTP Request -DELETE /hammock/delete/3"], "isController": false}, {"data": [0.0, 500, 1500, "HTTP Request - POST /hammock/update"], "isController": false}, {"data": [0.0, 500, 1500, "HTTP Request - GET /hammock/find/1"], "isController": false}, {"data": [0.0, 500, 1500, "HTTP Request - POST /hammock/add"], "isController": false}]}, function(index, item){
+    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.49452, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Toleration threshold)", "F (Frustration threshold)", "Label"], "items": [{"data": [0.5395, 500, 1500, "HTTP Request - GET /hammock/all"], "isController": false}, {"data": [0.0, 500, 1500, "HTTP Request -DELETE /hammock/delete/3"], "isController": false}, {"data": [0.6588, 500, 1500, "HTTP Request - POST /hammock/update"], "isController": false}, {"data": [0.6281, 500, 1500, "HTTP Request - GET /hammock/find/1"], "isController": false}, {"data": [0.6462, 500, 1500, "HTTP Request - POST /hammock/add"], "isController": false}]}, function(index, item){
         switch(index){
             case 0:
                 item = item.toFixed(3);
@@ -187,7 +187,7 @@ $(document).ready(function() {
     }, [[0, 0]], 3);
 
     // Create statistics table
-    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 25000, 25000, 100.0, 28.537519999999798, 1, 223, 23.0, 64.90000000000146, 84.0, 130.0, 1625.0650026001042, 1479.5789634319747, 321.52164992849714], "isController": false}, "titles": ["Label", "#Samples", "FAIL", "Error %", "Average", "Min", "Max", "Median", "90th pct", "95th pct", "99th pct", "Transactions/s", "Received", "Sent"], "items": [{"data": ["HTTP Request - GET /hammock/all", 5000, 5000, 100.0, 31.587200000000035, 1, 211, 23.0, 66.0, 87.0, 132.0, 325.24556039810057, 328.8021078961491, 40.3380724321863], "isController": false}, {"data": ["HTTP Request -DELETE /hammock/delete/3", 5000, 5000, 100.0, 31.992399999999847, 2, 208, 23.0, 68.90000000000055, 90.0, 134.0, 327.76138970829237, 326.54995288430024, 69.45724762372993], "isController": false}, {"data": ["HTTP Request - POST /hammock/update", 5000, 5000, 100.0, 23.54640000000001, 1, 154, 18.0, 50.0, 62.0, 102.0, 327.67547021429976, 250.23654073006094, 88.95877023396028], "isController": false}, {"data": ["HTTP Request - GET /hammock/find/1", 5000, 5000, 100.0, 31.51180000000002, 2, 223, 23.0, 67.0, 87.0, 139.0, 327.2037170342255, 333.98194653491265, 41.539534389110656], "isController": false}, {"data": ["HTTP Request - POST /hammock/add", 5000, 5000, 100.0, 24.049799999999923, 1, 165, 19.0, 50.0, 61.0, 95.0, 327.2679670113889, 248.96654912292183, 83.41497987302003], "isController": false}]}, function(index, item){
+    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 25000, 5000, 20.0, 517.2672400000002, 1, 5221, 555.0, 1011.0, 1251.0, 1835.9900000000016, 181.64512355501304, 22315.673311926457, 35.938771515864886], "isController": false}, "titles": ["Label", "#Samples", "FAIL", "Error %", "Average", "Min", "Max", "Median", "90th pct", "95th pct", "99th pct", "Transactions/s", "Received", "Sent"], "items": [{"data": ["HTTP Request - GET /hammock/all", 5000, 0, 0.0, 780.3233999999997, 73, 5221, 733.0, 1253.800000000001, 1464.9499999999998, 2082.959999999999, 36.3327205214472, 22252.64703028832, 4.506108892796675], "isController": false}, {"data": ["HTTP Request -DELETE /hammock/delete/3", 5000, 5000, 100.0, 4.008600000000001, 1, 58, 3.0, 6.0, 8.0, 18.0, 36.82373215890177, 20.85519262954589, 7.803466678204769], "isController": false}, {"data": ["HTTP Request - POST /hammock/update", 5000, 0, 0.0, 572.7171999999997, 3, 3605, 575.0, 1065.9000000000005, 1281.0, 1910.9899999999998, 36.796903172628994, 14.984259549716295, 9.989784259756698], "isController": false}, {"data": ["HTTP Request - GET /hammock/find/1", 5000, 0, 0.0, 629.3081999999984, 2, 4344, 589.0, 1082.0, 1315.0, 1883.8799999999974, 36.64292205317621, 15.136260713474336, 4.651933463782136], "isController": false}, {"data": ["HTTP Request - POST /hammock/add", 5000, 0, 0.0, 599.9787999999991, 5, 3577, 597.0, 1118.9000000000005, 1354.8999999999996, 1933.9799999999996, 36.69374665169562, 15.064237850241812, 9.352605347746637], "isController": false}]}, function(index, item){
         switch(index){
             // Errors pct
             case 3:
@@ -217,7 +217,7 @@ $(document).ready(function() {
     }, [[0, 0]], 0, summaryTableHeader);
 
     // Create error table
-    createTable($("#errorsTable"), {"supportsControllersDiscrimination": false, "titles": ["Type of error", "Number of errors", "% in errors", "% in all samples"], "items": [{"data": ["403/Forbidden", 25000, 100.0, 100.0], "isController": false}]}, function(index, item){
+    createTable($("#errorsTable"), {"supportsControllersDiscrimination": false, "titles": ["Type of error", "Number of errors", "% in errors", "% in all samples"], "items": [{"data": ["404", 5000, 100.0, 20.0], "isController": false}]}, function(index, item){
         switch(index){
             case 2:
             case 3:
@@ -228,7 +228,7 @@ $(document).ready(function() {
     }, [[1, 1]]);
 
         // Create top5 errors by sampler
-    createTable($("#top5ErrorsBySamplerTable"), {"supportsControllersDiscrimination": false, "overall": {"data": ["Total", 25000, 25000, "403/Forbidden", 25000, "", "", "", "", "", "", "", ""], "isController": false}, "titles": ["Sample", "#Samples", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors"], "items": [{"data": ["HTTP Request - GET /hammock/all", 5000, 5000, "403/Forbidden", 5000, "", "", "", "", "", "", "", ""], "isController": false}, {"data": ["HTTP Request -DELETE /hammock/delete/3", 5000, 5000, "403/Forbidden", 5000, "", "", "", "", "", "", "", ""], "isController": false}, {"data": ["HTTP Request - POST /hammock/update", 5000, 5000, "403/Forbidden", 5000, "", "", "", "", "", "", "", ""], "isController": false}, {"data": ["HTTP Request - GET /hammock/find/1", 5000, 5000, "403/Forbidden", 5000, "", "", "", "", "", "", "", ""], "isController": false}, {"data": ["HTTP Request - POST /hammock/add", 5000, 5000, "403/Forbidden", 5000, "", "", "", "", "", "", "", ""], "isController": false}]}, function(index, item){
+    createTable($("#top5ErrorsBySamplerTable"), {"supportsControllersDiscrimination": false, "overall": {"data": ["Total", 25000, 5000, "404", 5000, "", "", "", "", "", "", "", ""], "isController": false}, "titles": ["Sample", "#Samples", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors"], "items": [{"data": [], "isController": false}, {"data": ["HTTP Request -DELETE /hammock/delete/3", 5000, 5000, "404", 5000, "", "", "", "", "", "", "", ""], "isController": false}, {"data": [], "isController": false}, {"data": [], "isController": false}, {"data": [], "isController": false}]}, function(index, item){
         return item;
     }, [[0, 0]], 0);
 
