@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = {"src/eetest/resources/ro/sapientia/furniture/bdt/component/hammock" },
         glue = {"ro.sapientia.furniture.bdt.component.definition.hammock" },
-    publish = false,
-    dryRun = true
+        publish = false,
+        dryRun = true
 )
 public class HammockBDDComponentTest {
 }

@@ -39,7 +39,7 @@ import ro.sapientia.furniture.model.HammockBody;
 @AutoConfigureDataJpa
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @AutoConfigureTestEntityManager
-@TestPropertySource(locations = "classpath:contest.properties")
+@TestPropertySource(locations = "classpath:cotest.properties")
 @ContextConfiguration
 public class HammockStepDefinition {
 
@@ -51,12 +51,12 @@ public class HammockStepDefinition {
 
     @Given("^that we have the following hammocks$")
     public void that_we_have_the_following_hammocks(final DataTable hammocks) throws Throwable {
-        for (Map<String, String> hammock : hammocks.asMaps(String.class, String.class)) {
+        for (final Map<String, String> hammock : hammocks.asMaps(String.class, String.class)) {
             HammockBody hammockBody = new HammockBody();
-            hammockBody.setLength(Integer.parseInt(hammock.get("length")));
-            hammockBody.setWidth(Integer.parseInt(hammock.get("width")));
+            hammockBody.setLength(Double.parseDouble(hammock.get("length")));
+            hammockBody.setWidth(Double.parseDouble(hammock.get("width")));
             hammockBody.setMaterial(hammock.get("material"));
-            hammockBody.setWeight(Integer.parseInt(hammock.get("weight")));
+            hammockBody.setWeight(Double.parseDouble(hammock.get("weight")));
             entityManager.persist(hammockBody);
         }
         entityManager.flush();
@@ -76,7 +76,7 @@ public class HammockStepDefinition {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[" + position + "].length", is(Integer.parseInt(length))));
+                .andExpect(jsonPath("$[" + position + "].length", is(Double.parseDouble(length))));
     }
 
     @After
