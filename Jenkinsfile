@@ -2,6 +2,7 @@ pipeline {
     // global env variables
     agent any
     environment {
+        BRANCH_NAME = 'Hammock'
         EMAIL_RECIPIENTS = 'tibor.kiss@ms.sapientia.ro'
         POSTGRES_CONTAINER = 'postgres-container'
         POSTGRES_USER = 'postgres'
@@ -9,8 +10,22 @@ pipeline {
         POSTGRES_DB = 'furniture'
         POSTGRES_PORT = '5432'
         SPRING_DATASOURCE_URL = "jdbc:postgresql://localhost:${POSTGRES_PORT}/furniture"
+        REPOSITORY_URL = "https://github.com/Actulus/sapifurniture2024.git"
+        REPOSITORY_NAME = "sapifurniture2024"
     }
     stages {
+        stage('Checkout Code') {
+                    steps {
+                        script {
+                            // Manually clone the repository from the remote Git repository
+                            sh """
+                            git clone --branch ${env.BRANCH_NAME} ${env.REPOSITORY_URL}
+                            cd ${env.REPOSITORY_NAME}
+                            """
+                        }
+                    }
+                }
+
         stage('Start PostgreSQL Container') {
             steps {
                 script {
