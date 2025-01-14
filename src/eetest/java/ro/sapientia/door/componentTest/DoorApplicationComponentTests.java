@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.sapientia.furniture.model.Door;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest()
 @AutoConfigureMockMvc
 @Transactional
 @AutoConfigureCache

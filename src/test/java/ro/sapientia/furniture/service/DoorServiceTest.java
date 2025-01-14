@@ -34,7 +34,7 @@ public class DoorServiceTest {
 	public void testFindAllDoors_emptyList() {
 		//lekerem az osszeset s megnezem hogy amit visszaad az ures lista-e 
 		//when-el tudom megadni milyen muvelet eseten mi lesz az elvart eredenyt varok vissza
-		when(repositoryMock.findAll()).thenReturn(Collections.emptyList());
+		when(repositoryMock.findAll()).thenReturn(Collections.emptyList()); //mokoljuk a repositoty-t
 		//letrehozom az ures listat
 		final List<Door> furnitureBodies =  service.findAllDoors();
 		//megnezem hogy a merete az tenyleg 0
