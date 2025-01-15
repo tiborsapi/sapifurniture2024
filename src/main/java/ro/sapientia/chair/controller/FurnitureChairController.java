@@ -25,13 +25,13 @@ public class FurnitureChairController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<List<FurnitureChair>> getAllFurnitureBodies() {
-		final List<FurnitureChair> furnitureBodies = FurnitureChairService.findAllFurnitureChairs();
-		return new ResponseEntity<>(furnitureBodies, HttpStatus.OK);
+	public ResponseEntity<List<FurnitureChair>> getAllFurnitureChairs() {
+		final List<FurnitureChair> FurnitureChairs = FurnitureChairService.findAllFurnitureChairs();
+		return new ResponseEntity<>(FurnitureChairs, HttpStatus.OK);
 	}
 
 	@GetMapping("/find/{id}")
-	public ResponseEntity<FurnitureChair> getFurnitureBodyById(@PathVariable("id") Long id) {
+	public ResponseEntity<FurnitureChair> getFurnitureChairById(@PathVariable("id") Long id) {
 		final FurnitureChair FurnitureChair = FurnitureChairService.findFurnitureChairById(id);
 		return new ResponseEntity<>(FurnitureChair, HttpStatus.OK);
 	}
@@ -49,7 +49,7 @@ public class FurnitureChairController {
 	}
 
 	@GetMapping("/delete/{id}")
-	public ResponseEntity<?> deleteFurnitureBodyById(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteFurnitureChairById(@PathVariable("id") Long id) {
 		FurnitureChairService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

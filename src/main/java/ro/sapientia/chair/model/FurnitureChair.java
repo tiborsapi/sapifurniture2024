@@ -6,8 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity(name = "furniture_chair")
+@Table(name = "furniture_chair")
 public class FurnitureChair {
 	private static final long serialVersionUID = 1L;
 
@@ -20,7 +22,7 @@ public class FurnitureChair {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "numOfLegs")
+	@Column(name = "numoflegs")
 	private int numOfLegs;
 
 	@Column(name = "material")
