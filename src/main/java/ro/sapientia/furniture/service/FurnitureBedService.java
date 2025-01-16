@@ -16,23 +16,23 @@ public class FurnitureBedService {
         this.furnitureBedRepository = furnitureBedRepository;
     }
 
-    public List<FurnitureBed> findAllFurnitureBeds(){
+    public List<FurnitureBed> findAllBeds(){
         return furnitureBedRepository.findAll();
     }
 
-    public FurnitureBed findFurnitureBedById(Long id){
-        return furnitureBedRepository.findFurnitureBedById(id);
+    public FurnitureBed findBedById(Long id){
+        return furnitureBedRepository.findBedById(id);
     }
 
-    public List<FurnitureBed> findAllFurnitureBedsByType(BedType type){
-        return furnitureBedRepository.findFurnitureBedsByType(type);
+    public List<FurnitureBed> findAllBedsByType(BedType type){
+        return furnitureBedRepository.findBedsByType(type);
     }
 
-    public List<FurnitureBed> findAllFurnitureBedsByWood(WoodType wood){
-        return furnitureBedRepository.findFurnitureBedsByWood(wood);
+    public List<FurnitureBed> findAllBedsByWood(WoodType wood){
+        return furnitureBedRepository.findBedsByWood(wood);
     }
 
-    public FurnitureBed saveFurnitureBed(FurnitureBed furnitureBed){
+    public FurnitureBed saveBed(FurnitureBed furnitureBed){
         return this.furnitureBedRepository.save(furnitureBed);
     }
 }

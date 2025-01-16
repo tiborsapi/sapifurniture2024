@@ -20,15 +20,15 @@ public class FurnitureBedController {
         this.furnitureBedService = furnitureBedService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<FurnitureBed>> findAllBeds(){
-        var result = furnitureBedService.findAllFurnitureBeds();
+        var result = furnitureBedService.findAllBeds();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FurnitureBed> findBedById(final @PathVariable("id") Long id){
-        var result = furnitureBedService.findFurnitureBedById(id);
+        var result = furnitureBedService.findBedById(id);
 
         if(result == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -38,7 +38,7 @@ public class FurnitureBedController {
 
     }
 
-    @GetMapping("/material/{wood}")
+    @GetMapping("/wood/{wood}")
     public ResponseEntity<List<FurnitureBed>> findBedsByWood(final @PathVariable("wood") String wood){
 
         WoodType woodType;
@@ -49,7 +49,7 @@ public class FurnitureBedController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        var result = furnitureBedService.findAllFurnitureBedsByWood(woodType);
+        var result = furnitureBedService.findAllBedsByWood(woodType);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -65,14 +65,14 @@ public class FurnitureBedController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        var result = furnitureBedService.findAllFurnitureBedsByType(bedType);
+        var result = furnitureBedService.findAllBedsByType(bedType);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
     @PostMapping
     public  ResponseEntity<FurnitureBed> createBed(@RequestBody final FurnitureBed furnitureBed){
-        var result = this.furnitureBedService.saveFurnitureBed(furnitureBed);
+        var result = this.furnitureBedService.saveBed(furnitureBed);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 

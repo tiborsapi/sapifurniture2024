@@ -8,9 +8,9 @@ import ro.sapientia.furniture.model.WoodType;
 import java.util.ArrayList;
 
 public interface FurnitureBedRepository extends JpaRepository<FurnitureBed, Long> {
-    FurnitureBed findFurnitureBedById(Long id);
+    FurnitureBed findBedById(Long id);
 
-    ArrayList<FurnitureBed> findFurnitureBedsByType(BedType type);
+    ArrayList<FurnitureBed> findBedsByType(BedType type);
 
-    ArrayList<FurnitureBed> findFurnitureBedsByWood(WoodType type);
+    ArrayList<FurnitureBed> findBedsByWood(WoodType type);
 }
