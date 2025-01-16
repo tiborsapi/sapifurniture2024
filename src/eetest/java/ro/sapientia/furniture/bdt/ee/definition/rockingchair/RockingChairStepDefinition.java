@@ -1,4 +1,4 @@
-package ro.sapientia.furniture.bdt.ee.definition;
+package ro.sapientia.furniture.bdt.ee.definition.rockingchair;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import ro.sapientia.furniture.model.FurnitureBody;
 import ro.sapientia.furniture.model.RockingChairModel;
 
 import javax.transaction.Transactional;
@@ -44,8 +46,6 @@ public class RockingChairStepDefinition {
     @Autowired
     private TestEntityManager entityManager;
 
-    private ResponseEntity<List<RockingChairModel>> response;
-
     @Given("^that we have the following rocking chairs:$")
     public void that_we_have_the_following_rocking_chairs(final DataTable rockingChairs) throws Throwable {
         for (final Map<String, String> data : rockingChairs.asMaps(String.class, String.class)) {
@@ -62,22 +62,22 @@ public class RockingChairStepDefinition {
     }
 
 
-//    @When("^I invoke the rocking chairs all endpoint$")
-//    public void I_invoke_the_rocking_chairs_all_endpoint() throws Throwable {
-//        WebClient webClient = WebClient.create();
-//        Mono<ResponseEntity<List<RockingChairModel>>> responseMono =
-//                webClient.get()
-//                        .uri("/rocking-chairs") // Replace with your endpoint URL
-//                        .accept(MediaType.APPLICATION_JSON)
-//                        .exchangeToMono(response -> response.toEntity(List.of(RockingChairModel.class)));
-//
-//        this.response = responseMono.block();
-//    }
+    @When("^I invoke the rocking chairs all endpoint$")
+    public void I_invoke_the_rocking_chairs_all_endpoint() throws Throwable {
+    }
 
     @Then("^I should get the material \"([^\"]*)\" for the position \"(\\d+)\"$")
-    public void I_should_get_material_for_the_position(final String material, final int position) throws Throwable {
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(Objects.requireNonNull(response.getBody()).get(position).getMaterial()).isEqualTo(material);
+    public void I_should_get_material_for_the_position(final String material, final String position) throws Throwable {
+        WebClient webClient = WebClient.create();
+        webClient.get().uri("/rocking-chairs")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchangeToMono(response -> response.toEntityList(RockingChairModel.class))
+                .flatMapIterable(HttpEntity::getBody)
+                .elementAt(Integer.parseInt(position))
+                .doOnNext(fb -> {
+                    assert fb != null;
+                    assert Objects.equals(fb.getMaterial(), material);
+                });
     }
 
     @After
