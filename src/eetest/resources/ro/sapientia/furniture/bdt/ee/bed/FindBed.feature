@@ -7,7 +7,7 @@ Feature: Check if the bed endpoint works
       | height | width | length | wood      | type      |
       | 50     | 70    | 200    | OAK       | TWIN      |
     When I invoke the bed all endpoint
-    Then I should get the wood "OAK" for the bed in last position
+    Then I should get the wood "OAK" for the bed in position "0"
 
   Scenario: Multiple beds
     Given that we have the following bed bodies:
@@ -15,4 +15,4 @@ Feature: Check if the bed endpoint works
       | 60     | 90    | 210    | WALNUT    | TWIN      |
       | 50     | 80    | 200    | MAPLE     | FULL      |
     When I invoke the bed all endpoint
-    Then I should get the wood "MAPLE" for the bed in last position
+    Then I should get the wood "MAPLE" for the bed in position "1"

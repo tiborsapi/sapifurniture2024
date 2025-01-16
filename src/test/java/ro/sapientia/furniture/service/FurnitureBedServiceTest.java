@@ -43,7 +43,7 @@ public class FurnitureBedServiceTest {
 
         when(repositoryMock.findAll()).thenReturn(List.of(bed1, bed2));
 
-        var result = this.repositoryMock.findAll();
+        var result = this.service.findAllBeds();
         assertEquals(2, result.size());
     }
 
@@ -61,7 +61,7 @@ public class FurnitureBedServiceTest {
 
         when(repositoryMock.findBedsByWood(WoodType.OAK)).thenReturn(mockBedList);
 
-        var result = this.repositoryMock.findBedsByWood(WoodType.OAK);
+        var result = this.service.findAllBedsByWood(WoodType.OAK);
         assertEquals(1, result.size());
     }
 
@@ -79,7 +79,7 @@ public class FurnitureBedServiceTest {
 
         when(repositoryMock.findBedsByType(BedType.FULL)).thenReturn(mockBedList);
 
-        var result = this.repositoryMock.findBedsByType(BedType.FULL);
+        var result = this.service.findAllBedsByType(BedType.FULL);
         assertEquals(1, result.size());
     }
 }

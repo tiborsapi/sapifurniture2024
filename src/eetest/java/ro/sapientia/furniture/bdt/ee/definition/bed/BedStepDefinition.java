@@ -19,11 +19,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 import ro.sapientia.furniture.model.FurnitureBed;
 import ro.sapientia.furniture.model.FurnitureBody;
 import ro.sapientia.furniture.util.EnumConverter;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,9 +42,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:cotest.properties")
 @ContextConfiguration
 public class BedStepDefinition {
-
-    @Autowired
-    private MockMvc mvc;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -66,14 +65,18 @@ public class BedStepDefinition {
     public void I_invoke_the_bed_all_endpoint() throws Throwable {
     }
 
-    @Then("I should get the wood {string} for the bed in last position")
-    public void i_should_get_the_wood_for_the_bed_in_last_position(final String wood) throws Throwable {
-        mvc.perform(get("/beds/all")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content()
-                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[-1].wood", is(wood)));
+    @Then("^I should get the wood \"([^\"]*)\" for the bed in position \\\"([^\\\"]*)\\\"$")
+    public void i_should_get_the_wood_for_the_bed_in_position(final String wood, final String index) throws Throwable {
+        WebClient webClient = WebClient.create();
+        webClient.get().uri("/beds/all") // The endpoint being tested
+                .accept(MediaType.APPLICATION_JSON)
+                .exchangeToMono(response -> response.toEntityList(FurnitureBed.class))
+                .flatMapIterable(entity -> entity.getBody()) // Works with each body item
+                .elementAt(Integer.parseInt(index)) // Access the element at 'position'
+                .doOnNext(bed -> {
+                    assert bed != null;
+                    assert Objects.equals(bed.getWood().toString(), wood);
+                });
     }
 
     @After
