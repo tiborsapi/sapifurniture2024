@@ -45,6 +45,8 @@ import ro.sapientia.furniture.model.FurnitureBody;
 public class FurnitureChairStepDefinition {
 	@Autowired
 	private TestEntityManager entityManager;
+	@Autowired
+	private MockMvc mockMvc;
 
 	@Given("^that we have the following furniture chairs:$")
 	public void that_we_have_the_following_furniture_chairs(final DataTable furnitureChairs) throws Throwable {
@@ -66,16 +68,20 @@ public class FurnitureChairStepDefinition {
 	@Then("^I should get the num_of_legs \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
 	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
 		WebClient webClient = WebClient.create();
-		webClient.get().uri("/furniture_chair/all") // The endpoint being tested
-				.accept(MediaType.APPLICATION_JSON)
-				.exchangeToMono(response -> response.toEntityList(FurnitureChair.class)) // Converts the response to a
-																							// list
-				.flatMapIterable(entity -> entity.getBody()) // Works with each body item
-				.elementAt(0) // Access the element at 'position'
-				.doOnNext(fb -> {
-					assert fb != null;
-					assert fb.getNumOfLegs() == 3;
-				});
+
+		/*
+		 * webClient.get().uri("/furniture_chair/all") // The endpoint being tested
+		 * .accept(MediaType.APPLICATION_JSON) .exchangeToMono(response ->
+		 * response.toEntityList(FurnitureChair.class)) // Converts the response to a //
+		 * list .flatMapIterable(entity -> entity.getBody()) // Works with each body
+		 * item .elementAt(0) // Access the element at 'position' .doOnNext(fb -> {
+		 * assert fb != null; assert fb.getNumOfLegs() == 3; });
+		 */
+
+		mockMvc.perform(get("/furniture_chair/all")).andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[" + position + "].numOfLegs").value(Integer.parseInt(legs)));
+
 	}
 
 	@After

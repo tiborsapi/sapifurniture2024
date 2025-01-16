@@ -8,14 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+@SequenceGenerator(name = "pk_furniture_chair", sequenceName = "pk_furniture_chair", schema = "furniture")
 @Entity(name = "furniture_chair")
-@Table(name = "furniture_chair")
+@Table(name = "furniture_chair", schema = "furniture")
 public class FurnitureChair {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_furniture_chair")
-	@SequenceGenerator(name = "pk_furniture_chair", sequenceName = "pk_furniture_chair")
+	@SequenceGenerator(name = "pk_furniture_chair", sequenceName = "pk_furniture_chair", schema = "furniture")
 	@Column(name = "id", nullable = false, updatable = false)
 	private Long id;
 
