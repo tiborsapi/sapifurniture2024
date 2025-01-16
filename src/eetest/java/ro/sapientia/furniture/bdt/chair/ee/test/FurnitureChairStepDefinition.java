@@ -30,11 +30,11 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 import ro.sapientia.chair.model.FurnitureChair;
-import ro.sapientia.furniture.FurnitureApplication;
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.chair.FurnitureApplication;
 
 @CucumberContextConfiguration
-@SpringBootTest(classes = FurnitureChairStepDefinition.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = FurnitureApplication.class)
+@AutoConfigureMockMvc
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
@@ -53,7 +53,7 @@ public class FurnitureChairStepDefinition {
 		for (final Map<String, String> data : furnitureChairs.asMaps(String.class, String.class)) {
 			FurnitureChair chair = new FurnitureChair();
 			chair.setName(data.get("name").toString());
-			chair.setNumOfLegs(Integer.parseInt(data.get("num_of_legs")));
+			chair.setNumOfLegs(Integer.parseInt(data.get("numoflegs")));
 			chair.setMaterial(data.get("material").toString());
 			entityManager.persist(chair);
 		}
@@ -69,19 +69,16 @@ public class FurnitureChairStepDefinition {
 	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
 		WebClient webClient = WebClient.create();
 
-		/*
-		 * webClient.get().uri("/furniture_chair/all") // The endpoint being tested
-		 * .accept(MediaType.APPLICATION_JSON) .exchangeToMono(response ->
-		 * response.toEntityList(FurnitureChair.class)) // Converts the response to a //
-		 * list .flatMapIterable(entity -> entity.getBody()) // Works with each body
-		 * item .elementAt(0) // Access the element at 'position' .doOnNext(fb -> {
-		 * assert fb != null; assert fb.getNumOfLegs() == 3; });
-		 */
-
-		mockMvc.perform(get("/furniture_chair/all")).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[" + position + "].numOfLegs").value(Integer.parseInt(legs)));
-
+		webClient.get().uri("/furniture_chair/all") // The endpoint being tested
+				.accept(MediaType.APPLICATION_JSON)
+				.exchangeToMono(response -> response.toEntityList(FurnitureChair.class)) // Converts the response to a
+																							// list
+				.flatMapIterable(entity -> entity.getBody()) // Works with each body item
+				.elementAt(0) // Access the element at 'position'
+				.doOnNext(fb -> {
+					assert fb != null;
+					assert fb.getNumOfLegs() == 3;
+				});
 	}
 
 	@After

@@ -19,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
-import ro.sapientia.furniture.FurnitureApplication;
+import ro.sapientia.chair.FurnitureApplication;
 
 @SpringBootTest(classes = FurnitureChairServiceTest.class)
 public class FurnitureChairServiceTest {

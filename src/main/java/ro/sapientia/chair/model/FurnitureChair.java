@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@SequenceGenerator(name = "pk_furniture_chair", sequenceName = "pk_furniture_chair", schema = "furniture")
 @Entity(name = "furniture_chair")
 @Table(name = "furniture_chair", schema = "furniture")
 public class FurnitureChair {

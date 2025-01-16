@@ -15,7 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.service.FurnitureChairService;
-import ro.sapientia.furniture.FurnitureApplication;
+import ro.sapientia.chair.FurnitureApplication;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

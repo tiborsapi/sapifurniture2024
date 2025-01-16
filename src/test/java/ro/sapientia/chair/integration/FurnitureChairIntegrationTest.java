@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
 import ro.sapientia.chair.service.FurnitureChairService;
-import ro.sapientia.furniture.FurnitureApplication;
+import ro.sapientia.chair.FurnitureApplication;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

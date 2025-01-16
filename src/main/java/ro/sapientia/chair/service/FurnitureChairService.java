@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
 import ro.sapientia.chair.repository.FurnitureChairRepository;
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.chair.FurnitureApplication;
 
 @Service
 public class FurnitureChairService {

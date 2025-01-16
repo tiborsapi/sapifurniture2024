@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ro.sapientia.chair.controller.FurnitureChairController;
 import ro.sapientia.chair.model.FurnitureChair;
 import ro.sapientia.chair.service.FurnitureChairService;
-import ro.sapientia.furniture.FurnitureApplication;
+import ro.sapientia.chair.FurnitureApplication;
 
 @ContextConfiguration(classes = FurnitureApplication.class)
 @WebMvcTest(controllers = FurnitureChairController.class, excludeAutoConfiguration = {

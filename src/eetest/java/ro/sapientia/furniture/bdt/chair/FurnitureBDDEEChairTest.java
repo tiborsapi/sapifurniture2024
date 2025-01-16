@@ -6,11 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
-import ro.sapientia.furniture.FurnitureApplication;
+import ro.sapientia.chair.FurnitureApplication;
 
 @RunWith(Cucumber.class)
-@AutoConfigureMockMvc
-@SpringBootTest(classes = FurnitureApplication.class)
 @CucumberOptions(features = { "src/eetest/resources/ro/sapientia/furniture/bdt/ee_chair" }, glue = {
 		"ro.sapientia.furniture.bdt.chair.ee.test" }, publish = false, dryRun = false)
 public class FurnitureBDDEEChairTest {
