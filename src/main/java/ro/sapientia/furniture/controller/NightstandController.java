@@ -32,7 +32,7 @@ public class NightstandController {
         return new ResponseEntity<>(nightstands, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find/id/{id}")
     public ResponseEntity<Nightstand> getNightstandById(final @PathVariable("id") Long id) {
         final Nightstand nightstand = this.nightstandService.findNightstandById(id);
 
@@ -43,7 +43,7 @@ public class NightstandController {
         }
     }
 
-    @GetMapping("/find/{color}")
+    @GetMapping("/find/color/{color}")
     public ResponseEntity<List<Nightstand>> getNightstandsByColor(final @PathVariable("color") String color) {
         NightstandColor nightstandColor;
         try {
