@@ -28,7 +28,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.Chest;
 
 @CucumberContextConfiguration
 @SpringBootTest
@@ -40,7 +40,7 @@ import ro.sapientia.furniture.model.FurnitureBody;
 @AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:eetest.properties")
 @ContextConfiguration
-public class FurnitureStepDefinition {
+public class ChestStepDefinition {
 
 	@Autowired
 	private MockMvc mvc;
@@ -48,26 +48,27 @@ public class FurnitureStepDefinition {
 	@Autowired
 	private TestEntityManager entityManager;
 
-	@Given("^that we have the following furniture bodies:$")
-	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
-		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
-			FurnitureBody body = new FurnitureBody();
+	@Given("^that we have the following chests:$")
+	public void that_we_have_the_following_chests(final DataTable chests) throws Throwable {
+		for (final Map<String, String> data : chests.asMaps(String.class, String.class)) {
+			Chest body = new Chest();
 			body.setHeigth(Integer.parseInt(data.get("heigth")));
 			body.setWidth(Integer.parseInt(data.get("width")));
 			body.setDepth(Integer.parseInt(data.get("depth")));
+			body.setType(data.get("type"));
 			entityManager.persist(body);
 		}
 		entityManager.flush();
 
 	}
 
-	@When("^I invoke the furniture all endpoint$")
-	public void I_invoke_the_furniture_all_endpoint() throws Throwable {
+	@When("^I invoke the chest all endpoint$")
+	public void I_invoke_the_chest_all_endpoint() throws Throwable {
 	}
 
 	@Then("^I should get the heigth \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
 	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
-		mvc.perform(get("/furniture/all")
+		mvc.perform(get("/chest/all")
 			      .contentType(MediaType.APPLICATION_JSON))
 			      .andExpect(status().isOk())
 			      .andExpect(content()
