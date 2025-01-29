@@ -12,4 +12,6 @@ public interface FurnitureSwivelChairRepository extends JpaRepository<FurnitureS
 
     ArrayList<FurnitureSwivelChair> findFurnitureSwivelChairByWeightCapacity(int weightCapacity);
 
+    ArrayList<FurnitureSwivelChair> findFurnitureSwivelChairByMaterial(String material);
+
 }

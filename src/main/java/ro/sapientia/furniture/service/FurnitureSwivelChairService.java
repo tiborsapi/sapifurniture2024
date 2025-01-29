@@ -28,7 +28,19 @@ public class FurnitureSwivelChairService {
         return furnitureSwivelChairRepository.findFurnitureSwivelChairByWeightCapacity(weightCapacity);
     }
 
-    public FurnitureSwivelChair saveFurnitureSwivelChair(FurnitureSwivelChair furnitureSwivelChair) {
-        return this.furnitureSwivelChairRepository.save(furnitureSwivelChair);
+    public List<FurnitureSwivelChair> findAllFurnitureSwivelChairByMaterial(String material) {
+        return furnitureSwivelChairRepository.findFurnitureSwivelChairByMaterial(material);
+    }
+
+    public FurnitureSwivelChair create(FurnitureSwivelChair furnitureSwivelChair) {
+        return this.furnitureSwivelChairRepository.saveAndFlush(furnitureSwivelChair);
+    }
+
+    public FurnitureSwivelChair update(FurnitureSwivelChair furnitureSwivelChair) {
+        return this.furnitureSwivelChairRepository.saveAndFlush(furnitureSwivelChair);
+    }
+
+    public void delete(Long id) {
+        this.furnitureSwivelChairRepository.deleteById(id);
     }
 }
