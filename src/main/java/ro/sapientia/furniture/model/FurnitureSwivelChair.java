@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "swivel_chair")
-public class SwivelChair implements Serializable {
+public class FurnitureSwivelChair implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
