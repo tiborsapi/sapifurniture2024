@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface FurnitureSwivelChairRepository extends JpaRepository<FurnitureSwivelChair, Long> {
 
-    FurnitureSwivelChair findByFurnitureSwivelChairId(long id);
+    FurnitureSwivelChair findFurnitureSwivelChairById(Long id);
 
     ArrayList<FurnitureSwivelChair> findFurnitureSwivelChairByWeightCapacity(int weightCapacity);
 
