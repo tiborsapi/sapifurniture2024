@@ -32,7 +32,7 @@ public class FurnitureSwivelChairServiceTest {
 
         swivelChair1.setSeatWidth(30);
         swivelChair1.setSeatDepth(40);
-        swivelChair1.setBackrestHeigth(50);
+        swivelChair1.setBackrestHeight(50);
         swivelChair1.setWeightCapacity(100);
         swivelChair1.setMaterial("plastic");
 
@@ -40,7 +40,7 @@ public class FurnitureSwivelChairServiceTest {
 
         swivelChair2.setSeatWidth(40);
         swivelChair2.setSeatDepth(50);
-        swivelChair2.setBackrestHeigth(60);
+        swivelChair2.setBackrestHeight(60);
         swivelChair2.setWeightCapacity(150);
         swivelChair2.setMaterial("metal");
 
@@ -65,7 +65,7 @@ public class FurnitureSwivelChairServiceTest {
 
         swivelChair1.setSeatWidth(30);
         swivelChair1.setSeatDepth(40);
-        swivelChair1.setBackrestHeigth(50);
+        swivelChair1.setBackrestHeight(50);
         swivelChair1.setWeightCapacity(100);
         swivelChair1.setMaterial("plastic");
 
@@ -73,7 +73,7 @@ public class FurnitureSwivelChairServiceTest {
 
         swivelChair2.setSeatWidth(40);
         swivelChair2.setSeatDepth(50);
-        swivelChair2.setBackrestHeigth(60);
+        swivelChair2.setBackrestHeight(60);
         swivelChair2.setWeightCapacity(150);
         swivelChair2.setMaterial("metal");
 
@@ -93,7 +93,7 @@ public class FurnitureSwivelChairServiceTest {
 
         swivelChair1.setSeatWidth(30);
         swivelChair1.setSeatDepth(40);
-        swivelChair1.setBackrestHeigth(50);
+        swivelChair1.setBackrestHeight(50);
         swivelChair1.setWeightCapacity(100);
         swivelChair1.setMaterial("plastic");
 
@@ -101,7 +101,7 @@ public class FurnitureSwivelChairServiceTest {
 
         swivelChair2.setSeatWidth(40);
         swivelChair2.setSeatDepth(50);
-        swivelChair2.setBackrestHeigth(60);
+        swivelChair2.setBackrestHeight(60);
         swivelChair2.setWeightCapacity(150);
         swivelChair2.setMaterial("metal");
 

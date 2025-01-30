@@ -58,12 +58,12 @@ public class FurnitureSwivelChair implements Serializable {
         this.seatDepth = seatDepth;
     }
 
-    public int getBackrestHeigth() {
+    public int getBackrestHeight() {
         return backrestHeigth;
     }
 
-    public void setBackrestHeigth(int backrestHeigth) {
-        this.backrestHeigth = backrestHeigth;
+    public void setBackrestHeight(int backrestHeight) {
+        this.backrestHeigth = backrestHeight;
     }
 
     public int getWeightCapacity() {
