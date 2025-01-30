@@ -1,17 +1,16 @@
 package ro.sapientia.furniture.repository;
 
 import java.util.List;
-import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.TestPropertySource;
 
@@ -32,19 +31,8 @@ public class NightstandRepositoryTest {
     private static final int defaultNumberOfDrawersValue = 0;
     private static final boolean defaultHasLampValue = false;
 
-    @BeforeEach
-    public void clearDatabase() {
-        this.nightstandRepository.deleteAll();
-    }
-
     @Test
-    public void findAllNightstandsTest1() {
-        List<Nightstand> result = this.nightstandRepository.findAll();
-        assertEquals(0, result.size());
-    }
-
-    @Test
-    public void findAllNightstandsTest2() {
+    public void findAllNightstandsTest() {
         Nightstand nightstand1 = new Nightstand();
         Nightstand nightstand2 = new Nightstand();
         Nightstand nightstand3 = new Nightstand();
@@ -62,39 +50,38 @@ public class NightstandRepositoryTest {
     }
 
     @Test
-    public void findNightstandByIdTest1() {
-        Optional<Nightstand> result = this.nightstandRepository.findById(-1L);
-        assertThat(result).isNotPresent();
+    public void findAllNightstandsExpectEmptyTest() {
+        List<Nightstand> result = this.nightstandRepository.findAll();
+        assertEquals(0, result.size());
     }
 
     @Test
-    public void findNightstandByIdTest2() {
+    public void findNightstandByIdTest() {
         Nightstand nightstand = new Nightstand();
         nightstand.setColor(NightstandColor.BEIGE);
 
         this.nightstandRepository.save(nightstand);
 
-        Optional<Nightstand> findResult = this.nightstandRepository.findById(nightstand.getId());
-        assertThat(findResult).isPresent();
+        Nightstand result = this.nightstandRepository.findNightstandById(nightstand.getId());
 
-        Nightstand getResult = findResult.get();
-        assertEquals(nightstand.getId(), getResult.getId());
-        assertEquals(defaultWidthValue, getResult.getWidth());
-        assertEquals(defaultHeightValue, getResult.getHeight());
-        assertEquals(defaultDepthValue, getResult.getDepth());
-        assertEquals(defaultNumberOfDrawersValue, getResult.getNumberOfDrawers());
-        assertEquals(defaultHasLampValue, getResult.isHasLamp());
-        assertEquals(nightstand.getColor(), getResult.getColor());
+        assertEquals(nightstand.getId(), result.getId());
+        assertEquals(defaultWidthValue, result.getWidth());
+        assertEquals(defaultHeightValue, result.getHeight());
+        assertEquals(defaultDepthValue, result.getDepth());
+        assertEquals(defaultNumberOfDrawersValue, result.getNumberOfDrawers());
+        assertEquals(defaultHasLampValue, result.isHasLamp());
+        assertEquals(nightstand.getColor(), result.getColor());
     }
 
     @Test
-    public void findNightstandsByColorTest1() {
-        List<Nightstand> result = this.nightstandRepository.findNightstandsByColor(NightstandColor.BEIGE);
-        assertEquals(0, result.size());
+    public void findNightstandByIdExpectNullTest() {
+        Nightstand result = this.nightstandRepository.findNightstandById(-1L);
+
+        assertNull(result);
     }
 
     @Test
-    public void findNightstandsByColorTest2() {
+    public void findNightstandsByColorTest() {
         NightstandColor color1 = NightstandColor.BLACK;
         NightstandColor color2 = NightstandColor.WHITE;
 
@@ -121,11 +108,18 @@ public class NightstandRepositoryTest {
     }
 
     @Test
+    public void findNightstandsByColorExpectEmptyTest() {
+        List<Nightstand> result = this.nightstandRepository.findNightstandsByColor(NightstandColor.BEIGE);
+        assertEquals(0, result.size());
+    }
+
+    @Test
     public void createNightstandTest() {
         Nightstand nightstand = new Nightstand();
         nightstand.setColor(NightstandColor.BEIGE);
 
         Nightstand result = this.nightstandRepository.saveAndFlush(nightstand);
+
         assertEquals(nightstand.getId(), result.getId());
         assertEquals(defaultWidthValue, result.getWidth());
         assertEquals(defaultHeightValue, result.getHeight());
@@ -136,25 +130,35 @@ public class NightstandRepositoryTest {
     }
 
     @Test
-    public void deleteNightstandByIdTest1() {
-        assertThrows(EmptyResultDataAccessException.class, () -> {
-            this.nightstandRepository.deleteById(-1L);
-        });
+    public void createNightstandExpectDataIntegrityViolationTest() {
+        assertThrows(DataIntegrityViolationException.class, () -> this.nightstandRepository.saveAndFlush(new Nightstand()));
     }
 
     @Test
-    public void deleteNightstandByIdTest2() {
+    public void deleteNightstandByIdTest() {
         Nightstand nightstand = new Nightstand();
         nightstand.setColor(NightstandColor.BEIGE);
 
         this.nightstandRepository.save(nightstand);
-        Optional<Nightstand> findResult = this.nightstandRepository.findById(nightstand.getId());
-        assertThat(findResult).isPresent();
+
+        Nightstand result = this.nightstandRepository.findNightstandById(nightstand.getId());
+        assertEquals(nightstand.getId(), result.getId());
+        assertEquals(defaultWidthValue, result.getWidth());
+        assertEquals(defaultHeightValue, result.getHeight());
+        assertEquals(defaultDepthValue, result.getDepth());
+        assertEquals(defaultNumberOfDrawersValue, result.getNumberOfDrawers());
+        assertEquals(defaultHasLampValue, result.isHasLamp());
+        assertEquals(nightstand.getColor(), result.getColor());
 
         this.nightstandRepository.deleteById(nightstand.getId());
 
-        findResult = this.nightstandRepository.findById(nightstand.getId());
-        assertThat(findResult).isNotPresent();
+        result = this.nightstandRepository.findNightstandById(nightstand.getId());
+        assertNull(result);
+    }
+
+    @Test
+    public void deleteNightstandByIdExpectNotFoundTest() {
+        assertThrows(EmptyResultDataAccessException.class, () -> this.nightstandRepository.deleteById(-1L));
     }
 
 }
