@@ -76,13 +76,12 @@ public class NightstandRepositoryTest {
     @Test
     public void findNightstandByIdExpectNullTest() {
         Nightstand result = this.nightstandRepository.findNightstandById(-1L);
-
         assertNull(result);
     }
 
     @Test
     public void findNightstandsByColorTest() {
-        NightstandColor color1 = NightstandColor.BLACK;
+        NightstandColor findByColor = NightstandColor.BLACK;
         NightstandColor color2 = NightstandColor.WHITE;
 
         Nightstand nightstand1 = new Nightstand();
@@ -91,9 +90,9 @@ public class NightstandRepositoryTest {
         Nightstand nightstand4 = new Nightstand();
         Nightstand nightstand5 = new Nightstand();
 
-        nightstand1.setColor(color1);
-        nightstand2.setColor(color1);
-        nightstand3.setColor(color1);
+        nightstand1.setColor(findByColor);
+        nightstand2.setColor(findByColor);
+        nightstand3.setColor(findByColor);
         nightstand4.setColor(color2);
         nightstand5.setColor(color2);
 
@@ -103,7 +102,7 @@ public class NightstandRepositoryTest {
         this.nightstandRepository.save(nightstand4);
         this.nightstandRepository.save(nightstand5);
 
-        List<Nightstand> result = this.nightstandRepository.findNightstandsByColor(color1);
+        List<Nightstand> result = this.nightstandRepository.findNightstandsByColor(findByColor);
         assertEquals(3, result.size());
     }
 

@@ -68,11 +68,13 @@ public class NightstandServiceTest {
 
     @Test
     public void findNightstandByIdTest() {
+        Long idToFind = 1L;
+
         Nightstand nightstand = new Nightstand();
         nightstand.setColor(NightstandColor.BEIGE);
 
-        when(this.nightstandRepositoryMock.findNightstandById(1L)).thenReturn(nightstand);
-        Nightstand result = this.nightstandService.findNightstandById(1L);
+        when(this.nightstandRepositoryMock.findNightstandById(idToFind)).thenReturn(nightstand);
+        Nightstand result = this.nightstandService.findNightstandById(idToFind);
 
         assertEquals(nightstand, result);
     }
@@ -87,7 +89,7 @@ public class NightstandServiceTest {
 
     @Test
     public void findNightstandsByColorTest() {
-        NightstandColor color1 = NightstandColor.BLACK;
+        NightstandColor findByColor = NightstandColor.BLACK;
         NightstandColor color2 = NightstandColor.WHITE;
 
         Nightstand nightstand1 = new Nightstand();
@@ -96,14 +98,14 @@ public class NightstandServiceTest {
         Nightstand nightstand4 = new Nightstand();
         Nightstand nightstand5 = new Nightstand();
 
-        nightstand1.setColor(color1);
-        nightstand2.setColor(color1);
-        nightstand3.setColor(color1);
+        nightstand1.setColor(findByColor);
+        nightstand2.setColor(findByColor);
+        nightstand3.setColor(findByColor);
         nightstand4.setColor(color2);
         nightstand5.setColor(color2);
 
-        when(this.nightstandRepositoryMock.findNightstandsByColor(color1)).thenReturn(List.of(nightstand1, nightstand2, nightstand3));
-        List<Nightstand> result = this.nightstandService.findNightstandsByColor(color1);
+        when(this.nightstandRepositoryMock.findNightstandsByColor(findByColor)).thenReturn(List.of(nightstand1, nightstand2, nightstand3));
+        List<Nightstand> result = this.nightstandService.findNightstandsByColor(findByColor);
 
         assertEquals(3, result.size());
     }
@@ -148,14 +150,18 @@ public class NightstandServiceTest {
         when(this.nightstandRepositoryMock.saveAndFlush(any())).thenThrow(DataIntegrityViolationException.class);
 
         assertThrows(DataIntegrityViolationException.class, () -> this.nightstandService.create(new Nightstand()));
+
+        verify(this.nightstandRepositoryMock, times(1)).saveAndFlush(any());
     }
 
     @Test
     public void deleteNightstandByIdTest() {
+        Long idToDelete = 1L;
         doNothing().when(this.nightstandRepositoryMock).deleteById(any());
-        this.nightstandService.delete(1L);
 
-        verify(nightstandRepositoryMock, times(1)).deleteById(1L);
+        this.nightstandService.delete(idToDelete);
+
+        verify(nightstandRepositoryMock, times(1)).deleteById(idToDelete);
     }
 
     @Test
@@ -164,6 +170,8 @@ public class NightstandServiceTest {
         doThrow(new EmptyResultDataAccessException(1)).when(this.nightstandRepositoryMock).deleteById(nonExistingId);
 
         assertThrows(EmptyResultDataAccessException.class, () -> this.nightstandService.delete(nonExistingId));
+
+        verify(this.nightstandRepositoryMock, times(1)).deleteById(nonExistingId);
     }
 
 }

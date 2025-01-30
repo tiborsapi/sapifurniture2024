@@ -49,18 +49,14 @@ public class NightstandComponentTest {
     }
 
     @Test
-    public void findAllNightstandsTest() throws Exception {
-        NightstandColor color1 = NightstandColor.BEIGE;
-        NightstandColor color2 = NightstandColor.BLACK;
-        NightstandColor color3 = NightstandColor.WHITE;
-
+    public void getAllNightstandsTest() throws Exception {
         Nightstand nightstand1 = new Nightstand();
         Nightstand nightstand2 = new Nightstand();
         Nightstand nightstand3 = new Nightstand();
 
-        nightstand1.setColor(color1);
-        nightstand2.setColor(color2);
-        nightstand3.setColor(color3);
+        nightstand1.setColor(NightstandColor.BEIGE);
+        nightstand2.setColor(NightstandColor.BLACK);
+        nightstand3.setColor(NightstandColor.WHITE);
 
         this.nightstandRepository.save(nightstand1);
         this.nightstandRepository.save(nightstand2);
@@ -76,25 +72,25 @@ public class NightstandComponentTest {
                     .andExpect(jsonPath("$[0].depth", is(defaultDepthValue)))
                     .andExpect(jsonPath("$[0].numberOfDrawers", is(defaultNumberOfDrawersValue)))
                     .andExpect(jsonPath("$[0].hasLamp", is(defaultHasLampValue)))
-                    .andExpect(jsonPath("$[0].color", is(color1.toString())))
+                    .andExpect(jsonPath("$[0].color", is(nightstand1.getColor().toString())))
                     .andExpect(jsonPath("$[1].id", is(nightstand2.getId().intValue())))
                     .andExpect(jsonPath("$[1].width", is(defaultWidthValue)))
                     .andExpect(jsonPath("$[1].height", is(defaultHeightValue)))
                     .andExpect(jsonPath("$[1].depth", is(defaultDepthValue)))
                     .andExpect(jsonPath("$[1].numberOfDrawers", is(defaultNumberOfDrawersValue)))
                     .andExpect(jsonPath("$[1].hasLamp", is(defaultHasLampValue)))
-                    .andExpect(jsonPath("$[1].color", is(color2.toString())))
+                    .andExpect(jsonPath("$[1].color", is(nightstand2.getColor().toString())))
                     .andExpect(jsonPath("$[2].id", is(nightstand3.getId().intValue())))
                     .andExpect(jsonPath("$[2].width", is(defaultWidthValue)))
                     .andExpect(jsonPath("$[2].height", is(defaultHeightValue)))
                     .andExpect(jsonPath("$[2].depth", is(defaultDepthValue)))
                     .andExpect(jsonPath("$[2].numberOfDrawers", is(defaultNumberOfDrawersValue)))
                     .andExpect(jsonPath("$[2].hasLamp", is(defaultHasLampValue)))
-                    .andExpect(jsonPath("$[2].color", is(color3.toString())));
+                    .andExpect(jsonPath("$[2].color", is(nightstand3.getColor().toString())));
     }
 
     @Test
-    public void findAllNightstandsExpectEmptyTest() throws Exception {
+    public void getAllNightstandsExpectEmptyTest() throws Exception {
         this.mockMvc.perform(get("/nightstands/all"))
                     .andExpect(status().isOk())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -102,11 +98,9 @@ public class NightstandComponentTest {
     }
 
     @Test
-    public void findNightstandByIdTest() throws Exception {
-        NightstandColor color = NightstandColor.BEIGE;
-
+    public void getNightstandByIdTest() throws Exception {
         Nightstand nightstand = new Nightstand();
-        nightstand.setColor(color);
+        nightstand.setColor(NightstandColor.BEIGE);
 
         this.nightstandRepository.save(nightstand);
 
@@ -119,26 +113,27 @@ public class NightstandComponentTest {
                     .andExpect(jsonPath("$.depth", is(defaultDepthValue)))
                     .andExpect(jsonPath("$.numberOfDrawers", is(defaultNumberOfDrawersValue)))
                     .andExpect(jsonPath("$.hasLamp", is(defaultHasLampValue)))
-                    .andExpect(jsonPath("$.color", is(color.toString())));
+                    .andExpect(jsonPath("$.color", is(nightstand.getColor().toString())));
     }
 
     @Test
-    public void findNightstandByIdExpectNotFoundTest() throws Exception {
+    public void getNightstandByIdExpectNotFoundTest() throws Exception {
         this.mockMvc.perform(get("/nightstands/find/id/-1"))
-                    .andExpect(status().isNotFound());
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().string(""));
     }
 
     @Test
-    public void findNightstandByIdExpectBadRequestTest() throws Exception {
+    public void getNightstandByIdExpectBadRequestTest() throws Exception {
         this.mockMvc.perform(get("/nightstands/find/id/" + invalidId))
-                    .andExpect(status().isBadRequest());
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().string(""));
     }
 
     @Test
-    public void findNightstandsByColorTest() throws Exception {
-        NightstandColor color1 = NightstandColor.BLACK;
+    public void getNightstandsByColorTest() throws Exception {
+        NightstandColor findByColor = NightstandColor.BLACK;
         NightstandColor color2 = NightstandColor.WHITE;
-        NightstandColor color3 = NightstandColor.ANTHRACITE;
 
         Nightstand nightstand1 = new Nightstand();
         Nightstand nightstand2 = new Nightstand();
@@ -146,13 +141,11 @@ public class NightstandComponentTest {
         Nightstand nightstand4 = new Nightstand();
         Nightstand nightstand5 = new Nightstand();
 
-        nightstand1.setColor(color1);
-        nightstand2.setColor(color1);
-        nightstand3.setColor(color1);
+        nightstand1.setColor(findByColor);
+        nightstand2.setColor(findByColor);
+        nightstand3.setColor(findByColor);
         nightstand4.setColor(color2);
-        nightstand5.setColor(color3);
-
-        String findByColorName = color1.toString();
+        nightstand5.setColor(color2);
 
         this.nightstandRepository.save(nightstand1);
         this.nightstandRepository.save(nightstand2);
@@ -160,7 +153,7 @@ public class NightstandComponentTest {
         this.nightstandRepository.save(nightstand4);
         this.nightstandRepository.save(nightstand5);
 
-        this.mockMvc.perform(get("/nightstands/find/color/" + findByColorName))
+        this.mockMvc.perform(get("/nightstands/find/color/" + findByColor))
                     .andExpect(status().isOk())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andExpect(jsonPath("$.length()", is(3)))
@@ -170,25 +163,25 @@ public class NightstandComponentTest {
                     .andExpect(jsonPath("$[0].depth", is(defaultDepthValue)))
                     .andExpect(jsonPath("$[0].numberOfDrawers", is(defaultNumberOfDrawersValue)))
                     .andExpect(jsonPath("$[0].hasLamp", is(defaultHasLampValue)))
-                    .andExpect(jsonPath("$[0].color", is(findByColorName)))
+                    .andExpect(jsonPath("$[0].color", is(nightstand1.getColor().toString())))
                     .andExpect(jsonPath("$[1].id", is(nightstand2.getId().intValue())))
                     .andExpect(jsonPath("$[1].width", is(defaultWidthValue)))
                     .andExpect(jsonPath("$[1].height", is(defaultHeightValue)))
                     .andExpect(jsonPath("$[1].depth", is(defaultDepthValue)))
                     .andExpect(jsonPath("$[1].numberOfDrawers", is(defaultNumberOfDrawersValue)))
                     .andExpect(jsonPath("$[1].hasLamp", is(defaultHasLampValue)))
-                    .andExpect(jsonPath("$[1].color", is(findByColorName)))
+                    .andExpect(jsonPath("$[1].color", is(nightstand2.getColor().toString())))
                     .andExpect(jsonPath("$[2].id", is(nightstand3.getId().intValue())))
                     .andExpect(jsonPath("$[2].width", is(defaultWidthValue)))
                     .andExpect(jsonPath("$[2].height", is(defaultHeightValue)))
                     .andExpect(jsonPath("$[2].depth", is(defaultDepthValue)))
                     .andExpect(jsonPath("$[2].numberOfDrawers", is(defaultNumberOfDrawersValue)))
                     .andExpect(jsonPath("$[2].hasLamp", is(defaultHasLampValue)))
-                    .andExpect(jsonPath("$[2].color", is(findByColorName)));
+                    .andExpect(jsonPath("$[2].color", is(nightstand3.getColor().toString())));
     }
 
     @Test
-    public void findNightstandsByColorExpectEmptyTest1() throws Exception {
+    public void getNightstandsByColorExpectEmptyTest1() throws Exception {
         this.mockMvc.perform(get("/nightstands/find/color/gray"))
                     .andExpect(status().isOk())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -196,7 +189,7 @@ public class NightstandComponentTest {
     }
 
     @Test
-    public void findNightstandsByColorExpectEmptyTest2() throws Exception {
+    public void getNightstandsByColorExpectEmptyTest2() throws Exception {
         Nightstand nightstand1 = new Nightstand();
         Nightstand nightstand2 = new Nightstand();
         Nightstand nightstand3 = new Nightstand();
@@ -210,7 +203,6 @@ public class NightstandComponentTest {
         nightstand5.setColor(NightstandColor.ANTHRACITE);
 
         NightstandColor unusedColor = NightstandColor.GRAY;
-        String unusedColorName = unusedColor.toString();
 
         this.nightstandRepository.save(nightstand1);
         this.nightstandRepository.save(nightstand2);
@@ -218,20 +210,21 @@ public class NightstandComponentTest {
         this.nightstandRepository.save(nightstand4);
         this.nightstandRepository.save(nightstand5);
 
-        this.mockMvc.perform(get("/nightstands/find/color/" + unusedColorName))
+        this.mockMvc.perform(get("/nightstands/find/color/" + unusedColor))
                     .andExpect(status().isOk())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andExpect(jsonPath("$.length()", is(0)));
     }
 
     @Test
-    public void findNightstandsByColorExpectNotFoundTest1() throws Exception {
+    public void getNightstandsByColorExpectNotFoundTest1() throws Exception {
         this.mockMvc.perform(get("/nightstands/find/color/" + invalidColorName))
-                    .andExpect(status().isNotFound());
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().string(""));
     }
 
     @Test
-    public void findNightstandsByColorExpectNotFoundTest2() throws Exception {
+    public void getNightstandsByColorExpectNotFoundTest2() throws Exception {
         Nightstand nightstand1 = new Nightstand();
         Nightstand nightstand2 = new Nightstand();
         Nightstand nightstand3 = new Nightstand();
@@ -251,38 +244,32 @@ public class NightstandComponentTest {
         this.nightstandRepository.save(nightstand5);
 
         this.mockMvc.perform(get("/nightstands/find/color/" + invalidColorName))
-                    .andExpect(status().isNotFound());
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().string(""));
     }
 
     @Test
-    public void createNightstandTest() throws Exception {
-        int width1 = 1;
-        int height1 = 2;
-        int depth1 = 3;
-        int numberOfDrawers1 = 4;
-        boolean hasLamp1 = true;
-        NightstandColor color1 = NightstandColor.BEIGE;
-        Nightstand nightstand1 = new Nightstand(width1, height1, depth1, numberOfDrawers1, hasLamp1, color1);
+    public void addNightstandTest() throws Exception {
+        Nightstand nightstand1 = new Nightstand(1, 2, 3, 4, true, NightstandColor.BEIGE);
 
-        NightstandColor color2 = NightstandColor.BLACK;
         Nightstand nightstand2 = new Nightstand();
-        nightstand2.setColor(color2);
+        nightstand2.setColor(NightstandColor.BLACK);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String nightStand1Json = objectMapper.writeValueAsString(nightstand1);
-        String nightStand2Json = objectMapper.writeValueAsString(nightstand2);
+        String nightstand1Json = objectMapper.writeValueAsString(nightstand1);
+        String nightstand2Json = objectMapper.writeValueAsString(nightstand2);
 
-        this.mockMvc.perform(post("/nightstands/add").contentType(MediaType.APPLICATION_JSON).content(nightStand1Json))
+        this.mockMvc.perform(post("/nightstands/add").contentType(MediaType.APPLICATION_JSON).content(nightstand1Json))
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.id").exists())
-                    .andExpect(jsonPath("$.width", is(width1)))
-                    .andExpect(jsonPath("$.height", is(height1)))
-                    .andExpect(jsonPath("$.depth", is(depth1)))
-                    .andExpect(jsonPath("$.numberOfDrawers", is(numberOfDrawers1)))
-                    .andExpect(jsonPath("$.hasLamp", is(hasLamp1)))
-                    .andExpect(jsonPath("$.color", is(color1.toString())));
+                    .andExpect(jsonPath("$.width", is(nightstand1.getWidth())))
+                    .andExpect(jsonPath("$.height", is(nightstand1.getHeight())))
+                    .andExpect(jsonPath("$.depth", is(nightstand1.getDepth())))
+                    .andExpect(jsonPath("$.numberOfDrawers", is(nightstand1.getNumberOfDrawers())))
+                    .andExpect(jsonPath("$.hasLamp", is(nightstand1.isHasLamp())))
+                    .andExpect(jsonPath("$.color", is(nightstand1.getColor().toString())));
 
-        this.mockMvc.perform(post("/nightstands/add").contentType(MediaType.APPLICATION_JSON).content(nightStand2Json))
+        this.mockMvc.perform(post("/nightstands/add").contentType(MediaType.APPLICATION_JSON).content(nightstand2Json))
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.id").exists())
                     .andExpect(jsonPath("$.width", is(defaultWidthValue)))
@@ -290,18 +277,17 @@ public class NightstandComponentTest {
                     .andExpect(jsonPath("$.depth", is(defaultDepthValue)))
                     .andExpect(jsonPath("$.numberOfDrawers", is(defaultNumberOfDrawersValue)))
                     .andExpect(jsonPath("$.hasLamp", is(defaultHasLampValue)))
-                    .andExpect(jsonPath("$.color", is(color2.toString())));
+                    .andExpect(jsonPath("$.color", is(nightstand2.getColor().toString())));
     }
 
     @Test
-    public void createNightstandExpectBadRequestTest() throws Exception {
-        Nightstand nightstand = new Nightstand();
-
+    public void addNightstandExpectBadRequestTest() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        String nightStandJson = objectMapper.writeValueAsString(nightstand);
+        String nightstandJson = objectMapper.writeValueAsString(new Nightstand());
 
-        this.mockMvc.perform(post("/nightstands/add").contentType(MediaType.APPLICATION_JSON).content(nightStandJson))
-                    .andExpect(status().isBadRequest());
+        this.mockMvc.perform(post("/nightstands/add").contentType(MediaType.APPLICATION_JSON).content(nightstandJson))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().string(""));
     }
 
     @Test
@@ -312,19 +298,22 @@ public class NightstandComponentTest {
         this.nightstandRepository.save(nightstand);
 
         this.mockMvc.perform(delete("/nightstands/delete/" + nightstand.getId()))
-                    .andExpect(status().isOk());
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(""));
     }
 
     @Test
     public void deleteNightstandByIdExpectNotFoundTest() throws Exception {
         this.mockMvc.perform(delete("/nightstands/delete/-1"))
-                    .andExpect(status().isNotFound());
+                    .andExpect(status().isNotFound())
+                    .andExpect(content().string(""));
     }
 
     @Test
     public void deleteNightstandByIdExpectBadRequestTest() throws Exception {
         this.mockMvc.perform(delete("/nightstands/delete/" + invalidId))
-                    .andExpect(status().isBadRequest());
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().string(""));
     }
 
 }
