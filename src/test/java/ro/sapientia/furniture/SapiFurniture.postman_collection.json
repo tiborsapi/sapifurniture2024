@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "de25a3d0-8427-4684-82fb-b0dc08769c74",
+		"name": "SapiFurniture",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28768984"
+	},
+	"item": [
+		{
+			"name": "Nightstand",
+			"item": [
+				{
+					"name": "All Nightstands",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SapiFurnitureURI}}/nightstands/all",
+							"host": [
+								"{{SapiFurnitureURI}}"
+							],
+							"path": [
+								"nightstands",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "One Nightstand By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SapiFurnitureURI}}/nightstands/find/id/1",
+							"host": [
+								"{{SapiFurnitureURI}}"
+							],
+							"path": [
+								"nightstands",
+								"find",
+								"id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Nightstands By Color",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SapiFurnitureURI}}/nightstands/find/color/gray",
+							"host": [
+								"{{SapiFurnitureURI}}"
+							],
+							"path": [
+								"nightstands",
+								"find",
+								"color",
+								"gray"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Nightstand",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"width\": 1,\r\n    \"height\": 2,\r\n    \"depth\": 3,\r\n    \"numberOfDrawers\": 4,\r\n    \"hasLamp\": true,\r\n    \"color\": \"GRAY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SapiFurnitureURI}}/nightstands/add",
+							"host": [
+								"{{SapiFurnitureURI}}"
+							],
+							"path": [
+								"nightstands",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "One Nightstand By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{SapiFurnitureURI}}/nightstands/delete/1",
+							"host": [
+								"{{SapiFurnitureURI}}"
+							],
+							"path": [
+								"nightstands",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "SapiFurnitureURI",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
