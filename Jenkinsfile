@@ -1,7 +1,7 @@
 pipeline {
-    // global env variables
     agent any
     environment {
+        BRANCH_NAME = 'Hammock'
         EMAIL_RECIPIENTS = 'tibor.kiss@ms.sapientia.ro'
         POSTGRES_CONTAINER = 'postgres-container'
         POSTGRES_USER = 'postgres'
@@ -9,8 +9,22 @@ pipeline {
         POSTGRES_DB = 'furniture'
         POSTGRES_PORT = '5432'
         SPRING_DATASOURCE_URL = "jdbc:postgresql://localhost:${POSTGRES_PORT}/furniture"
+        REPOSITORY_URL = "https://github.com/Actulus/sapifurniture2024.git"
+        REPOSITORY_NAME = "sapifurniture2024"
     }
     stages {
+        stage('Checkout Code') {
+            steps {
+                script {
+                    // Manually clone the repository from the remote Git repository
+                    sh """
+                    git clone --branch ${env.BRANCH_NAME} ${env.REPOSITORY_URL}
+                    cd ${env.REPOSITORY_NAME}
+                    """
+                }
+            }
+        }
+
         stage('Start PostgreSQL Container') {
             steps {
                 script {
@@ -44,120 +58,59 @@ pipeline {
 
         stage('Build with unit testing') {
             steps {
-                // Run the maven build
                 script {
-                    // Get the Maven tool.
-                    // ** NOTE: This 'M3' Maven tool must be configured
-                    // **       in the global configuration.
-                    echo 'Pulling...' + env.BRANCH_NAME
-                    def mvnHome = tool 'Maven'
-                    if (isUnix()) {
-                        def targetVersion = getDevVersion()
-                        print 'target build version...'
-                        print targetVersion
-                        sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true -Dbuild.number=${targetVersion} clean package"
-                        def pom = readMavenPom file: 'pom.xml'
-                        // get the current development version
-                        developmentArtifactVersion = "${pom.version}-${targetVersion}"
-                        print pom.version
-                        // execute the unit testing and collect the reports
-                        junit '**//*target/surefire-reports/TEST-*.xml'
-                        archive 'target*//*.jar'
-                    } else {
-                        bat(/"${mvnHome}\bin\mvn" -Dintegration-tests.skip=true clean package/)
-                        def pom = readMavenPom file: 'pom.xml'
-                        print pom.version
-                        junit '**//*target/surefire-reports/TEST-*.xml'
-                        archive 'target*//*.jar'
+                    // Ensure we're in the right directory (repository directory)
+                    dir("${env.REPOSITORY_NAME}") {
+                        echo 'Pulling...' + env.BRANCH_NAME
+                        def mvnHome = tool 'Maven'
+                        if (isUnix()) {
+                            def targetVersion = getDevVersion()
+                            sh "'${mvnHome}/bin/mvn' -Dintegration-tests.skip=true -Dbuild.number=${targetVersion} clean package"
+                            def pom = readMavenPom file: 'pom.xml'
+                            developmentArtifactVersion = "${pom.version}-${targetVersion}"
+                            junit '**//*target/surefire-reports/TEST-*.xml'
+                            archive 'target*//*.jar'
+                        } else {
+                            bat(/"${mvnHome}\bin\mvn" -Dintegration-tests.skip=true clean package/)
+                            def pom = readMavenPom file: 'pom.xml'
+                            junit '**//*target/surefire-reports/TEST-*.xml'
+                            archive 'target*//*.jar'
+                        }
                     }
                 }
-
             }
         }
+
         stage('Integration tests') {
-            // Run integration test
             steps {
                 script {
-                    def mvnHome = tool 'Maven'
-                    if (isUnix()) {
-                        // just to trigger the integration test without unit testing
-                        sh "'${mvnHome}/bin/mvn'  verify -Dunit-tests.skip=true"
-                    } else {
-                        bat(/"${mvnHome}\bin\mvn" verify -Dunit-tests.skip=true/)
+                    // Ensure we're in the right directory (repository directory)
+                    dir("${env.REPOSITORY_NAME}") {
+                        def mvnHome = tool 'Maven'
+                        if (isUnix()) {
+                            sh "'${mvnHome}/bin/mvn' verify -Dunit-tests.skip=true"
+                        } else {
+                            bat(/"${mvnHome}\bin\mvn" verify -Dunit-tests.skip=true/)
+                        }
                     }
-
                 }
-                // cucumber reports collection
                 cucumber buildStatus: null, fileIncludePattern: '**/cucumber.json', jsonReportDirectory: 'target', sortingMethod: 'ALPHABETICAL'
             }
         }
     }
     post {
-        // Always runs. And it runs before any of the other post conditions.
         always {
-            // Let's wipe out the workspace before we finish!
             deleteDir()
         }
     }
-
-// The options directive is for configuration that applies to the whole job.
     options {
-        // For example, we'd like to make sure we only keep 10 builds at a time, so
-        // we don't fill up our storage!
         buildDiscarder(logRotator(numToKeepStr: '5'))
-
-        // And we'd really like to be sure that this build doesn't hang forever, so
-        // let's time it out after an hour.
         timeout(time: 25, unit: 'MINUTES')
     }
-
-}
-def developmentArtifactVersion = ''
-def releasedVersion = ''
-// get change log to be send over the mail
-@NonCPS
-def getChangeString() {
-    MAX_MSG_LEN = 100
-    def changeString = ""
-
-    echo "Gathering SCM changes"
-    def changeLogSets = currentBuild.changeSets
-    for (int i = 0; i < changeLogSets.size(); i++) {
-        def entries = changeLogSets[i].items
-        for (int j = 0; j < entries.length; j++) {
-            def entry = entries[j]
-            truncated_msg = entry.msg.take(MAX_MSG_LEN)
-            changeString += " - ${truncated_msg} [${entry.author}]\n"
-        }
-    }
-
-    if (!changeString) {
-        changeString = " - No new changes"
-    }
-    return changeString
 }
 
 def getDevVersion() {
     def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    def versionNumber;
-    if (gitCommit == null) {
-        versionNumber = env.BUILD_NUMBER;
-    } else {
-        versionNumber = gitCommit.take(8);
-    }
-    print 'build  versions...'
-    print versionNumber
+    def versionNumber = gitCommit ? gitCommit.take(8) : env.BUILD_NUMBER
     return versionNumber
-}
-
-def getReleaseVersion() {
-    def pom = readMavenPom file: 'pom.xml'
-    def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    def versionNumber;
-    if (gitCommit == null) {
-        versionNumber = env.BUILD_NUMBER;
-    } else {
-        versionNumber = gitCommit.take(8);
-    }
-    return pom.version.replace("-SNAPSHOT", ".${versionNumber}")
 }
