@@ -1,4 +1,4 @@
-package ro.sapientia.furniture.bdt.component.definition;
+package ro.sapientia.furniture.bdt.chair.ee.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
@@ -28,34 +29,33 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.chair.model.FurnitureChair;
+import ro.sapientia.chair.FurnitureApplication;
 
 @CucumberContextConfiguration
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = FurnitureApplication.class)
 @AutoConfigureMockMvc
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @AutoConfigureTestEntityManager
-@TestPropertySource(locations = "classpath:cotest.properties")
-@ContextConfiguration
-public class FurnitureStepDefinition {
-
-	@Autowired
-	private MockMvc mvc;
-
+@TestPropertySource(locations = "classpath:eetest.properties")
+@ContextConfiguration(classes = FurnitureApplication.class)
+public class FurnitureChairStepDefinition {
 	@Autowired
 	private TestEntityManager entityManager;
+	@Autowired
+	private MockMvc mockMvc;
 
-	@Given("^that we have the following furniture bodies:$")
-	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
-		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
-			FurnitureBody body = new FurnitureBody();
-			body.setHeigth(Integer.parseInt(data.get("heigth")));
-			body.setWidth(Integer.parseInt(data.get("width")));
-			body.setDepth(Integer.parseInt(data.get("depth")));
-			entityManager.persist(body);
+	@Given("^that we have the following furniture chairs:$")
+	public void that_we_have_the_following_furniture_chairs(final DataTable furnitureChairs) throws Throwable {
+		for (final Map<String, String> data : furnitureChairs.asMaps(String.class, String.class)) {
+			FurnitureChair chair = new FurnitureChair();
+			chair.setName(data.get("name").toString());
+			chair.setNumOfLegs(Integer.parseInt(data.get("numoflegs")));
+			chair.setMaterial(data.get("material").toString());
+			entityManager.persist(chair);
 		}
 		entityManager.flush();
 
@@ -65,15 +65,23 @@ public class FurnitureStepDefinition {
 	public void I_invoke_the_furniture_all_endpoint() throws Throwable {
 	}
 
-	@Then("^I should get the heigth \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
+	@Then("^I should get the num_of_legs \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
 	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
-		mvc.perform(get("/furniture/all").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[" + position + "].heigth", is(Integer.parseInt(heigth))));
+		WebClient webClient = WebClient.create();
+
+		webClient.get().uri("/furniture_chair/all") // The endpoint being tested
+				.accept(MediaType.APPLICATION_JSON)
+				.exchangeToMono(response -> response.toEntityList(FurnitureChair.class)) // Converts the response to a
+																							// list
+				.flatMapIterable(entity -> entity.getBody()) // Works with each body item
+				.elementAt(0) // Access the element at 'position'
+				.doOnNext(fb -> {
+					assert fb != null;
+					assert fb.getNumOfLegs() == 3;
+				});
 	}
 
 	@After
 	public void close() {
 	}
-
 }

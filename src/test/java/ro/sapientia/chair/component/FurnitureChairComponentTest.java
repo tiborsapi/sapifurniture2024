@@ -1,4 +1,4 @@
-package ro.sapientia.furniture.component;
+package ro.sapientia.chair.component;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,35 +12,40 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.furniture.model.FurnitureBody;
-import ro.sapientia.furniture.repository.FurnitureBodyRepository;
+import ro.sapientia.chair.model.FurnitureChair;
+import ro.sapientia.chair.repository.FurnitureChairRepository;
+import ro.sapientia.chair.FurnitureApplication;
 
+@WithMockUser
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class FurnitureBodyComponentTest {
+@ContextConfiguration(classes = FurnitureApplication.class)
+public class FurnitureChairComponentTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Autowired
-	FurnitureBodyRepository repository;
+	FurnitureChairRepository repository;
 
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
-		FurnitureBody fb = new FurnitureBody();
-		fb.setHeigth(20);
-		fb.setWidth(10);
-		fb.setDepth(6);
-		var savedFB = repository.save(fb);
+		FurnitureChair fc = new FurnitureChair();
+		fc.setName("first");
+		fc.setNumOfLegs(3);
 
-		this.mockMvc.perform(get("/furniture/all")).andExpect(status().isOk())
+		var savedFC = repository.save(fc);
+
+		this.mockMvc.perform(get("/furniture_chair/all")).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].width", is(10)));
+				.andExpect(jsonPath("$[0].numOfLegs", is(3)));
 	}
 
 }
