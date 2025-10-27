@@ -30,9 +30,9 @@ import ro.sapientia.furniture.model.FurnitureBody;
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.ANY)
 @AutoConfigureTestEntityManager
-@TestPropertySource(locations = "classpath:eetest.properties")
+@TestPropertySource(locations = "classpath:cotest.properties")
 class FurnitureApplicationComponentTests {
 
 
