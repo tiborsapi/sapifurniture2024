@@ -81,14 +81,9 @@ jobs:
     - name: Run Integration Tests
       run: mvn verify -Dunit-tests.skip=true
     - name: Upload Cucumber Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: cucumber-report
         path: target/cucumber.json
     - name: Cleanup workspace
       run: git clean -fdx
-    - name: Upload JAR artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: furniture-jar
-        path: target/*.jar
