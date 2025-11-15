@@ -1,5 +1,5 @@
 # Use a lightweight OpenJDK base image
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 
 # Set environment variables
 ENV SPRING_PROFILES_ACTIVE=prod \
