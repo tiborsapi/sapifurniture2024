@@ -13,6 +13,13 @@ on:
     branches: [ "*" ]
   pull_request:
     branches: [ "*" ]
+env:
+  EMAIL_RECIPIENTS: tibor.kiss@ms.sapientia.ro
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: furniture
+  POSTGRES_PORT: 5432
+  SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/furniture
 
 jobs:
   setup-postgres:
