@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 
-import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
+import ro.sapientia.furniture.model.entities.FurnitureBody;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
@@ -26,7 +26,7 @@ public class FurnitureBodyDTORepositoryTest {
 
 	@Test
 	public void myTestForFindFirst() {
-		FurnitureBodyDTO fb = new FurnitureBodyDTO();
+		FurnitureBody fb = new FurnitureBody();
 		fb.setHeigth(20);
 		fb.setWidth(10);
 		fb.setDepth(6);
