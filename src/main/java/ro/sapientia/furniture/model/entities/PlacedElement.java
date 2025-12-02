@@ -15,7 +15,7 @@ public class PlacedElement {
     public PlacedElement() {
     }
 
-    public PlacedElement(Long id, String type, Integer x, Integer y, Integer width, Integer height) {
+    public PlacedElement(Long id, Integer x, Integer y, Integer width, Integer height) {
         this.id = id;
         this.type = type;
         this.x = x;
@@ -30,14 +30,6 @@ public class PlacedElement {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Integer getX() {

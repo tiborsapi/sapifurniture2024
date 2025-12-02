@@ -15,9 +15,8 @@ public class PlacedElementDTO {
     public PlacedElementDTO() {
     }
     
-    public PlacedElementDTO(Long id, String type, Integer x, Integer y, Integer width, Integer height) {
+    public PlacedElementDTO(Long id, Integer x, Integer y, Integer width, Integer height) {
         this.id = id;
-        this.type = type;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -30,14 +29,6 @@ public class PlacedElementDTO {
     
     public void setId(Long id) {
         this.id = id;
-    }
-    
-    public String getType() {
-        return type;
-    }
-    
-    public void setType(String type) {
-        this.type = type;
     }
     
     public Integer getX() {
