@@ -2,9 +2,7 @@ package ro.sapientia.furniture.bdt.ee.definition;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Map;
 
@@ -14,12 +12,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -29,7 +25,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
 
 @CucumberContextConfiguration
 @SpringBootTest
@@ -48,7 +44,7 @@ public class FurnitureStepDefinition {
 	@Given("^that we have the following furniture bodies:$")
 	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
 		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
-			FurnitureBody body = new FurnitureBody();
+			FurnitureBodyDTO body = new FurnitureBodyDTO();
 			body.setHeigth(Integer.parseInt(data.get("heigth")));
 			body.setWidth(Integer.parseInt(data.get("width")));
 			body.setDepth(Integer.parseInt(data.get("depth")));
@@ -67,7 +63,7 @@ public class FurnitureStepDefinition {
 		WebClient webClient = WebClient.create();
 		webClient.get().uri("/furniture/all") // The endpoint being tested
 				.accept(MediaType.APPLICATION_JSON)
-				.exchangeToMono(response -> response.toEntityList(FurnitureBody.class)) // Converts the response to a
+				.exchangeToMono(response -> response.toEntityList(FurnitureBodyDTO.class)) // Converts the response to a
 																						// list
 				.flatMapIterable(entity -> entity.getBody()) // Works with each body item
 				.elementAt(0) // Access the element at 'position'

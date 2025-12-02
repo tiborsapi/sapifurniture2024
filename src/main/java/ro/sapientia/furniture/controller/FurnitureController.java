@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
 import ro.sapientia.furniture.service.FurnitureBodyService;
 
 @RestController
@@ -25,27 +25,27 @@ public class FurnitureController {
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<FurnitureBody>> getAllFurnitureBodies(){
-		final List<FurnitureBody> furnitureBodies = furnitureBodyService.findAllFurnitureBodies();
+	public ResponseEntity<List<FurnitureBodyDTO>> getAllFurnitureBodies(){
+		final List<FurnitureBodyDTO> furnitureBodies = furnitureBodyService.findAllFurnitureBodies();
 		return new ResponseEntity<>(furnitureBodies,HttpStatus.OK);
 	}
 	
 	@GetMapping("/find/{id}")
-	public ResponseEntity<FurnitureBody> getFurnitureBodyById(@PathVariable("id") Long id){
-		final FurnitureBody furnitureBody = furnitureBodyService.findFurnitureBodyById(id);
-		return new ResponseEntity<>(furnitureBody,HttpStatus.OK);
+	public ResponseEntity<FurnitureBodyDTO> getFurnitureBodyById(@PathVariable("id") Long id){
+		final FurnitureBodyDTO furnitureBodyDTO = furnitureBodyService.findFurnitureBodyById(id);
+		return new ResponseEntity<>(furnitureBodyDTO,HttpStatus.OK);
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<FurnitureBody> addFurnitureBody(@RequestBody FurnitureBody furnitureBody){
-		final FurnitureBody persistenFurnitureBody = furnitureBodyService.create(furnitureBody);
-		return new ResponseEntity<>(persistenFurnitureBody,HttpStatus.CREATED);
+	public ResponseEntity<FurnitureBodyDTO> addFurnitureBody(@RequestBody FurnitureBodyDTO furnitureBodyDTO){
+		final FurnitureBodyDTO persistenFurnitureBodyDTO = furnitureBodyService.create(furnitureBodyDTO);
+		return new ResponseEntity<>(persistenFurnitureBodyDTO,HttpStatus.CREATED);
 	}
 
 	@PostMapping("/update")
-	public ResponseEntity<FurnitureBody> updateFurnitureBody(@RequestBody FurnitureBody furnitureBody){
-		final FurnitureBody persistenFurnitureBody = furnitureBodyService.update(furnitureBody);
-		return new ResponseEntity<>(persistenFurnitureBody,HttpStatus.OK);
+	public ResponseEntity<FurnitureBodyDTO> updateFurnitureBody(@RequestBody FurnitureBodyDTO furnitureBodyDTO){
+		final FurnitureBodyDTO persistenFurnitureBodyDTO = furnitureBodyService.update(furnitureBodyDTO);
+		return new ResponseEntity<>(persistenFurnitureBodyDTO,HttpStatus.OK);
 	}
 
 	@GetMapping("delete/{id}")

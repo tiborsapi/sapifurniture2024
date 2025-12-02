@@ -28,7 +28,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
 
 @CucumberContextConfiguration
 @SpringBootTest
@@ -51,7 +51,7 @@ public class FurnitureStepDefinition {
 	@Given("^that we have the following furniture bodies:$")
 	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
 		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
-			FurnitureBody body = new FurnitureBody();
+			FurnitureBodyDTO body = new FurnitureBodyDTO();
 			body.setHeigth(Integer.parseInt(data.get("heigth")));
 			body.setWidth(Integer.parseInt(data.get("width")));
 			body.setDepth(Integer.parseInt(data.get("depth")));

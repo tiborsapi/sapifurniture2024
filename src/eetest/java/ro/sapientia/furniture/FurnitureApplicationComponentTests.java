@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,7 +43,7 @@ class FurnitureApplicationComponentTests {
     private TestEntityManager entityManager;
     
     private void addOneElement() {
-    	FurnitureBody body = new FurnitureBody();
+    	FurnitureBodyDTO body = new FurnitureBodyDTO();
     	body.setHeigth(10);
     	entityManager.persist(body);
     	entityManager.flush();

@@ -17,7 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
 import ro.sapientia.furniture.service.FurnitureBodyService;
 
 @WebMvcTest(controllers = FurnitureController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
@@ -31,7 +31,7 @@ public class FurnitureControllerTest {
 
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
-		final FurnitureBody body = new FurnitureBody();
+		final FurnitureBodyDTO body = new FurnitureBodyDTO();
 		body.setHeigth(10);
 		when(furnitureBodyService.findAllFurnitureBodies()).thenReturn(List.of(body));
 

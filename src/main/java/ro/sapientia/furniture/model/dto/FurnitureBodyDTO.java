@@ -1,4 +1,4 @@
-package ro.sapientia.furniture.model;
+package ro.sapientia.furniture.model.dto;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "furniture_body")
-public class FurnitureBody implements Serializable {
+public class FurnitureBodyDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

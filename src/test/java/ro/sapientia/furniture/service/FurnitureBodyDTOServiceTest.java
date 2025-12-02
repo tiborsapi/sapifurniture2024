@@ -11,10 +11,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
 import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 
-public class FurnitureBodyServiceTest {
+public class FurnitureBodyDTOServiceTest {
 
 	private FurnitureBodyRepository repositoryMock;
 
@@ -29,7 +29,7 @@ public class FurnitureBodyServiceTest {
 	@Test
 	public void testFindAllFurnitureBodies_emptyList() {
 		when(repositoryMock.findAll()).thenReturn(Collections.emptyList());
-		final List<FurnitureBody> furnitureBodies =  service.findAllFurnitureBodies();
+		final List<FurnitureBodyDTO> furnitureBodies =  service.findAllFurnitureBodies();
 		
 		assertEquals(0, furnitureBodies.size());
 	}
@@ -37,7 +37,7 @@ public class FurnitureBodyServiceTest {
 	@Test
 	public void testFindAllFurnitureBodies_null() {
 		when(repositoryMock.findAll()).thenReturn(null);
-		final List<FurnitureBody> furnitureBodies =  service.findAllFurnitureBodies();
+		final List<FurnitureBodyDTO> furnitureBodies =  service.findAllFurnitureBodies();
 		
 		assertNull(furnitureBodies);
 	}
