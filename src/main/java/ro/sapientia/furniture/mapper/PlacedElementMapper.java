@@ -29,7 +29,6 @@ public class PlacedElementMapper {
 
         PlacedElement model = new PlacedElement();
         model.setId(dto.getId());
-        model.setType(dto.getType());
         model.setX(dto.getX());
         model.setY(dto.getY());
         model.setWidth(dto.getWidth());
@@ -51,7 +50,6 @@ public class PlacedElementMapper {
 
         PlacedElementDTO dto = new PlacedElementDTO();
         dto.setId(model.getId());
-        dto.setType(model.getType());
         dto.setX(model.getX());
         dto.setY(model.getY());
         dto.setWidth(model.getWidth());
