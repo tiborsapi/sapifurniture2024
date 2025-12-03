@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ro.sapientia.furniture.model.dto.CutRequestDTO;
+import ro.sapientia.furniture.model.dto.CutResponseDTO;
 import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
+import ro.sapientia.furniture.service.CutOptimizationService;
 import ro.sapientia.furniture.service.FurnitureBodyService;
 
 @RestController
@@ -19,9 +22,12 @@ import ro.sapientia.furniture.service.FurnitureBodyService;
 public class FurnitureController {
 
 	private final FurnitureBodyService furnitureBodyService;
-	
-	public FurnitureController(final FurnitureBodyService furnitureBodyService) {
+	private final CutOptimizationService cutOptimizationService;
+
+	public FurnitureController(final FurnitureBodyService furnitureBodyService,
+							   final CutOptimizationService cutOptimizationService) {
 		this.furnitureBodyService = furnitureBodyService;
+		this.cutOptimizationService = cutOptimizationService;
 	}
 	
 	@GetMapping("/all")
@@ -53,5 +59,10 @@ public class FurnitureController {
 		furnitureBodyService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
+	@PostMapping("/cut")
+	public ResponseEntity<CutResponseDTO> optimizeCut(@RequestBody CutRequestDTO cutRequestDTO){
+		final CutResponseDTO cutResponseDTO = cutOptimizationService.optimizeCutting(cutRequestDTO);
+		return new ResponseEntity<>(cutResponseDTO, HttpStatus.OK);
+	}
 }
