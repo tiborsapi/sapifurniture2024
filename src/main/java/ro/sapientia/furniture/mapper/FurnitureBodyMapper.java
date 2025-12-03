@@ -30,7 +30,7 @@ public class FurnitureBodyMapper {
         FurnitureBody entity = new FurnitureBody();
         entity.setId(dto.getId());
         entity.setWidth(dto.getWidth());
-        entity.setHeigth(dto.getHeigth());
+        entity.setHeight(dto.getHeight());
         entity.setDepth(dto.getDepth());
 
         return entity;
@@ -50,7 +50,7 @@ public class FurnitureBodyMapper {
         FurnitureBodyDTO dto = new FurnitureBodyDTO();
         dto.setId(entity.getId());
         dto.setWidth(entity.getWidth());
-        dto.setHeigth(entity.getHeigth());
+        dto.setHeight(entity.getHeight());
         dto.setDepth(entity.getDepth());
 
         return dto;

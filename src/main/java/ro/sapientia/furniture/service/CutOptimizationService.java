@@ -54,8 +54,8 @@ public class CutOptimizationService {
 
         // Sort elements by height (descending) for better packing
         List<FurnitureBodyDTO> sortedElements = new ArrayList<>(request.getElements());
-        // DTO has a typo: method is getHeigth()
-        sortedElements.sort(Comparator.comparingInt(FurnitureBodyDTO::getHeigth).reversed());
+        // DTO has a typo: method is getHeight()
+        sortedElements.sort(Comparator.comparingInt(FurnitureBodyDTO::getHeight).reversed());
 
         // Perform optimization using FFDH algorithm
         List<PlacedElementDTO> placements = performFFDHPacking(
@@ -88,9 +88,9 @@ public class CutOptimizationService {
         // Check if any element is larger than the sheet in both dimensions (cannot fit either orientation)
         for (FurnitureBodyDTO element : request.getElements()) {
             if (element.getWidth() > request.getSheetWidth() &&
-                    element.getHeigth() > request.getSheetHeight()) {
+                    element.getHeight() > request.getSheetHeight()) {
                 throw new CutOptimizationException(
-                        "Element " + element.getId() + " (" + element.getWidth() + "x" + element.getHeigth() +
+                        "Element " + element.getId() + " (" + element.getWidth() + "x" + element.getHeight() +
                                 ") is too large to fit on the sheet (" + request.getSheetWidth() + "x" + request.getSheetHeight() + ")"
                 );
             }
@@ -112,7 +112,7 @@ public class CutOptimizationService {
         for (FurnitureBodyDTO element : elements) {
             boolean placed = false;
             int elementWidth = element.getWidth();
-            int elementHeight = element.getHeigth();
+            int elementHeight = element.getHeight();
             boolean rotated = false;
 
             // Try to place element in existing levels

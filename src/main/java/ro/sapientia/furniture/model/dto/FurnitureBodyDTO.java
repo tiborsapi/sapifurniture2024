@@ -11,7 +11,7 @@ public class FurnitureBodyDTO implements Serializable {
 
 	private Long id;
 	private int width;
-	private int heigth;
+	private int height;
 	private int depth;
 
 	public Long getId() {
@@ -30,12 +30,12 @@ public class FurnitureBodyDTO implements Serializable {
 		this.width = width;
 	}
 
-	public int getHeigth() {
-		return heigth;
+	public int getHeight() {
+		return height;
 	}
 
-	public void setHeigth(int heigth) {
-		this.heigth = heigth;
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 	public int getDepth() {
@@ -52,7 +52,7 @@ public class FurnitureBodyDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FurnitureBody [id=" + id + ", width=" + width + ", heigth=" + heigth + ", depth=" + depth + "]";
+		return "FurnitureBody [id=" + id + ", width=" + width + ", heigth=" + height + ", depth=" + depth + "]";
 	}
 
 }

@@ -1,8 +1,5 @@
 package ro.sapientia.furniture.exception;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 /**

@@ -6,7 +6,6 @@ package ro.sapientia.furniture.model.entities;
 public class PlacedElement {
 
     private Long id;
-    private String type;
     private Integer x;
     private Integer y;
     private Integer width;
@@ -17,7 +16,6 @@ public class PlacedElement {
 
     public PlacedElement(Long id, Integer x, Integer y, Integer width, Integer height) {
         this.id = id;
-        this.type = type;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -66,7 +64,7 @@ public class PlacedElement {
 
     @Override
     public String toString() {
-        return "PlacedElement [id=" + id + ", type=" + type + ", x=" + x + ", y=" + y +
+        return "PlacedElement [id=" + id + ", x=" + x + ", y=" + y +
                ", width=" + width + ", height=" + height + "]";
     }
 }

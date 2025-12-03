@@ -6,7 +6,6 @@ package ro.sapientia.furniture.model.dto;
 public class PlacedElementDTO {
     
     private Long id;
-    private String type;
     private Integer x;
     private Integer y;
     private Integer width;
@@ -65,7 +64,7 @@ public class PlacedElementDTO {
     
     @Override
     public String toString() {
-        return "PlacedElement [id=" + id + ", type=" + type + ", x=" + x + ", y=" + y + 
+        return "PlacedElement [id=" + id + ", x=" + x + ", y=" + y +
                ", width=" + width + ", height=" + height + "]";
     }
 }

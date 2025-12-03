@@ -25,8 +25,8 @@ public class FurnitureBody implements Serializable {
 	@Column(name = "width")
 	private int width;
 
-	@Column(name = "heigth")
-	private int heigth;
+	@Column(name = "height")
+	private int height;
 
 	@Column(name = "depth")
 	private int depth;
@@ -34,10 +34,10 @@ public class FurnitureBody implements Serializable {
 	public FurnitureBody() {
 	}
 
-	public FurnitureBody(Long id, int width, int heigth, int depth) {
+	public FurnitureBody(Long id, int width, int height, int depth) {
 		this.id = id;
 		this.width = width;
-		this.heigth = heigth;
+		this.height = height;
 		this.depth = depth;
 	}
 
@@ -57,12 +57,12 @@ public class FurnitureBody implements Serializable {
 		this.width = width;
 	}
 
-	public int getHeigth() {
-		return heigth;
+	public int getHeight() {
+		return height;
 	}
 
-	public void setHeigth(int heigth) {
-		this.heigth = heigth;
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 	public int getDepth() {
@@ -75,7 +75,7 @@ public class FurnitureBody implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FurnitureBody [id=" + id + ", width=" + width + ", heigth=" + heigth + ", depth=" + depth + "]";
+		return "FurnitureBody [id=" + id + ", width=" + width + ", heigth=" + height + ", depth=" + depth + "]";
 	}
 }
 
