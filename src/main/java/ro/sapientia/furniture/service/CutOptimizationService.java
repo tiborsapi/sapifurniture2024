@@ -72,6 +72,8 @@ public class CutOptimizationService {
             );
         }
 
+        validatePlacements(placements, request.getSheetWidth(), request.getSheetHeight());
+
         logger.info("Cut optimization completed successfully. Placed {} elements", placements.size());
 
         return new CutResponseDTO(placements);
@@ -218,7 +220,6 @@ public class CutOptimizationService {
      * Validate that placements don't overlap and are within sheet bounds.
      * This is a safety check for the algorithm.
      */
-    @SuppressWarnings("unused")
     private void validatePlacements(List<PlacedElementDTO> placements, int sheetWidth, int sheetHeight) {
         for (int i = 0; i < placements.size(); i++) {
             PlacedElementDTO p1 = placements.get(i);
