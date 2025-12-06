@@ -17,8 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
 import ro.sapientia.furniture.service.FurnitureBodyService;
+import ro.sapientia.furniture.service.CutOptimizationService;
 
 @WebMvcTest(controllers = FurnitureController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 public class FurnitureControllerTest {
@@ -29,14 +30,17 @@ public class FurnitureControllerTest {
 	@MockBean(FurnitureBodyService.class)
 	private FurnitureBodyService furnitureBodyService;
 
+	@MockBean(CutOptimizationService.class)
+	private CutOptimizationService cutOptimizationService;
+
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
-		final FurnitureBody body = new FurnitureBody();
-		body.setHeigth(10);
+		final FurnitureBodyDTO body = new FurnitureBodyDTO();
+		body.setHeight(10);
 		when(furnitureBodyService.findAllFurnitureBodies()).thenReturn(List.of(body));
 
 		this.mockMvc.perform(get("/furniture/all")).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].heigth", is(10)));
+				.andExpect(jsonPath("$[0].height", is(10)));
 	}
 }

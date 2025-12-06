@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.mapper.FurnitureBodyMapper;
+import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
+import ro.sapientia.furniture.model.entities.FurnitureBody;
 import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 
 @Service
@@ -16,20 +18,26 @@ public class FurnitureBodyService {
 		this.furnitureBodyRepository = furnitureBodyRepository;
 	}
 	
-	public List<FurnitureBody> findAllFurnitureBodies() {
-		return this.furnitureBodyRepository.findAll();
+	public List<FurnitureBodyDTO> findAllFurnitureBodies() {
+		List<FurnitureBody> entities = this.furnitureBodyRepository.findAll();
+		return FurnitureBodyMapper.toDTOList(entities);
 	}
 
-	public FurnitureBody findFurnitureBodyById(final Long id) {
-		return this.furnitureBodyRepository.findFurnitureBodyById(id);
+	public FurnitureBodyDTO findFurnitureBodyById(final Long id) {
+		FurnitureBody entity = this.furnitureBodyRepository.findFurnitureBodyById(id);
+		return FurnitureBodyMapper.toDTO(entity);
 	}
 
-	public FurnitureBody create(FurnitureBody furnitureBody) {
-		return this.furnitureBodyRepository.saveAndFlush(furnitureBody);
+	public FurnitureBodyDTO create(FurnitureBodyDTO furnitureBodyDTO) {
+		FurnitureBody entity = FurnitureBodyMapper.toEntity(furnitureBodyDTO);
+		FurnitureBody savedEntity = this.furnitureBodyRepository.saveAndFlush(entity);
+		return FurnitureBodyMapper.toDTO(savedEntity);
 	}
 
-	public FurnitureBody update(FurnitureBody furnitureBody) {
-		return this.furnitureBodyRepository.saveAndFlush(furnitureBody);
+	public FurnitureBodyDTO update(FurnitureBodyDTO furnitureBodyDTO) {
+		FurnitureBody entity = FurnitureBodyMapper.toEntity(furnitureBodyDTO);
+		FurnitureBody updatedEntity = this.furnitureBodyRepository.saveAndFlush(entity);
+		return FurnitureBodyMapper.toDTO(updatedEntity);
 	}
 
 	public void delete(Long id) {

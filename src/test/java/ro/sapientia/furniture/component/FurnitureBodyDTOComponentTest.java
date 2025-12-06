@@ -15,14 +15,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.furniture.model.FurnitureBody;
+import ro.sapientia.furniture.model.entities.FurnitureBody;
 import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-public class FurnitureBodyComponentTest {
+public class FurnitureBodyDTOComponentTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -33,14 +33,14 @@ public class FurnitureBodyComponentTest {
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
 		FurnitureBody fb = new FurnitureBody();
-		fb.setHeigth(20);
+		fb.setHeight(20);
 		fb.setWidth(10);
 		fb.setDepth(6);
 		var savedFB = repository.save(fb);
 
 		this.mockMvc.perform(get("/furniture/all")).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].heigth", is(20)));
+				.andExpect(jsonPath("$[0].height", is(20)));
 	}
 
 }
