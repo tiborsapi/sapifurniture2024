@@ -1,7 +1,6 @@
 package ro.sapientia.furniture.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,7 +38,7 @@ public class FurnitureBodyDTOServiceTest {
 		when(repositoryMock.findAll()).thenReturn(null);
 		final List<FurnitureBodyDTO> furnitureBodies =  service.findAllFurnitureBodies();
 		
-		assertNull(furnitureBodies);
+		assertEquals(0, furnitureBodies.size());
 	}
 
 }

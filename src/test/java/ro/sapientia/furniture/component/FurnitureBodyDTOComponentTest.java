@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
+import ro.sapientia.furniture.model.entities.FurnitureBody;
 import ro.sapientia.furniture.repository.FurnitureBodyRepository;
 
 @SpringBootTest
@@ -32,15 +32,15 @@ public class FurnitureBodyDTOComponentTest {
 	
 	@Test
 	public void greetingShouldReturnMessageFromService() throws Exception {
-		FurnitureBodyDTO fb = new FurnitureBodyDTO();
-		fb.setHeigth(20);
+		FurnitureBody fb = new FurnitureBody();
+		fb.setHeight(20);
 		fb.setWidth(10);
 		fb.setDepth(6);
 		var savedFB = repository.save(fb);
 
 		this.mockMvc.perform(get("/furniture/all")).andExpect(status().isOk())
 				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$[0].heigth", is(20)));
+				.andExpect(jsonPath("$[0].height", is(20)));
 	}
 
 }

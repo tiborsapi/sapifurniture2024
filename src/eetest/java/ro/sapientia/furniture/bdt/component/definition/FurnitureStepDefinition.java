@@ -14,25 +14,26 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
-import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
+import ro.sapientia.furniture.model.entities.FurnitureBody;
 
 @CucumberContextConfiguration
 @SpringBootTest
-@AutoConfigureMockMvc
 @Transactional
 @AutoConfigureCache
 @AutoConfigureDataJpa
@@ -43,16 +44,23 @@ import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
 public class FurnitureStepDefinition {
 
 	@Autowired
+	private WebApplicationContext context;
+
 	private MockMvc mvc;
 
 	@Autowired
 	private TestEntityManager entityManager;
 
+	@Before
+	public void setupMvc() {
+		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+	}
+
 	@Given("^that we have the following furniture bodies:$")
-	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
+	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) {
 		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
-			FurnitureBodyDTO body = new FurnitureBodyDTO();
-			body.setHeigth(Integer.parseInt(data.get("heigth")));
+			FurnitureBody body = new FurnitureBody();
+			body.setHeight(Integer.parseInt(data.get("heigth")));
 			body.setWidth(Integer.parseInt(data.get("width")));
 			body.setDepth(Integer.parseInt(data.get("depth")));
 			entityManager.persist(body);
@@ -62,17 +70,17 @@ public class FurnitureStepDefinition {
 	}
 
 	@When("^I invoke the furniture all endpoint$")
-	public void I_invoke_the_furniture_all_endpoint() throws Throwable {
+	public void I_invoke_the_furniture_all_endpoint() {
 	}
 
 	@Then("^I should get the heigth \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
-	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {
+	public void I_should_get_result_in_stories_list(final String height, final String position) throws Exception {
 		mvc.perform(get("/furniture/all")
 			      .contentType(MediaType.APPLICATION_JSON))
 			      .andExpect(status().isOk())
 			      .andExpect(content()
 			      .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			      .andExpect(jsonPath("$["+position+"].heigth", is(Integer.parseInt(heigth))));
+			      .andExpect(jsonPath("$["+position+"].height", is(Integer.parseInt(height))));
 	}
 
 	@After

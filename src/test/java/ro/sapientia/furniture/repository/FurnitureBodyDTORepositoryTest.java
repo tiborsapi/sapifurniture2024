@@ -27,7 +27,7 @@ public class FurnitureBodyDTORepositoryTest {
 	@Test
 	public void myTestForFindFirst() {
 		FurnitureBody fb = new FurnitureBody();
-		fb.setHeigth(20);
+		fb.setHeight(20);
 		fb.setWidth(10);
 		fb.setDepth(6);
 		var savedFB = repository.save(fb);

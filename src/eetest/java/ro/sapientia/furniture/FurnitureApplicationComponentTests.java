@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import ro.sapientia.furniture.model.dto.FurnitureBodyDTO;
+import ro.sapientia.furniture.model.entities.FurnitureBody;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,8 +43,8 @@ class FurnitureApplicationComponentTests {
     private TestEntityManager entityManager;
     
     private void addOneElement() {
-    	FurnitureBodyDTO body = new FurnitureBodyDTO();
-    	body.setHeigth(10);
+    	FurnitureBody body = new FurnitureBody();
+    	body.setHeight(10);
     	entityManager.persist(body);
     	entityManager.flush();
     }
@@ -57,7 +57,7 @@ class FurnitureApplicationComponentTests {
 			      .andExpect(status().isOk())
 			      .andExpect(content()
 			      .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			      .andExpect(jsonPath("$[0].heigth", is(10)));
+			      .andExpect(jsonPath("$[0].height", is(10)));
 	}
 
 }
