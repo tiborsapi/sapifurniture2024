@@ -92,12 +92,13 @@ jobs:
         else
           tag="${GITHUB_RUN_NUMBER}"
         fi
-          echo "tag=$tag" >> $GITHUB_OUTPUT
+        tag="${GITHUB_SHA}"
+        echo "tag=$tag" >> $GITHUB_OUTPUT
 
     - name: Compute full image name
       id: image
       run: |
-        echo "full=${IMAGE_REGISTRY}/${{ github.repository_owner }}/${{ steps.name.outputs.image_name }}:${{ steps.vars.outputs.tag }}" >> $GITHUB_OUTPUT
+        echo "full=${IMAGE_REGISTRY}/${{ github.repository_owner }}/${image_name}:${tag}" >> $GITHUB_OUTPUT
 
     - name: Log in to container registry
       uses: docker/login-action@v3
