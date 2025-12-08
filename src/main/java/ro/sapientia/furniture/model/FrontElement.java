@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.FetchType;
 
 @Entity(name = "front_element")
 public class FrontElement implements Serializable {
@@ -29,7 +30,7 @@ public class FrontElement implements Serializable {
 	@Column(name = "id", nullable = false, updatable = false)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "furniture_body_id", nullable = false)
 	private FurnitureBody furnitureBody;
 
