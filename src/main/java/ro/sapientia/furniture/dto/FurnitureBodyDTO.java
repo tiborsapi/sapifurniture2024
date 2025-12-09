@@ -3,58 +3,67 @@ package ro.sapientia.furniture.dto;
 import java.util.List;
 
 public class FurnitureBodyDTO {
+    private Long id;
     private Integer width;
     private Integer heigth;
     private Integer depth;
     private Integer thickness;
     private List<FrontElementDTO> frontElements;
+    private Long mainFrontElementId;
 
-    // getters / setters
+    public Long getId() {
+        return id;
+    }
 
-    public Integer getWidth() { return width; }
-    public void setWidth(Integer width) { this.width = width; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Integer getHeigth() { return heigth; }
-    public void setHeigth(Integer heigth) { this.heigth = heigth; }
+    public Integer getWidth() {
+        return width;
+    }
 
-    public Integer getDepth() { return depth; }
-    public void setDepth(Integer depth) { this.depth = depth; }
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
 
-    public Integer getThickness() { return thickness; }
-    public void setThickness(Integer thickness) { this.thickness = thickness; }
+    public Integer getHeigth() {
+        return heigth;
+    }
 
-    public List<FrontElementDTO> getFrontElements() { return frontElements; }
-    public void setFrontElements(List<FrontElementDTO> frontElements) { this.frontElements = frontElements; }
+    public void setHeigth(Integer heigth) {
+        this.heigth = heigth;
+    }
 
-    public static class FrontElementDTO {
-        private String elementType;
-        private Integer posX;
-        private Integer posY;
-        private Integer width;
-        private Integer height;
-        private String details;
-        private String rawMaterialTypeName;
+    public Integer getDepth() {
+        return depth;
+    }
 
-        // getters / setters
-        public String getElementType() { return elementType; }
-        public void setElementType(String elementType) { this.elementType = elementType; }
+    public void setDepth(Integer depth) {
+        this.depth = depth;
+    }
 
-        public Integer getPosX() { return posX; }
-        public void setPosX(Integer posX) { this.posX = posX; }
+    public Integer getThickness() {
+        return thickness;
+    }
 
-        public Integer getPosY() { return posY; }
-        public void setPosY(Integer posY) { this.posY = posY; }
+    public void setThickness(Integer thickness) {
+        this.thickness = thickness;
+    }
 
-        public Integer getWidth() { return width; }
-        public void setWidth(Integer width) { this.width = width; }
+    public List<FrontElementDTO> getFrontElements() {
+        return frontElements;
+    }
 
-        public Integer getHeight() { return height; }
-        public void setHeight(Integer height) { this.height = height; }
+    public void setFrontElements(List<FrontElementDTO> frontElements) {
+        this.frontElements = frontElements;
+    }
 
-        public String getDetails() { return details; }
-        public void setDetails(String details) { this.details = details; }
+    public Long getMainFrontElementId() {
+        return mainFrontElementId;
+    }
 
-        public String getRawMaterialTypeName() { return rawMaterialTypeName; }
-        public void setRawMaterialTypeName(String rawMaterialTypeName) { this.rawMaterialTypeName = rawMaterialTypeName; }
+    public void setMainFrontElementId(Long mainFrontElementId) {
+        this.mainFrontElementId = mainFrontElementId;
     }
 }

@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import ro.sapientia.furniture.dto.FurnitureBodyDTO;
+import ro.sapientia.furniture.dto.FrontElementDTO;
 import ro.sapientia.furniture.dto.RawMaterialDTO;
 import ro.sapientia.furniture.dto.ComponentListDTO;
-import ro.sapientia.furniture.dto.FurnitureBodyDTO.FrontElementDTO;
 import ro.sapientia.furniture.model.FurnitureBody;
 import ro.sapientia.furniture.model.FrontElement;
 import ro.sapientia.furniture.model.RawMaterial;
@@ -28,6 +28,9 @@ public class FurnitureMapper {
 
     public FurnitureBody toEntity(FurnitureBodyDTO dto) {
         FurnitureBody fb = new FurnitureBody();
+        if (dto.getId() != null) {
+            fb.setId(dto.getId());
+        }
         fb.setWidth(dto.getWidth());
         fb.setHeigth(dto.getHeigth());
         fb.setDepth(dto.getDepth());
@@ -37,6 +40,9 @@ public class FurnitureMapper {
             List<FrontElement> fes = new ArrayList<>();
             for (FrontElementDTO fedto : dto.getFrontElements()) {
                 FrontElement fe = new FrontElement();
+                if (fedto.getId() != null) {
+                    fe.setId(fedto.getId());
+                }
                 try {
                     fe.setElementType(FrontElement.ElementType.valueOf(fedto.getElementType()));
                 } catch (Exception ex) {
@@ -58,6 +64,46 @@ public class FurnitureMapper {
             fb.refreshMainFrontElement();
         }
         return fb;
+    }
+
+    public FurnitureBodyDTO toDto(FurnitureBody entity) {
+        FurnitureBodyDTO dto = new FurnitureBodyDTO();
+        dto.setId(entity.getId());
+        dto.setWidth(entity.getWidth());
+        dto.setHeigth(entity.getHeigth());
+        dto.setDepth(entity.getDepth());
+        dto.setThickness(entity.getThickness());
+
+        if (entity.getFrontElements() != null) {
+            List<FrontElementDTO> frontElementDTOs = entity.getFrontElements().stream()
+                    .map(this::toDto)
+                    .collect(Collectors.toList());
+            dto.setFrontElements(frontElementDTOs);
+        }
+
+        if (entity.getMainFrontElement() != null) {
+            dto.setMainFrontElementId(entity.getMainFrontElement().getId());
+        }
+
+        return dto;
+    }
+
+    public FrontElementDTO toDto(FrontElement entity) {
+        FrontElementDTO dto = new FrontElementDTO();
+        dto.setId(entity.getId());
+        if (entity.getFurnitureBody() != null) {
+            dto.setFurnitureBodyId(entity.getFurnitureBody().getId());
+        }
+        dto.setElementType(entity.getElementType() != null ? entity.getElementType().name() : null);
+        dto.setPosX(entity.getPosX());
+        dto.setPosY(entity.getPosY());
+        dto.setWidth(entity.getWidth());
+        dto.setHeight(entity.getHeight());
+        dto.setDetails(entity.getDetails());
+        if (entity.getRawMaterialType() != null) {
+            dto.setRawMaterialTypeName(entity.getRawMaterialType().getName());
+        }
+        return dto;
     }
 
     public ComponentListDTO toDto(ComponentList cl) {
