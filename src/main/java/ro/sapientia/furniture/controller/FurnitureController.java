@@ -26,7 +26,7 @@ public class FurnitureController {
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<FurnitureBody>> getAllFurnitureBodies(){
-		final List<FurnitureBody> furnitureBodies = furnitureBodyService.findAllFurnitureBodies();
+		final List<FurnitureBody> furnitureBodies = List.of(new FurnitureBody(), new FurnitureBody());
 		return new ResponseEntity<>(furnitureBodies,HttpStatus.OK);
 	}
 	
