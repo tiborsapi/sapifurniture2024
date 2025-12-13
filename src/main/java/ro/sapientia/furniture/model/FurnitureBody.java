@@ -95,8 +95,19 @@ public class FurnitureBody implements Serializable {
 
 	public ComponentList getRawMaterials() {
 		refreshMainFrontElement();
-		ComponentList componentList = new ComponentList(this, getMainFrontElement().getRawMaterials());
-		return componentList;
+		
+		FrontElement mainElement = getMainFrontElement();
+		LinkedList<RawMaterial> elementMaterials  = new LinkedList<RawMaterial>();
+		elementMaterials.add(mainElement.getHorizontalMaterial());
+		elementMaterials.add(mainElement.getHorizontalMaterial());
+		elementMaterials.add(mainElement.getVerticalMaterial());
+		elementMaterials.add(mainElement.getVerticalMaterial());
+		// Back panel
+		elementMaterials.add(mainElement.getOppositeMaterial());
+		// Front panels
+		elementMaterials.addAll(mainElement.getMaterials());
+
+		return new ComponentList(this, elementMaterials);
 	}
 
 	public void refreshMainFrontElement() {

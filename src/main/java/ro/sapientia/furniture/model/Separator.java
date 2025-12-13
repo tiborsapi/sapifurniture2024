@@ -159,7 +159,7 @@ public class Separator implements Serializable {
 		this.secondFrontElement = secondFrontElement;
 	}
 
-	public LinkedList<RawMaterial> getRawMaterials() {
+	public LinkedList<RawMaterial> getMaterials() {
 		LinkedList<RawMaterial> elementMaterials  = new LinkedList<RawMaterial>();
 
 		if (separatorType == SeparatorType.HORIZONTAL) {
@@ -167,12 +167,8 @@ public class Separator implements Serializable {
 		} else {
 			elementMaterials.add(firstFrontElement.getHorizontalMaterial());
 		}
-		if (firstFrontElement.getSeparator() != null) {
-			elementMaterials.addAll(firstFrontElement.getSeparator().getRawMaterials());
-		}
-		if (secondFrontElement.getSeparator() != null) {
-			elementMaterials.addAll(secondFrontElement.getSeparator().getRawMaterials());
-		}
+		elementMaterials.addAll(firstFrontElement.getMaterials());
+		elementMaterials.addAll(secondFrontElement.getMaterials());
 
 		return elementMaterials;
 	}

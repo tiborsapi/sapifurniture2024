@@ -2,6 +2,7 @@ package ro.sapientia.furniture.model;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +31,7 @@ public class FrontElement implements Serializable {
 	@Column(name = "id", nullable = false, updatable = false)
 	private Long id;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "furniture_body_id", nullable = false)
 	private FurnitureBody furnitureBody;
@@ -168,18 +170,14 @@ public class FrontElement implements Serializable {
 		this.separator = separator;
 	}
 
-	public LinkedList<RawMaterial> getRawMaterials() {
-		LinkedList<RawMaterial> elementMaterials  = new LinkedList<RawMaterial>();
-		elementMaterials.add(getHorizontalMaterial());
-		elementMaterials.add(getHorizontalMaterial());
-		elementMaterials.add(getVerticalMaterial());
-		elementMaterials.add(getVerticalMaterial());
-		elementMaterials.add(getOppositeMaterial());
-		elementMaterials.add(getOppositeMaterial());
-		if (separator != null) {
-			elementMaterials.addAll(separator.getRawMaterials());
+	public LinkedList<RawMaterial> getMaterials() {
+		if (separator == null) {
+			LinkedList<RawMaterial> elementMaterials  = new LinkedList<RawMaterial>();
+			elementMaterials.add(getOppositeMaterial());
+			return elementMaterials;
+		} else {
+			return separator.getMaterials();
 		}
-		return elementMaterials;
 	}
 
 	public RawMaterial getHorizontalMaterial() {
