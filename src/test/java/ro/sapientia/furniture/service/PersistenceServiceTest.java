@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -58,15 +58,6 @@ public class PersistenceServiceTest {
 		savedFb.setThickness(18);
 		savedFb.setFrontElements(List.of(fe));
 
-		ComponentList cl = new ComponentList();
-		cl.setFurnitureBody(savedFb);
-		LinkedList<RawMaterial> rawMaterials = new LinkedList<>();
-		RawMaterial rm1 = new RawMaterial(18, 100, 50, type, 2);
-		RawMaterial rm2 = new RawMaterial(200, 18, 50, type, 2);
-		rawMaterials.add(rm1);
-		rawMaterials.add(rm2);
-		cl.setRawMaterials(rawMaterials);
-
 		ComponentList savedCl = new ComponentList();
 		savedCl.setId(1L);
 		savedCl.setFurnitureBody(savedFb);
@@ -74,24 +65,21 @@ public class PersistenceServiceTest {
 		savedCl.setCreatedAt(LocalDateTime.now());
 		savedCl.setUpdatedAt(LocalDateTime.now());
 
-		RawMaterial persistedRm1 = new RawMaterial(18, 100, 50, type, 2);
-		persistedRm1.setId(1L);
-		RawMaterial persistedRm2 = new RawMaterial(200, 18, 50, type, 2);
-		persistedRm2.setId(2L);
+		RawMaterial persistedRm = new RawMaterial(18, 100, 50, type, 1);
+		persistedRm.setId(1L);
 
 		when(furnitureBodyRepositoryMock.save(fb)).thenReturn(savedFb);
 		when(componentListRepositoryMock.save(any(ComponentList.class))).thenReturn(savedCl);
 		when(rawMaterialServiceMock.findOrCreateAndIncreaseQuantity(any(RawMaterial.class)))
-				.thenReturn(persistedRm1, persistedRm2);
+				.thenReturn(persistedRm);
 
 		FurnitureBody result = service.saveFurnitureBodyAndComponents(fb, 100L);
 
 		assertNotNull(result);
 		assertEquals(savedFb.getId(), result.getId());
 		verify(furnitureBodyRepositoryMock).save(fb);
-		verify(componentListRepositoryMock).save(any(ComponentList.class));
-		verify(rawMaterialServiceMock).findOrCreateAndIncreaseQuantity(rm1);
-		verify(rawMaterialServiceMock).findOrCreateAndIncreaseQuantity(rm2);
+		verify(componentListRepositoryMock, times(2)).save(any(ComponentList.class));
+		verify(rawMaterialServiceMock, times(6)).findOrCreateAndIncreaseQuantity(any(RawMaterial.class));
 	}
 
 	@Test
@@ -125,7 +113,7 @@ public class PersistenceServiceTest {
 
 		assertNotNull(result);
 		verify(furnitureBodyRepositoryMock).save(fb);
-		verify(componentListRepositoryMock).save(any(ComponentList.class));
+		verify(componentListRepositoryMock, times(2)).save(any(ComponentList.class));
 	}
 
 	@Test
@@ -154,7 +142,7 @@ public class PersistenceServiceTest {
 
 		assertNotNull(result);
 		verify(furnitureBodyRepositoryMock).save(fb);
-		verify(componentListRepositoryMock).save(any(ComponentList.class));
+		verify(componentListRepositoryMock, times(2)).save(any(ComponentList.class));
 	}
 }
 

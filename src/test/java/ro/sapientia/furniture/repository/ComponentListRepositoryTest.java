@@ -3,6 +3,8 @@ package ro.sapientia.furniture.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -41,6 +43,8 @@ public class ComponentListRepositoryTest {
 		ComponentList cl = new ComponentList();
 		cl.setFurnitureBody(savedFb);
 		cl.setCreatedBy(100L);
+		cl.setCreatedAt(LocalDateTime.now());
+		cl.setUpdatedAt(LocalDateTime.now());
 		ComponentList savedCl = repository.save(cl);
 
 		assertNotNull(savedCl.getId());
@@ -69,16 +73,22 @@ public class ComponentListRepositoryTest {
 		ComponentList cl1 = new ComponentList();
 		cl1.setFurnitureBody(savedFb1);
 		cl1.setCreatedBy(100L);
+		cl1.setCreatedAt(LocalDateTime.now());
+		cl1.setUpdatedAt(LocalDateTime.now());
 		repository.save(cl1);
 
 		ComponentList cl2 = new ComponentList();
 		cl2.setFurnitureBody(savedFb1);
 		cl2.setCreatedBy(200L);
+		cl2.setCreatedAt(LocalDateTime.now());
+		cl2.setUpdatedAt(LocalDateTime.now());
 		repository.save(cl2);
 
 		ComponentList cl3 = new ComponentList();
 		cl3.setFurnitureBody(savedFb2);
 		cl3.setCreatedBy(300L);
+		cl3.setCreatedAt(LocalDateTime.now());
+		cl3.setUpdatedAt(LocalDateTime.now());
 		repository.save(cl3);
 
 		var result = repository.findByFurnitureBody_Id(savedFb1.getId());
