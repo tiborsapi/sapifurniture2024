@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,10 +45,10 @@ public class RawMaterial implements Serializable {
 	@Column(name = "quantity", nullable = false)
 	private Integer quantity;
 
-	@Column(name = "created_at", nullable = false)
+	@Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createdAt;
 
-	@Column(name = "updated_at", nullable = false)
+	@Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime updatedAt;
 
 	@ManyToOne
@@ -75,6 +77,17 @@ public class RawMaterial implements Serializable {
 		this.componentList = componentList;
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();
+	}
+
+	@PrePersist
+	public void prePersist() {
+		if (createdAt == null) createdAt = LocalDateTime.now();
+		if (updatedAt == null) updatedAt = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	public void preUpdate() {
+		updatedAt = LocalDateTime.now();
 	}
 
 	// Getters and Setters

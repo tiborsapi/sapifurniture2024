@@ -12,22 +12,26 @@ import ro.sapientia.furniture.mapper.FurnitureMapper;
 import ro.sapientia.furniture.model.ComponentList;
 import ro.sapientia.furniture.model.FurnitureBody;
 import ro.sapientia.furniture.repository.ComponentListRepository;
-import ro.sapientia.furniture.service.PersistenceService;
+import ro.sapientia.furniture.service.FurnitureBodyService;
+import ro.sapientia.furniture.service.ComponentListService;
 
 @RestController
 @RequestMapping("/api")
 public class ComponentListController {
 
-    private final PersistenceService persistenceService;
+    private final FurnitureBodyService persistenceService;
     private final FurnitureMapper furnitureMapper;
     private final ComponentListRepository componentListRepository;
+    private final ComponentListService componentListService;
 
-    public ComponentListController(PersistenceService persistenceService,
+    public ComponentListController(FurnitureBodyService persistenceService,
                                    FurnitureMapper furnitureMapper,
-                                   ComponentListRepository componentListRepository) {
+                                   ComponentListRepository componentListRepository,
+                                   ComponentListService componentListService) {
         this.persistenceService = persistenceService;
         this.furnitureMapper = furnitureMapper;
         this.componentListRepository = componentListRepository;
+        this.componentListService = componentListService;
     }
 
     /**
@@ -64,5 +68,37 @@ public class ComponentListController {
             .map(furnitureMapper::toDto)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
+    }
+
+    /** Create a ComponentList directly */
+    @PostMapping("/component-lists")
+    public ResponseEntity<ComponentListDTO> createComponentList(@RequestBody ComponentListDTO dto) {
+        if (componentListService == null) {
+            return ResponseEntity.status(500).build();
+        }
+        ComponentList saved = componentListService.create(dto);
+        return ResponseEntity.ok(furnitureMapper.toDto(saved));
+    }
+
+    /** Update an existing ComponentList */
+    @PutMapping("/component-lists/{id}")
+    public ResponseEntity<ComponentListDTO> updateComponentList(@PathVariable Long id, @RequestBody ComponentListDTO dto) {
+        if (componentListService == null) {
+            return ResponseEntity.status(500).build();
+        }
+        return componentListService.update(id, dto)
+                .map(furnitureMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /** Delete a ComponentList */
+    @DeleteMapping("/component-lists/{id}")
+    public ResponseEntity<Void> deleteComponentList(@PathVariable Long id) {
+        if (componentListService == null) {
+            return ResponseEntity.status(500).build();
+        }
+        boolean deleted = componentListService.delete(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 @Entity(name = "manufactured_component_types")
 @Table(name = "manufactured_component_types", uniqueConstraints = {
@@ -21,10 +23,10 @@ public class ManufacturedComponentType implements Serializable {
     @Column(name = "name", nullable = false, unique = true, length = 255)
     private String name;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
     // Constructors
@@ -32,9 +34,20 @@ public class ManufacturedComponentType implements Serializable {
 
     public ManufacturedComponentType(String name) {
         this.name = name;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+            this.createdAt = LocalDateTime.now();
+            this.updatedAt = LocalDateTime.now();
     }
+
+        @PrePersist
+        public void prePersist() {
+            if (createdAt == null) createdAt = LocalDateTime.now();
+            if (updatedAt == null) updatedAt = LocalDateTime.now();
+        }
+
+        @PreUpdate
+        public void preUpdate() {
+            updatedAt = LocalDateTime.now();
+        }
 
     // Getters & Setters
     public Long getId() { return id; }

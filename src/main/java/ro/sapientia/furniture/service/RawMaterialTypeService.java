@@ -1,6 +1,5 @@
 package ro.sapientia.furniture.service;
 
-import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +24,6 @@ public class RawMaterialTypeService {
         return rawMaterialTypeRepository.findByName(name.trim())
             .orElseGet(() -> {
                 RawMaterialType rmt = new RawMaterialType(name.trim());
-                if (rmt.getCreatedAt() == null) rmt.setCreatedAt(LocalDateTime.now());
-                if (rmt.getUpdatedAt() == null) rmt.setUpdatedAt(LocalDateTime.now());
                 return rawMaterialTypeRepository.save(rmt);
             });
     }
