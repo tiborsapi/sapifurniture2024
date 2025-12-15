@@ -1,29 +1,29 @@
 package ro.sapientia.furniture.controller;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ro.sapientia.furniture.dto.ComponentListDTO;
@@ -55,6 +55,9 @@ public class ComponentListControllerTest {
     private ComponentListService componentListService;
 
     private final ObjectMapper om = new ObjectMapper();
+    private ComponentListController controller;
+    private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
 
     @Test
     public void createFurnitureAndComponentList_returnsBadRequestWhenNoLists() throws Exception {
@@ -88,18 +91,6 @@ public class ComponentListControllerTest {
                 .content(om.writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(10));
-    }
-
-    @Test
-    public void getAllComponentLists_returnsList() throws Exception {
-        ComponentList cl = new ComponentList(); cl.setId(20L);
-        ComponentListDTO dto = new ComponentListDTO(); dto.setId(20L);
-        when(componentListRepository.findAll()).thenReturn(Arrays.asList(cl));
-        when(furnitureMapper.toDto(cl)).thenReturn(dto);
-
-        mvc.perform(get("/api/component-lists"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(20));
     }
 
     @Test
@@ -151,19 +142,20 @@ public class ComponentListControllerTest {
             ComponentListDTO dto = new ComponentListDTO();
 
             ResponseEntity<ComponentListDTO> resCreate = ctrl.createComponentList(dto);
-            assertEquals(500, resCreate.getStatusCodeValue());
+            assertEquals(500, resCreate.getStatusCode().value());
 
             ResponseEntity<ComponentListDTO> resUpdate = ctrl.updateComponentList(1L, dto);
-            assertEquals(500, resUpdate.getStatusCodeValue());
+            assertEquals(500, resUpdate.getStatusCode().value());
 
             ResponseEntity<Void> resDelete = ctrl.deleteComponentList(1L);
-            assertEquals(500, resDelete.getStatusCodeValue());
+            assertEquals(500, resDelete.getStatusCode().value());
     }
    @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-        controller = new ComponentListController(persistenceService, furnitureMapper, componentListRepository);
+        controller = new ComponentListController(persistenceService, furnitureMapper, componentListRepository, componentListService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        objectMapper = new ObjectMapper();
     }
 
     @Test

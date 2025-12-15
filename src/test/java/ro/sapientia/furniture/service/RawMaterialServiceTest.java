@@ -31,8 +31,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class RawMaterialServiceTest {
 
-class RawMaterialServiceTest {
-
     @Mock
     private RawMaterialRepository rawMaterialRepository;
 
@@ -93,7 +91,8 @@ class RawMaterialServiceTest {
         existing.setWidth(50);
         existing.setHeight(10);
         existing.setQuantity(5);
-        existing.setUpdatedAt(LocalDateTime.now().minusDays(1));
+        LocalDateTime originalUpdatedAt = LocalDateTime.now().minusDays(1);
+        existing.setUpdatedAt(originalUpdatedAt);
 
         RawMaterial candidate = new RawMaterial();
         candidate.setRawMaterialType(new RawMaterialType("WOOD"));
@@ -111,7 +110,7 @@ class RawMaterialServiceTest {
 
         assertNotNull(result);
         assertEquals(8, result.getQuantity()); // 5 + 3
-        assertTrue(result.getUpdatedAt().isAfter(existing.getUpdatedAt()));
+        assertTrue(result.getUpdatedAt().isAfter(originalUpdatedAt));
 
         // verify save called with the updated entity
         ArgumentCaptor<RawMaterial> captor = ArgumentCaptor.forClass(RawMaterial.class);

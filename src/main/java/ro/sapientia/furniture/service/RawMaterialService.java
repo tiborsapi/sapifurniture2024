@@ -28,8 +28,15 @@ public class RawMaterialService {
             RawMaterial existing = existingOpt.get();
             // Increase quantity and update timestamp
             existing.setQuantity(existing.getQuantity() + candidate.getQuantity());
+            existing.setUpdatedAt(LocalDateTime.now());
             return rawMaterialRepository.save(existing);
         } else {
+            if (candidate.getCreatedAt() == null) {
+                candidate.setCreatedAt(LocalDateTime.now());
+            }
+            if (candidate.getUpdatedAt() == null) {
+                candidate.setUpdatedAt(LocalDateTime.now());
+            }
             return rawMaterialRepository.save(candidate);
         }
     }
