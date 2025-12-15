@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,10 +30,10 @@ public class ComponentList implements Serializable {
 	@Column(name = "created_by", nullable = false)
 	private Long createdBy;
 
-	@Column(name = "created_at", nullable = false)
+	@Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createdAt;
 
-	@Column(name = "updated_at", nullable = false)
+	@Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime updatedAt;
 
 	@OneToMany(mappedBy = "componentList")
@@ -55,6 +57,17 @@ public class ComponentList implements Serializable {
 		this.rawMaterials = rawMaterials;
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();
+	}
+
+	@PrePersist
+	public void prePersist() {
+		if (createdAt == null) createdAt = LocalDateTime.now();
+		if (updatedAt == null) updatedAt = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	public void preUpdate() {
+		updatedAt = LocalDateTime.now();
 	}
 
 	// Getters and Setters
