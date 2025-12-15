@@ -12,4 +12,4 @@ Scenario: Add two furnitures and verify the second item Given that we have the f
 | 10    | 10     | 10    | 
 | 10    | 12     | 10    | 
 When I invoke the furniture all endpoint 
-Then I should get the heigth "12" for the position "1"
+Then I should get the heigth "12" for the position "2"

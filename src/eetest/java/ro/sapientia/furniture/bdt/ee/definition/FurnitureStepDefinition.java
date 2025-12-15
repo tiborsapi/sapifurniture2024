@@ -45,22 +45,6 @@ public class FurnitureStepDefinition {
 	@Autowired
 	private TestEntityManager entityManager;
 
-	@Given("^that we have the following furniture bodies:$")
-	public void that_we_have_the_following_furniture_bodies(final DataTable furnitureBodies) throws Throwable {
-		for (final Map<String, String> data : furnitureBodies.asMaps(String.class, String.class)) {
-			FurnitureBody body = new FurnitureBody();
-			body.setHeigth(Integer.parseInt(data.get("heigth")));
-			body.setWidth(Integer.parseInt(data.get("width")));
-			body.setDepth(Integer.parseInt(data.get("depth")));
-			entityManager.persist(body);
-		}
-		entityManager.flush();
-
-	}
-
-	@When("^I invoke the furniture all endpoint$")
-	public void I_invoke_the_furniture_all_endpoint() throws Throwable {
-	}
 
 	@Then("^I should get the heigth \"([^\"]*)\" for the position \\\"([^\\\"]*)\\\"$")
 	public void I_should_get_result_in_stories_list(final String heigth, final String position) throws Throwable {

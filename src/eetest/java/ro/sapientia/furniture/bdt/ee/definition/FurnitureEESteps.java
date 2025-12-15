@@ -18,8 +18,8 @@ public class FurnitureEESteps {
     private Response lastResponse;
 
     static {
-        String host = System.getProperty("HOST", System.getenv().getOrDefault("HOST", "localhost"));
-        String port = System.getProperty("PORT", System.getenv().getOrDefault("PORT", "4080"));
+        String host = System.getProperty("HOST", System.getenv().getOrDefault("HOST", "furniture_backend_bdt"));
+        String port = System.getProperty("PORT", System.getenv().getOrDefault("PORT", "8080"));
         RestAssured.baseURI = "http://" + host;
         RestAssured.port = Integer.parseInt(port);
     }
@@ -34,7 +34,7 @@ public class FurnitureEESteps {
                 .contentType("application/json")
                 .body(json)
             .when()
-                .post("/api/furniture")
+                .post("/furniture")
             .then()
                 .statusCode(201);
         }
@@ -45,7 +45,7 @@ public class FurnitureEESteps {
         lastResponse = given()
             .accept("application/json")
         .when()
-            .get("/api/furniture/all")
+            .get("/furniture/all")
         .then()
             .statusCode(200)
             .extract()
