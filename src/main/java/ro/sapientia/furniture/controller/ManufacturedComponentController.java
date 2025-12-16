@@ -27,8 +27,12 @@ public class ManufacturedComponentController {
     }
 
     @GetMapping("/{id}")
-    public ManufacturedComponent get(@PathVariable Long id) {
-        return service.findById(id);
+    public ResponseEntity<ManufacturedComponent> get(@PathVariable Long id) {
+        ManufacturedComponent mc = service.findById(id);
+        if (mc == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(mc);
     }
 
     @PostMapping
@@ -38,8 +42,12 @@ public class ManufacturedComponentController {
     }
 
     @PutMapping("/{id}")
-    public ManufacturedComponent update(@PathVariable Long id, @Valid @RequestBody ManufacturedComponentDTO dto) {
-        return service.update(id, dto);
+    public ResponseEntity<ManufacturedComponent> update(@PathVariable Long id, @Valid @RequestBody ManufacturedComponentDTO dto) {
+        ManufacturedComponent updated = service.update(id, dto);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")

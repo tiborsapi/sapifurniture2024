@@ -26,9 +26,14 @@ public class ManufacturedComponentTypeController {
     }
 
     @GetMapping("/{id}")
-    public ManufacturedComponentType get(@PathVariable Long id) {
-        return service.findById(id);
+    public ResponseEntity<ManufacturedComponentType> get(@PathVariable Long id) {
+        ManufacturedComponentType type = service.findById(id);
+        if (type == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(type);
     }
+    
 
     @PostMapping
     public ResponseEntity<ManufacturedComponentType> create(@Valid @RequestBody ManufacturedComponentType type) {
@@ -37,9 +42,14 @@ public class ManufacturedComponentTypeController {
     }
 
     @PutMapping("/{id}")
-    public ManufacturedComponentType update(@PathVariable Long id, @Valid @RequestBody ManufacturedComponentType input) {
-        return service.update(id, input);
+    public ResponseEntity<ManufacturedComponentType> update(@PathVariable Long id, @Valid @RequestBody ManufacturedComponentType input) {
+        ManufacturedComponentType updated = service.update(id, input);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
     }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
