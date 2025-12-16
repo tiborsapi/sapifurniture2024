@@ -157,7 +157,6 @@ public class ManufacturedComponentControllerTest {
         dto.setComponentListId(1L);
         dto.setManufacturedComponentTypeId(1L);
 
-        // Service null-t ad vissza → nincs ilyen komponens
         when(service.update(eq(999L), any(ManufacturedComponentDTO.class))).thenReturn(null);
 
         mvc.perform(put("/api/manufactured-components/999")
