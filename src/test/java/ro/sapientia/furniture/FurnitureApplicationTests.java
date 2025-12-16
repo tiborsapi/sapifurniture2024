@@ -7,7 +7,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test.properties")
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.ANY)
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 class FurnitureApplicationTests {
 
 	@Test
